@@ -33,13 +33,13 @@ requires: gen
 
 **Step 3 拆页**：按模式拆 6–12 张。搬运式按段落边界切（每段 ≤120 字，一图一义）；提炼式每图提炼一个观点 + 一句钩子。>18 张自动拆上下篇（封面同视觉系统、不同构图）。
 
-**Step 4 首图（大字标题卡）**：标题 ≤20 字，出 3 个候选（不同公式：数字+人群 / 反常识 / 身份认领）。首图 = 纯色/纹理背景（生图）+ 设计排版的大字——**文字永远后期排版，绝不让生图模型写中文**：
+**Step 4 首图（大字标题卡）**：标题 ≤20 字，出 3 个候选（不同公式：数字+人群 / 反常识 / 身份认领）。大字按 [`shared/visual-prompts.md`](shared/visual-prompts.md)「图上文字规则」上图：标题 ≤12 字直接让模型写（逐字校对）：
 ```bash
-$S/toolkit/gen image --prompt "minimal textured background, warm cream paper texture, soft grain, no text no letters no words, 3:4" --tier draft
+$S/toolkit/gen image --prompt "minimal warm cream paper texture, soft grain, huge bold black title \"<标题>\" centered, render all text exactly as written, no other text, 3:4" --tier draft
 ```
-确认后 final 档出背景，文字用 HTML/排版工具叠加。
+标题更长、要多行排版或校对不过 → 生图只出纹理背景（`no text`），大字用 HTML 排版叠加后截图。
 
-**Step 5 内页图**：提炼式每张配视觉图（按 [`shared/visual-prompts.md`](shared/visual-prompts.md) 五要素，整套风格四锁）；搬运式每 3 张文字卡插 1 张视觉图。生成统一 draft → 确认 → final。
+**Step 5 内页图**：提炼式每张配视觉图（按 [`shared/visual-prompts.md`](shared/visual-prompts.md) 五要素，整套风格四锁）；搬运式每 3 张文字卡插 1 张视觉图（文字卡正文段落一律 HTML 排版，不让模型写段落）。生成统一 draft → 确认 → final。
 
 **Step 6 正文 + 标签**：≤800 字口语化导语（emoji 分隔、短句、结尾互动引导）。标签 8–12 个：2 行业 + 3 热门 + 3 长尾。
 
@@ -55,7 +55,7 @@ auto 默认（首图方案必确认）；interactive 在模式/首图/标题节�
 
 ## Gotchas
 
-- **生图写字必翻车**：中文一律排版叠加，生图只出背景和视觉
+- **让模型写段落**：模型只写短标题，段落文字一律排版；写了的字必须逐字校对
 - **公众号平移病**：横向阅读 ≠ 竖向滑动，段落必须重切
 - **一图三义**：一张图塞三个观点 = 谁也记不住
 - **标题 20 字埋雷**：关键信息必须在折叠线之前

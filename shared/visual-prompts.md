@@ -7,7 +7,7 @@
 ## 提示词五要素（每条生图提示词必须包含）
 
 1. **比例**："3:4 aspect ratio"（小红书竖版）/ "16:9"（内文配图）/ "2.35:1"（公众号封面）
-2. **无文字指令**："no text, no letters, no words, no characters, no writing, no captions"——生图模型写字必乱，文字一律后期加
+2. **文字指令**（二选一，按下方「图上文字规则」判断）：要字 → 把每段文字逐字写进提示词并要求零错字；不要字 → "no text, no letters, no words, no captions"
 3. **风格描述词 ≥3 个**：与内容调性匹配（cinematic lighting / flat design / hand-drawn / editorial illustration…）
 4. **色彩对齐**：与整套内容的主题色系一致
 5. **具象场景**：描述具体可视元素，绝不写抽象概念
@@ -17,21 +17,40 @@
 
 ---
 
+## 图上文字规则（gen-image / gen-cover / gen-infographic / write-xhs 共用，与 xiaoma-designer 一致）
+
+成品图上该有的字（封面标题、信息图模块标题、小红书首图大字）**必须出现在交付物上**——只交一张没字的底图不算完成。两条路：
+
+**A. 模型直出（默认，短文字）**：图上文字块 ≤6 个、每块 ≤12 字（数字、标签、标题）
+- 提示词里逐字写出，用引号括住，写明位置/字重/颜色：`bold title "收藏≠学会" at top center, heavy black sans-serif`
+- 加一句约束：`render all text exactly as written, no other text`
+- 出图后**逐字校对**（含标点、数字）。错一字 → 同提示词重试一次 → 仍错，改走 B
+
+**B. 底图 + 排版叠字（长文字、密集数据、或 A 校对不过）**
+1. 生图只出底图（`no text`），按版式给文字留好空位
+2. 写一个同尺寸 HTML：底图作背景，文字层绝对定位（字体、字号、颜色在 HTML 里定）
+3. 无头浏览器截图导出 PNG，例如 `npx playwright screenshot --viewport-size "1280, 544" file://$PWD/cover.html cover.png`
+4. 截图就是交付物；HTML 一并存档，改字不用重新生图
+
+视频画面一律不写字（视频模型逐帧写字必乱），文字放后期字幕。
+
+---
+
 ## 封面三创意方向（每次生成 3 个方向供选择）
 
 **Creative A — 直接冲击**（数据/工具/方法/技术类）
 - 核心概念的视觉隐喻，平面设计风
-- 提示词模板：`[核心概念的视觉隐喻], flat design, bold [主题色] and white, geometric shapes, minimalist, clean background, no text no letters no words, 2.35:1 aspect ratio, 主体放左侧三分之一留出标题位`
+- 提示词模板：`[核心概念的视觉隐喻], flat design, bold [主题色] and white, geometric shapes, minimalist, clean background, [文字指令], 2.35:1 aspect ratio, 主体放在画面正中的正方形区域内，左右两侧留出干净的标题位`
 
 **Creative B — 氛围**（故事/观点/叙事/情感类）
 - 唤起文章情绪的场景
-- 提示词模板：`[唤起情绪的场景], cinematic lighting, [暖/冷]色调以[主题色]为中心, atmospheric, soft focus, depth of field, no text no letters no words, 2.35:1 aspect ratio, 留出标题叠加位`
+- 提示词模板：`[唤起情绪的场景], cinematic lighting, [暖/冷]色调以[主题色]为中心, atmospheric, soft focus, depth of field, [文字指令], 2.35:1 aspect ratio, 主体在画面正中的正方形区域内，两侧留出标题叠加位`
 
 **Creative C — 信息可视化**（对比/清单/流程/趋势类）
 - 数据或结构的图形化表达
-- 提示词模板：`[数据/流程的抽象表达], infographic style, clean layout, [主题色] accent, icons and geometric shapes, white background, professional, no text no letters no words, 2.35:1 aspect ratio`
+- 提示词模板：`[数据/流程的抽象表达], infographic style, clean layout, [主题色] accent, icons and geometric shapes, white background, professional, 2.35:1 aspect ratio, 图形主体集中在画面正中的正方形区域内`
 
-封面技术规格（公众号）：2.35:1，900×383 起步、1280×544 推荐；中心 1:1 安全区会被裁成缩略图——关键视觉元素居中；<5MB；PNG/JPG（不用 WebP）。
+封面技术规格（公众号）：2.35:1，900×383 起步、1280×544 推荐；中心 1:1 安全区会被裁成缩略图——**主体必须完整落在中心正方形里**（1280×544 时即横向 368–912px），标题放两侧留白带；出图后裁一张中心正方形自己看一眼；<5MB；PNG/JPG（不用 WebP）。
 
 ---
 
@@ -70,7 +89,7 @@
 
 1. draft 档出 3 个方向各 1 张 → 用户选
 2. 选中方向用同一提示词微调（一次只改一个变量：光/构图/色）
-3. 文字校验：生成图里若出现乱码文字，加严 no-text 指令重试一次；仍乱则改用无文字版后期加字
+3. 文字校验：要字的图逐字校对（错一字重试一次，仍错走排版叠字）；不要字的图出现乱码，加严 no-text 指令重试一次
 4. 满意后 final 档出正式版
 
 ## 参考图用法（image-to-image）
