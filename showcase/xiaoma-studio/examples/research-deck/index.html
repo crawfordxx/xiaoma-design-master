@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>30 条 Opus 5.5 爆款视频拆解 · deck</title>
+<link rel="stylesheet" href="../../engine/base.css">
+<link rel="stylesheet" href="../../engine/themes.css">
+<style>
+  .slide { position: absolute; inset: 0; padding: 120px 140px 110px; display: flex; flex-direction: column; }
+  .over { font: 500 20px/1 var(--font-ui); letter-spacing: .32em; text-transform: uppercase; color: var(--muted); }
+  .over b { color: var(--accent); font-weight: 600; }
+  h1 { font: 700 104px/1.12 var(--font-display); letter-spacing: -.01em; margin-top: 40px; }
+  h2 { font: 700 76px/1.16 var(--font-display); letter-spacing: -.005em; margin-top: 28px; max-width: 1500px; }
+  h1 em, h2 em { font-style: normal; color: var(--accent); }
+  .lede { margin-top: 36px; font: 400 34px/1.6 var(--font-body); color: #bdbdb8; max-width: 1300px; }
+  .lede b { color: var(--fg); font-weight: 600; }
+  .grow { flex: 1; }
+  .row { display: flex; gap: 80px; align-items: flex-end; }
+  .stat .n { font: 300 200px/1 var(--font-ui); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+  .stat .n small { font-size: .35em; color: var(--muted); margin-left: 8px; letter-spacing: 0; }
+  .stat .l { margin-top: 18px; font: 400 26px/1.4 var(--font-body); color: var(--muted); }
+  .stat.hl .n { color: var(--accent); }
+  .bars { margin-top: 56px; display: grid; gap: 14px; }
+  .bar { display: grid; grid-template-columns: 300px 1fr 120px; align-items: center; gap: 24px; font: 400 24px/1 var(--font-body); color: #bdbdb8; }
+  .bar .track { height: 18px; background: #ffffff10; }
+  .bar .fill { height: 100%; width: 0; background: var(--fg); }
+  .bar.hl .fill { background: var(--accent); } .bar.hl { color: var(--fg); }
+  .bar .v { font: 400 24px/1 var(--font-ui); text-align: right; color: var(--fg); }
+  .swatches { margin-top: 60px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 28px; }
+  .sw { height: 250px; padding: 26px; display: flex; flex-direction: column; justify-content: flex-end; font: 600 26px/1.3 var(--font-body); position: relative; }
+  .sw span { font: 400 16px/1.4 var(--font-ui); opacity: .7; letter-spacing: .08em; margin-top: 8px; }
+  .sw i { position: absolute; top: 26px; right: 26px; width: 40px; height: 40px; border-radius: 50%; }
+  .rules { margin-top: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 26px 90px; }
+  .rule { display: grid; grid-template-columns: 80px 1fr; font: 400 30px/1.5 var(--font-body); color: #cfcfca; border-top: 1px solid #ffffff1c; padding-top: 22px; }
+  .rule b { font: 500 24px/1.6 var(--font-ui); color: var(--accent); }
+  pre { margin-top: 44px; padding: 40px 48px; background: #ffffff08; border-left: 3px solid var(--accent); font: 400 27px/1.7 var(--font-mono); color: #d8d8d4; white-space: pre; font-variant-ligatures: none; }
+  pre .c { color: #6e6e6b; } pre .k { color: var(--accent); }
+  .tools { margin-top: 56px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
+  .tool { border-top: 2px solid var(--fg); padding-top: 26px; }
+  .tool h3 { font: 700 40px/1.2 var(--font-display); }
+  .tool .what { margin-top: 10px; font: 500 20px/1 var(--font-ui); color: var(--accent); letter-spacing: .14em; text-transform: uppercase; }
+  .tool p { margin-top: 18px; font: 400 25px/1.6 var(--font-body); color: #bdbdb8; }
+  .foot { position: absolute; left: 140px; right: 140px; bottom: 54px; display: flex; justify-content: space-between; font: 500 16px/1 var(--font-ui); letter-spacing: .24em; color: var(--muted); z-index: 50; }
+  #deck-progress { position: absolute; left: 0; bottom: 0; height: 4px; width: 100%; background: var(--accent); transform-origin: 0 0; z-index: 50; }
+  .light { background: var(--paper); color: var(--ink); }
+  .light .lede, .light .bar, .light .stat .l { color: #55554f; }
+  .light .lede b { color: var(--ink); } .light .bar.hl .fill { background: var(--accent); }
+  .light .bar .track { background: #00000010; } .light .bar .fill { background: var(--ink); } .light .bar .v { color: var(--ink); }
+  .end { justify-content: center; align-items: flex-start; }
+  .end h1 { font: 400 150px/1.05 var(--font-latin-serif); letter-spacing: -.02em; }
+</style>
+</head>
+<body>
+<div id="stage" class="theme-editorial">
+
+  <section class="slide" data-tr="fade">
+    <div class="over" data-fx="fade" data-in="0.2"><b>Field Notes</b> · 2026.10 · Douyin 12 / X 10 / YouTube 8</div>
+    <h1><span data-fx="chars" data-in="0.4">30 条 Opus 5.5 爆款视频，</span><br><span data-fx="chars" data-in="1.0">拆完只剩 <em>7 条规矩</em></span></h1>
+    <div class="grow"></div>
+    <p class="lede" data-fx="rise" data-in="1.8">样本：三个平台按点赞 / 播放排序挑出的 30 条（25 条成片 + 5 条带完整 prompt 的教程）。<br>每条都下载、抽帧、测剪辑节奏和色板、转写音轨，看完即删。</p>
+  </section>
+
+  <section class="slide" data-tr="push">
+    <div class="over" data-fx="fade">样本里的头部</div>
+    <h2 data-fx="rise" data-in="0.2">头部作品：<em>模型写代码逐帧画出来</em>，不是视频模型直出</h2>
+    <div class="grow"></div>
+    <div class="row">
+      <div class="stat hl" data-fx="rise" data-in="0.6"><div class="n" data-fx="count" data-to="60" data-in="0.6" data-suf="万">0</div><div class="l">《运气的形状》抖音点赞<br>作者标注 Claude 5.5 制作 · 0 次硬切</div></div>
+      <div class="stat" data-fx="rise" data-in="0.9"><div class="n" data-fx="count" data-to="64" data-in="0.9" data-suf="万">0</div><div class="l">一句话 prompt 的 motion reel<br>X 播放 · 15 秒</div></div>
+      <div class="stat" data-fx="rise" data-in="1.2"><div class="n" data-fx="count" data-to="44" data-in="1.2" data-suf="万">0</div><div class="l">孙燕姿《我不难过》水彩 MV<br>抖音点赞 · 分镜角色全代码</div></div>
+    </div>
+  </section>
+
+  <section class="slide light" data-tr="flood">
+    <div class="over" data-fx="fade">规矩 1 · 不剪，变</div>
+    <h2 data-fx="rise" data-in="0.2">25 条成片里 <em>11 条一次硬切都没有</em>，镜头之间靠形变、泛洪、推镜衔接</h2>
+    <div class="bars">
+      <div class="bar hl" data-fx="fade" data-in="0.6"><span>0 次 / 分钟</span><div class="track"><div class="fill" data-fx="bar" data-to="44" data-in="0.7"></div></div><span class="v">11 条</span></div>
+      <div class="bar" data-fx="fade" data-in="0.75"><span>1–6 次 / 分钟</span><div class="track"><div class="fill" data-fx="bar" data-to="32" data-in="0.85"></div></div><span class="v">8 条</span></div>
+      <div class="bar" data-fx="fade" data-in="0.9"><span>10–20 次 / 分钟</span><div class="track"><div class="fill" data-fx="bar" data-to="12" data-in="1.0"></div></div><span class="v">3 条</span></div>
+      <div class="bar" data-fx="fade" data-in="1.05"><span>30+ 次 / 分钟</span><div class="track"><div class="fill" data-fx="bar" data-to="12" data-in="1.15"></div></div><span class="v">3 条</span></div>
+    </div>
+    <div class="grow"></div>
+    <p class="lede" data-fx="rise" data-step="1">高频硬切只出现在<b>卡点 MV / 对比类</b>；知识类、品牌片几乎都是「一镜到底」。</p>
+  </section>
+
+  <section class="slide" data-tr="push">
+    <div class="over" data-fx="fade">规矩 2 · 一底 · 一字 · 一强调色</div>
+    <h2 data-fx="rise" data-in="0.2">16 / 25 用暗底；每条只有<em>一个</em>强调色</h2>
+    <div class="swatches">
+      <div class="sw" style="background:#0b0a08;color:#ece4d3;outline:1px solid #ffffff18" data-fx="scale" data-in="0.5"><i style="background:#c9a35b"></i>博物馆纪录片<span>#0B0A08 · 金 #C9A35B · 宋体</span></div>
+      <div class="sw" style="background:#0a0a0a;color:#ededeb;outline:1px solid #ffffff18" data-fx="scale" data-in="0.62"><i style="background:#4a6cff"></i>编辑部数据<span>黑白灰 · 蓝 #4A6CFF</span></div>
+      <div class="sw" style="background:#e8452c;color:#111" data-fx="scale" data-in="0.74"><i style="background:#111"></i>瑞士风 reel<span>原色整屏按拍切换</span></div>
+      <div class="sw" style="background:#0b080b;color:#f1e9ee;outline:1px solid #ffffff18" data-fx="scale" data-in="0.86"><i style="background:#ff2d8a"></i>霓虹歌词<span>近黑 · 洋红 #FF2D8A</span></div>
+      <div class="sw" style="background:#ece4d4;color:#2a2320" data-fx="scale" data-in="0.98"><i style="background:#e07a3c"></i>纸艺绘本<span>牛皮纸 · 手绘抖动</span></div>
+    </div>
+    <div class="grow"></div>
+    <p class="lede" data-fx="rise" data-step="1">字体同理：<b>一个标题字体 + 一个正文/UI 字体</b>，最多再加一个等宽体放元信息。</p>
+  </section>
+
+  <section class="slide" data-tr="push">
+    <div class="over" data-fx="fade">规矩 3 · 字幕就是旁白</div>
+    <h2 data-fx="rise" data-in="0.2">只有 4 条有人声解说；<em>14 条纯音乐 + 屏幕文字</em>讲完整个故事</h2>
+    <div class="bars">
+      <div class="bar hl" data-fx="fade" data-in="0.6"><span>纯音乐 + 字幕叙事</span><div class="track"><div class="fill" data-fx="bar" data-to="56" data-in="0.7"></div></div><span class="v">14 条</span></div>
+      <div class="bar" data-fx="fade" data-in="0.75"><span>歌曲 MV（歌词即字幕）</span><div class="track"><div class="fill" data-fx="bar" data-to="28" data-in="0.85"></div></div><span class="v">7 条</span></div>
+      <div class="bar" data-fx="fade" data-in="0.9"><span>TTS / 真人旁白</span><div class="track"><div class="fill" data-fx="bar" data-to="16" data-in="1.0"></div></div><span class="v">4 条</span></div>
+    </div>
+    <div class="grow"></div>
+    <p class="lede" data-fx="rise" data-step="1">字幕逐字出现、底部居中、中文下面压一行英文斜体——<b>这一个细节就是「纪录片质感」的一半</b>。</p>
+  </section>
+
+  <section class="slide" data-tr="push">
+    <div class="over" data-fx="fade">规矩 4–6 · 节奏</div>
+    <h2 data-fx="rise" data-in="0.2">观众只看一遍，<em>按观众的理解速度</em>排时间</h2>
+    <div class="rules">
+      <div class="rule" data-fx="rise" data-in="0.5"><b>04</b><span>前 2 秒必须有一个「物件」动作：骰子落地、金币分裂、红点弹出。不要上来就是标题淡入。</span></div>
+      <div class="rule" data-fx="rise" data-in="0.65"><b>05</b><span>每 2–4 秒画面上必须发生一件新事；一次只让观众读一件事。</span></div>
+      <div class="rule" data-fx="rise" data-in="0.8"><b>06</b><span>结尾呼应开头：同一个物件、同一句话、同一个形状——最后一帧≈第一帧。</span></div>
+      <div class="rule" data-fx="rise" data-in="0.95"><b>×</b><span>禁用：渐变底居中标题、所有东西都淡入、通用粒子背景、UI 发光、套模板感。</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-tr="push">
+    <div class="over" data-fx="fade">规矩 7 · 帧是时间的纯函数</div>
+    <h2 data-fx="rise" data-in="0.2">先出拼图、打分、修三处，<em>再</em>出整片</h2>
+<pre data-fx="fade" data-in="0.6"><span class="c">// 渲染合约</span>
+<span class="k">window</span>.__ms.seek(t)   <span class="c">// 同一个 t 永远画出同一帧</span>
+<span class="c">// 禁止：CSS transition / setTimeout / rAF / Math.random / 帧间状态</span>
+
+<span class="c">// 出片前的循环</span>
+node render.mjs comp.html --sheet   <span class="c">→ 每拍一帧拼图，自己看</span>
+打分 1–10：钩子 · 手机可读性 · 动效 · 变化 · 品牌 · 声画同步
+修最差的 3 处，直到全部 ≥ 8，<span class="k">才</span>渲染整片</pre>
+  </section>
+
+  <section class="slide" data-tr="push">
+    <div class="over" data-fx="fade">搭配外部模型，效果更好</div>
+    <h2 data-fx="rise" data-in="0.2">代码负责<em>精确、可控、卡点</em>；写实交给生成模型</h2>
+    <div class="tools">
+      <div class="tool" data-fx="rise" data-in="0.5"><div class="what">画面素材</div><h3>GPT Image 2 / 2.5</h3><p>角色设定图、写实背景板、纸张/笔触纹理、海报主视觉。代码负责把它们动起来。</p></div>
+      <div class="tool" data-fx="rise" data-in="0.65"><div class="what">实拍 / 写实镜头</div><h3>Seedance 2.x</h3><p>人物表演、自然景观、产品实拍感 B-roll；代码在上面叠 UI、字幕、数据图。</p></div>
+      <div class="tool" data-fx="rise" data-in="0.8"><div class="what">配音 / 配乐</div><h3>TTS · 音乐模型</h3><p>豆包 TTS（中文 + 逐字时间戳）、Fish Audio、ElevenLabs、Gemini TTS；没有就用代码合成配乐与音效。</p></div>
+    </div>
+  </section>
+
+  <section class="slide end" data-tr="zoom">
+    <div class="over" data-fx="fade" data-in="0.3">xiaoma-studio · open source skill</div>
+    <h1 data-fx="chars" data-in="0.5">Every frame is code.</h1>
+    <p class="lede" data-fx="rise" data-in="1.4">视频与 HTML 幻灯片共用一套引擎 · 任何能写代码的模型 / agent 都能用</p>
+  </section>
+
+  <div class="foot"><span>XIAOMA · STUDIO</span><span id="deck-num">01 / 09</span></div>
+  <div id="deck-progress"></div>
+  <div class="grain"></div>
+</div>
+<script src="../../engine/runtime.js"></script>
+<script src="../../engine/deck.js"></script>
+<script>MS.deck({ width: 1920, height: 1080, fps: 30, bpm: 100, background: '#0a0a0a' });</script>
+</body>
+</html>

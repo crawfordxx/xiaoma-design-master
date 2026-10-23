@@ -1,0 +1,54 @@
+/* motion-studio 风格原型：从 30 条高赞 Opus 5.5 视频里归纳的 10 套视觉 token。
+ * 用法：<div id="stage" class="theme-museum">。每套只给 token，构图规则见 references/aesthetics.md。
+ * 共同铁律：一个底色 + 一个前景色 + 一个强调色；一个标题字体 + 一个正文/UI 字体（+ 可选等宽）。
+ * 字体栈本地优先，离线和国内网络都能渲染；要统一跨平台外观就在合成里 @font-face 引本地字体文件。 */
+:root {
+  --font-zh-serif: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
+  --font-zh-sans: 'Noto Sans SC', 'Source Han Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-latin-serif: 'Cormorant Garamond', 'EB Garamond', 'Playfair Display', 'Georgia', 'Times New Roman', serif;
+  --font-grotesk: 'Inter', 'Helvetica Neue', 'Arial', var(--font-zh-sans);
+  --font-wide: 'Archivo', 'Archivo Black', 'Helvetica Neue', 'Arial Black', var(--font-zh-sans);
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', 'SF Mono', 'Menlo', ui-monospace, monospace;
+}
+
+/* 1 博物馆纪录片：暖黑 + 金，衬线，年代计数器，文献引注，双语字幕。（运气的形状 60w 赞 / Opus 家族史 17w） */
+.theme-museum { --bg: #0b0a08; --fg: #ece4d3; --accent: #c9a35b; --accent-2: #b0412e; --muted: #7d7362;
+  --font-display: var(--font-latin-serif), var(--font-zh-serif); --font-display-latin: var(--font-latin-serif);
+  --font-body: var(--font-zh-serif); --font-ui: var(--font-zh-sans); --grain: .08; --vignette: .6; }
+
+/* 2 编辑部数据叙事：黑白灰 + 一个蓝，左对齐正文，点阵/柱/水位，亮暗段落翻转。（新鲜感的魔咒 41w） */
+.theme-editorial { --bg: #0a0a0a; --fg: #ededeb; --accent: #4a6cff; --muted: #6e6e6b; --paper: #f2f2ef; --ink: #111;
+  --font-display: var(--font-zh-sans); --font-body: var(--font-zh-sans); --font-ui: var(--font-grotesk); --grain: .04; --vignette: .25; }
+
+/* 3 宇宙电影感：纯黑、遮幅、粒子、发丝线标注、超宽字距。（Immanuelle 9.7w） */
+.theme-cosmic { --bg: #000; --fg: #e8e6e1; --accent: #e0a066; --muted: #6a6a70;
+  --font-display: var(--font-latin-serif), var(--font-zh-serif); --font-display-latin: var(--font-latin-serif);
+  --font-body: var(--font-zh-serif); --font-ui: var(--font-mono); --grain: .06; --vignette: .7; }
+
+/* 4 瑞士风动效 reel：整屏原色按拍切换、粗黑体、HUD 取景框、时间码。（ajith_io 63w 播放） */
+.theme-swiss { --bg: #111; --fg: #f4f1ea; --accent: #e8452c; --c1: #e8452c; --c2: #f2c230; --c3: #2b44e8; --c4: #f1ece2; --ink: #111;
+  --font-display: var(--font-wide); --font-body: var(--font-grotesk); --font-ui: var(--font-mono); --grain: .1; --vignette: .2; }
+
+/* 5 产品发布（亮）：暖白画布、黑色 UI、液态玻璃、光标驱动、单一强调色。（Shipper / twoclipping 13w） */
+.theme-launch { --bg: #f4f2ee; --fg: #111; --accent: #ff5a1f; --muted: #8b8780; --glass: rgba(255,255,255,.55);
+  --font-display: var(--font-wide); --font-body: var(--font-grotesk); --font-ui: var(--font-grotesk); --grain: .03; --vignette: .08; }
+
+/* 6 纸艺绘本：牛皮纸/米白、手绘描边抖动（boil）、水彩、暖色。（我不难过 44w / Sweet Tooth 17w） */
+.theme-paper { --bg: #ece4d4; --fg: #2a2320; --accent: #e07a3c; --accent-2: #3e7c78; --muted: #a59a88; --navy: #24304a;
+  --font-display: var(--font-zh-serif); --font-body: var(--font-zh-sans); --font-ui: var(--font-zh-sans); --grain: .12; --vignette: .35; }
+
+/* 7 霓虹终端歌词：近黑 + 洋红、动态排版、等宽微型元信息铺满边角。（Simulation's Ending 9.7w / Run It Again 5w） */
+.theme-neon { --bg: #0b080b; --fg: #f1e9ee; --accent: #ff2d8a; --muted: #6d5a66; --paper: #ece7e1;
+  --font-display: var(--font-wide); --font-body: var(--font-grotesk); --font-ui: var(--font-mono); --grain: .08; --vignette: .5; }
+
+/* 8 新粗野主义 UI：奶白 + 克莱因蓝 + 洋红、窗口边框、粗黑描边、贴纸。（Ignore Previous Instructions 4w） */
+.theme-brutal { --bg: #efeae0; --fg: #111; --accent: #2b3bff; --accent-2: #ff3d8b; --muted: #8a857a;
+  --font-display: var(--font-wide); --font-body: var(--font-mono); --font-ui: var(--font-mono); --grain: .05; --vignette: 0; }
+
+/* 9 工程爆炸图：浅灰蓝、等轴测线稿、窄体大写标题、规格表、连续推镜。（SpaceX 爆炸图 15w / Blackwell 23w） */
+.theme-blueprint { --bg: #eef1f4; --fg: #15181c; --accent: #3a57d6; --accent-2: #e2552d; --muted: #8b939c; --line: #c6ccd3;
+  --font-display: 'Barlow Condensed', 'Oswald', 'Arial Narrow', var(--font-zh-sans); --font-body: var(--font-grotesk); --font-ui: var(--font-mono); --grain: 0; --vignette: 0; }
+
+/* 10 游戏关卡 HUD：黑 + 警示红、雷达圈、任务清单、闯关叙事。（生物必修一 2.4w，教育类） */
+.theme-hud { --bg: #050505; --fg: #f0f0f0; --accent: #ff2a2a; --muted: #5c5c5c;
+  --font-display: var(--font-zh-sans); --font-body: var(--font-zh-sans); --font-ui: var(--font-mono); --grain: .05; --vignette: .5; }

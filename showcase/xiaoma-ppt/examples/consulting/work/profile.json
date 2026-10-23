@@ -1,0 +1,2599 @@
+{
+  "template": "../../templates/consulting-hengce.pptx",
+  "size": [
+    13.333,
+    7.5
+  ],
+  "tokens": {
+    "primary": "13315C",
+    "secondary": "1F8A70",
+    "dark": "1F2937",
+    "body": "47505B",
+    "muted": "848991",
+    "font": "微软雅黑",
+    "font_heading": "华文中宋",
+    "font_latin": "Arial",
+    "radius": 0.0,
+    "palette": [
+      "13315C",
+      "FFFFFF",
+      "8D99AE",
+      "0B2545",
+      "1F2937",
+      "1F8A70",
+      "F3F6FA",
+      "F2F4F7",
+      "E3E7ED",
+      "E09F3E",
+      "C9D4E3",
+      "8DA2BF"
+    ],
+    "surface": "F6F7F8"
+  },
+  "theme_colors": {
+    "dk1": "1F2937",
+    "lt1": "FFFFFF",
+    "dk2": "0B2545",
+    "lt2": "F2F4F7",
+    "accent1": "13315C",
+    "accent2": "1F8A70",
+    "accent3": "E09F3E",
+    "accent4": "8D99AE",
+    "accent5": "5DA9E9",
+    "accent6": "C0392B",
+    "hlink": "13315C",
+    "folHlink": "8D99AE"
+  },
+  "theme_fonts": {
+    "majorFont": {
+      "latin": "Georgia",
+      "ea": "华文中宋"
+    },
+    "minorFont": {
+      "latin": "Arial",
+      "ea": "微软雅黑"
+    }
+  },
+  "slides": [
+    {
+      "index": 0,
+      "role": "hidden",
+      "layout": "仅标题",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "模板使用说明（本页隐藏，不会放映）",
+          "box": [
+            0.55,
+            0.45,
+            9.6,
+            0.95
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "TextBox 2",
+          "text": "1. 标题用「行动标题」：一句完整的话写出本页结论，不超过两行。\n2. 右上角进度标签标出当前所在章节，其余章节为灰色。\n3. 每页左下角注明资料来源；单位写在标题下方。\n4. 图表颜色只用主题色：深蓝为主，青绿表示重点，琥珀色表示风险。\n5. 正文字号不小于 11pt；一页只讲一个结论。\n6. 交付前删除本页，并把封面的「讨论稿」改为「终稿」。",
+          "box": [
+            0.55,
+            1.8,
+            12.0,
+            4.5
+          ],
+          "size": 14.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 1,
+      "role": "cover",
+      "layout": "封面",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "项目名称：报告主标题",
+          "box": [
+            0.7,
+            1.9,
+            4.5,
+            1.9
+          ],
+          "size": 30.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "CENTER_TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "Subtitle 2",
+          "text": "为XX客户准备的讨论文件",
+          "box": [
+            0.7,
+            4.2,
+            4.5,
+            0.9
+          ],
+          "size": 14.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "SUBTITLE",
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "TextBox 3",
+          "text": "202X年X月　|　北京",
+          "box": [
+            0.7,
+            6.3,
+            4.5,
+            0.35
+          ],
+          "size": 11.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "TextBox 4",
+          "text": "讨论稿 · 严格保密",
+          "box": [
+            0.7,
+            6.65,
+            4.5,
+            0.3
+          ],
+          "size": 9.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "slots": {
+        "title": "#2",
+        "subtitle": [
+          "#3",
+          "#5"
+        ],
+        "meta": [
+          "#4"
+        ]
+      },
+      "bg": "0B2644",
+      "dark": true
+    },
+    {
+      "index": 2,
+      "role": "toc",
+      "layout": "议程",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "议程",
+          "box": [
+            0.55,
+            0.45,
+            9.6,
+            0.95
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "议程列表",
+          "text": "1　　议题一：在此输入议题名称\n2　　议题二：在此输入议题名称\n3　　议题三：在此输入议题名称\n4　　议题四：在此输入议题名称\n5　　议题五：在此输入议题名称",
+          "box": [
+            1.6,
+            1.95,
+            8.5,
+            4.3
+          ],
+          "size": 20.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "slots": {
+        "heading": [
+          "#2"
+        ],
+        "items": [
+          "#3"
+        ],
+        "numbers": []
+      },
+      "toc_mode": "paragraphs",
+      "toc_current": null,
+      "toc_mark": null,
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 3,
+      "role": "section",
+      "layout": "议程",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "议程",
+          "box": [
+            0.55,
+            0.45,
+            9.6,
+            0.95
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "议程列表",
+          "text": "1　　议题一：在此输入议题名称\n2　　议题二：在此输入议题名称\n3　　议题三：在此输入议题名称\n4　　议题四：在此输入议题名称\n5　　议题五：在此输入议题名称",
+          "box": [
+            1.6,
+            1.95,
+            8.5,
+            4.3
+          ],
+          "size": 20.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "slots": {
+        "heading": [
+          "#2"
+        ],
+        "items": [
+          "#3"
+        ],
+        "numbers": []
+      },
+      "toc_mode": "paragraphs",
+      "toc_current": 1,
+      "toc_mark": "#4",
+      "agenda": true,
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 4,
+      "role": "content",
+      "layout": "仅标题",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "执行摘要",
+          "box": [
+            0.55,
+            0.45,
+            9.6,
+            0.95
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "进度 市场概览",
+          "text": "市场概览",
+          "box": [
+            10.35,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "进度 竞争格局",
+          "text": "竞争格局",
+          "box": [
+            10.97,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "进度 能力评估",
+          "text": "能力评估",
+          "box": [
+            11.59,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#7",
+          "name": "进度 实施建议",
+          "text": "实施建议",
+          "box": [
+            12.21,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#9",
+          "name": "TextBox 8",
+          "text": "1",
+          "box": [
+            0.55,
+            1.85,
+            0.5,
+            0.5
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#10",
+          "name": "TextBox 9",
+          "text": "核心结论一：在此输入一句话结论",
+          "box": [
+            1.25,
+            1.81,
+            11.3,
+            0.4
+          ],
+          "size": 15.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#11",
+          "name": "TextBox 10",
+          "text": "支撑论据：在此输入数据或事实，说明为什么得出这个结论",
+          "box": [
+            1.25,
+            2.23,
+            11.3,
+            0.55
+          ],
+          "size": 11.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#14",
+          "name": "TextBox 13",
+          "text": "2",
+          "box": [
+            0.55,
+            3.03,
+            0.5,
+            0.5
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#15",
+          "name": "TextBox 14",
+          "text": "核心结论二：在此输入一句话结论",
+          "box": [
+            1.25,
+            2.99,
+            11.3,
+            0.4
+          ],
+          "size": 15.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#16",
+          "name": "TextBox 15",
+          "text": "支撑论据：在此输入数据或事实，说明为什么得出这个结论",
+          "box": [
+            1.25,
+            3.41,
+            11.3,
+            0.55
+          ],
+          "size": 11.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#19",
+          "name": "TextBox 18",
+          "text": "3",
+          "box": [
+            0.55,
+            4.21,
+            0.5,
+            0.5
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#20",
+          "name": "TextBox 19",
+          "text": "核心结论三：在此输入一句话结论",
+          "box": [
+            1.25,
+            4.17,
+            11.3,
+            0.4
+          ],
+          "size": 15.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#21",
+          "name": "TextBox 20",
+          "text": "支撑论据：在此输入数据或事实，说明为什么得出这个结论",
+          "box": [
+            1.25,
+            4.59,
+            11.3,
+            0.55
+          ],
+          "size": 11.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#24",
+          "name": "TextBox 23",
+          "text": "4",
+          "box": [
+            0.55,
+            5.39,
+            0.5,
+            0.5
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#25",
+          "name": "TextBox 24",
+          "text": "核心结论四：在此输入一句话结论",
+          "box": [
+            1.25,
+            5.35,
+            11.3,
+            0.4
+          ],
+          "size": 15.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#26",
+          "name": "TextBox 25",
+          "text": "支撑论据：在此输入数据或事实，说明为什么得出这个结论",
+          "box": [
+            1.25,
+            5.77,
+            11.3,
+            0.55
+          ],
+          "size": 11.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#28",
+          "name": "TextBox 27",
+          "text": "资料来源：XXX；衡策咨询分析",
+          "box": [
+            0.55,
+            6.72,
+            9.0,
+            0.25
+          ],
+          "size": 8.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "tracker": {
+        "items": [
+          "#3",
+          "#5",
+          "#6",
+          "#7"
+        ],
+        "current": 0,
+        "mark": "#4",
+        "axis": "row"
+      },
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "region": [
+        0.55,
+        1.65,
+        12.78,
+        6.6
+      ],
+      "samples": [
+        "#12",
+        "#17",
+        "#22",
+        "#27"
+      ],
+      "area": [
+        0.6,
+        1.65,
+        12.1,
+        4.8
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 5,
+      "role": "content",
+      "layout": "标题和内容",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "",
+          "box": [
+            0.55,
+            0.45,
+            9.6,
+            0.95
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "Content Placeholder 2",
+          "text": "",
+          "box": [
+            0.55,
+            1.75,
+            12.2,
+            4.9
+          ],
+          "size": 14.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "OBJECT",
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "进度 市场概览",
+          "text": "市场概览",
+          "box": [
+            10.35,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "进度 竞争格局",
+          "text": "竞争格局",
+          "box": [
+            10.97,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#7",
+          "name": "进度 能力评估",
+          "text": "能力评估",
+          "box": [
+            11.59,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#8",
+          "name": "进度 实施建议",
+          "text": "实施建议",
+          "box": [
+            12.21,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#9",
+          "name": "TextBox 8",
+          "text": "单位：XX",
+          "box": [
+            0.55,
+            1.58,
+            4.0,
+            0.25
+          ],
+          "size": 9.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#10",
+          "name": "TextBox 9",
+          "text": "资料来源：XXX；衡策咨询分析",
+          "box": [
+            0.55,
+            6.72,
+            9.0,
+            0.25
+          ],
+          "size": 8.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "tracker": {
+        "items": [
+          "#4",
+          "#5",
+          "#7",
+          "#8"
+        ],
+        "current": 1,
+        "mark": "#6",
+        "axis": "row"
+      },
+      "slots": {
+        "title": "#2",
+        "kicker": [
+          "#9"
+        ]
+      },
+      "region": [
+        0.55,
+        2.08,
+        12.78,
+        6.6
+      ],
+      "samples": [
+        "#3"
+      ],
+      "area": [
+        0.6,
+        2.08,
+        12.1,
+        4.4
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 6,
+      "role": "content",
+      "layout": "仅标题",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "2×2 矩阵示例",
+          "box": [
+            0.55,
+            0.45,
+            9.6,
+            0.95
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "进度 市场概览",
+          "text": "市场概览",
+          "box": [
+            10.35,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "进度 竞争格局",
+          "text": "竞争格局",
+          "box": [
+            10.97,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "进度 能力评估",
+          "text": "能力评估",
+          "box": [
+            11.59,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#7",
+          "name": "进度 实施建议",
+          "text": "实施建议",
+          "box": [
+            12.21,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#10",
+          "name": "TextBox 9",
+          "text": "象限一",
+          "box": [
+            2.2,
+            2.0,
+            2.5,
+            0.35
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#11",
+          "name": "TextBox 10",
+          "text": "象限二",
+          "box": [
+            6.5,
+            2.0,
+            2.5,
+            0.35
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#12",
+          "name": "TextBox 11",
+          "text": "象限三",
+          "box": [
+            2.2,
+            4.35,
+            2.5,
+            0.35
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#13",
+          "name": "TextBox 12",
+          "text": "象限四",
+          "box": [
+            6.5,
+            4.35,
+            2.5,
+            0.35
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#18",
+          "name": "TextBox 17",
+          "text": "维度一 →",
+          "box": [
+            10.7,
+            4.05,
+            1.8,
+            0.3
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#19",
+          "name": "TextBox 18",
+          "text": "↑ 维度二",
+          "box": [
+            5.5,
+            1.62,
+            1.8,
+            0.3
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#20",
+          "name": "TextBox 19",
+          "text": "资料来源：XXX；衡策咨询分析",
+          "box": [
+            0.55,
+            6.72,
+            9.0,
+            0.25
+          ],
+          "size": 8.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "tracker": {
+        "items": [
+          "#3",
+          "#4",
+          "#6",
+          "#7"
+        ],
+        "current": 1,
+        "mark": "#5",
+        "axis": "row"
+      },
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "region": [
+        0.55,
+        1.65,
+        12.78,
+        6.6
+      ],
+      "samples": [
+        "#8",
+        "#9",
+        "#10",
+        "#11",
+        "#12",
+        "#13",
+        "#14",
+        "#15",
+        "#16",
+        "#17",
+        "#18",
+        "#19"
+      ],
+      "area": [
+        0.6,
+        1.65,
+        12.1,
+        4.8
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 7,
+      "role": "content",
+      "layout": "仅标题",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "瀑布图示例",
+          "box": [
+            0.55,
+            0.45,
+            9.6,
+            0.95
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "进度 市场概览",
+          "text": "市场概览",
+          "box": [
+            10.35,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "进度 竞争格局",
+          "text": "竞争格局",
+          "box": [
+            10.97,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "进度 能力评估",
+          "text": "能力评估",
+          "box": [
+            11.59,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#7",
+          "name": "进度 实施建议",
+          "text": "实施建议",
+          "box": [
+            12.21,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#8",
+          "name": "TextBox 7",
+          "text": "单位：XX",
+          "box": [
+            0.55,
+            1.58,
+            4.0,
+            0.25
+          ],
+          "size": 9.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#10",
+          "name": "TextBox 9",
+          "text": "资料来源：XXX；衡策咨询分析",
+          "box": [
+            0.55,
+            6.72,
+            9.0,
+            0.25
+          ],
+          "size": 8.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "tracker": {
+        "items": [
+          "#3",
+          "#4",
+          "#6",
+          "#7"
+        ],
+        "current": 1,
+        "mark": "#5",
+        "axis": "row"
+      },
+      "slots": {
+        "title": "#2",
+        "kicker": [
+          "#8"
+        ]
+      },
+      "region": [
+        0.55,
+        2.08,
+        12.78,
+        6.6
+      ],
+      "samples": [
+        "#9"
+      ],
+      "area": [
+        0.6,
+        2.08,
+        12.1,
+        4.4
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 8,
+      "role": "content",
+      "layout": "仅标题",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "能力评估示例",
+          "box": [
+            0.55,
+            0.45,
+            9.6,
+            0.95
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "进度 市场概览",
+          "text": "市场概览",
+          "box": [
+            10.35,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "进度 竞争格局",
+          "text": "竞争格局",
+          "box": [
+            10.97,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "进度 能力评估",
+          "text": "能力评估",
+          "box": [
+            11.59,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#7",
+          "name": "进度 实施建议",
+          "text": "实施建议",
+          "box": [
+            12.21,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#49",
+          "name": "TextBox 48",
+          "text": "资料来源：XXX；衡策咨询分析",
+          "box": [
+            0.55,
+            6.72,
+            9.0,
+            0.25
+          ],
+          "size": 8.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "tracker": {
+        "items": [
+          "#3",
+          "#4",
+          "#5",
+          "#7"
+        ],
+        "current": 2,
+        "mark": "#6",
+        "axis": "row"
+      },
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "region": [
+        0.55,
+        1.65,
+        12.78,
+        6.6
+      ],
+      "samples": [
+        "#8",
+        "#9",
+        "#10",
+        "#11",
+        "#12",
+        "#13",
+        "#14",
+        "#15",
+        "#16",
+        "#17",
+        "#18",
+        "#19",
+        "#20",
+        "#21",
+        "#22",
+        "#23",
+        "#24",
+        "#25",
+        "#26",
+        "#27",
+        "#28",
+        "#29",
+        "#30",
+        "#31",
+        "#32",
+        "#33",
+        "#34",
+        "#35",
+        "#36",
+        "#37",
+        "#38",
+        "#39",
+        "#40",
+        "#41",
+        "#42",
+        "#43",
+        "#44",
+        "#45",
+        "#46",
+        "#47",
+        "#48"
+      ],
+      "area": [
+        0.6,
+        1.65,
+        12.1,
+        4.8
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 9,
+      "role": "content",
+      "layout": "仅标题",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "实施路线图示例",
+          "box": [
+            0.55,
+            0.45,
+            9.6,
+            0.95
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "进度 市场概览",
+          "text": "市场概览",
+          "box": [
+            10.35,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "进度 竞争格局",
+          "text": "竞争格局",
+          "box": [
+            10.97,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "进度 能力评估",
+          "text": "能力评估",
+          "box": [
+            11.59,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "进度 实施建议",
+          "text": "实施建议",
+          "box": [
+            12.21,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#8",
+          "name": "TextBox 7",
+          "text": "Q1",
+          "box": [
+            3.2,
+            1.85,
+            1.19,
+            0.3
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#9",
+          "name": "TextBox 8",
+          "text": "Q2",
+          "box": [
+            4.39,
+            1.85,
+            1.19,
+            0.3
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#10",
+          "name": "TextBox 9",
+          "text": "Q3",
+          "box": [
+            5.58,
+            1.85,
+            1.19,
+            0.3
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#11",
+          "name": "TextBox 10",
+          "text": "Q4",
+          "box": [
+            6.77,
+            1.85,
+            1.19,
+            0.3
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#12",
+          "name": "TextBox 11",
+          "text": "Q1",
+          "box": [
+            7.96,
+            1.85,
+            1.19,
+            0.3
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#13",
+          "name": "TextBox 12",
+          "text": "Q2",
+          "box": [
+            9.15,
+            1.85,
+            1.19,
+            0.3
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#14",
+          "name": "TextBox 13",
+          "text": "Q3",
+          "box": [
+            10.34,
+            1.85,
+            1.19,
+            0.3
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#15",
+          "name": "TextBox 14",
+          "text": "Q4",
+          "box": [
+            11.53,
+            1.85,
+            1.19,
+            0.3
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#16",
+          "name": "TextBox 15",
+          "text": "工作模块一",
+          "box": [
+            0.55,
+            2.3,
+            2.6,
+            0.45
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#19",
+          "name": "TextBox 18",
+          "text": "工作模块二",
+          "box": [
+            0.55,
+            2.98,
+            2.6,
+            0.45
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#22",
+          "name": "TextBox 21",
+          "text": "工作模块三",
+          "box": [
+            0.55,
+            3.66,
+            2.6,
+            0.45
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#25",
+          "name": "TextBox 24",
+          "text": "工作模块四",
+          "box": [
+            0.55,
+            4.34,
+            2.6,
+            0.45
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#28",
+          "name": "TextBox 27",
+          "text": "工作模块五",
+          "box": [
+            0.55,
+            5.02,
+            2.6,
+            0.45
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#31",
+          "name": "TextBox 30",
+          "text": "工作模块六",
+          "box": [
+            0.55,
+            5.7,
+            2.6,
+            0.45
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#35",
+          "name": "TextBox 34",
+          "text": "里程碑",
+          "box": [
+            10.6,
+            6.3,
+            2.0,
+            0.3
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "tracker": {
+        "items": [
+          "#3",
+          "#4",
+          "#5",
+          "#6"
+        ],
+        "current": 3,
+        "mark": "#7",
+        "axis": "row"
+      },
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "region": [
+        0.55,
+        1.65,
+        12.78,
+        6.88
+      ],
+      "samples": [
+        "#8",
+        "#9",
+        "#10",
+        "#11",
+        "#12",
+        "#13",
+        "#14",
+        "#15",
+        "#16",
+        "#17",
+        "#18",
+        "#19",
+        "#20",
+        "#21",
+        "#22",
+        "#23",
+        "#24",
+        "#25",
+        "#26",
+        "#27",
+        "#28",
+        "#29",
+        "#30",
+        "#31",
+        "#32",
+        "#33",
+        "#34",
+        "#35"
+      ],
+      "area": [
+        0.6,
+        1.65,
+        12.1,
+        5.1
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 10,
+      "role": "content",
+      "layout": "仅标题",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "组织架构示例",
+          "box": [
+            0.55,
+            0.45,
+            9.6,
+            0.95
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "进度 市场概览",
+          "text": "市场概览",
+          "box": [
+            10.35,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "进度 竞争格局",
+          "text": "竞争格局",
+          "box": [
+            10.97,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "进度 能力评估",
+          "text": "能力评估",
+          "box": [
+            11.59,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "进度 实施建议",
+          "text": "实施建议",
+          "box": [
+            12.21,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#9",
+          "name": "TextBox 8",
+          "text": "项目指导委员会",
+          "box": [
+            5.4,
+            1.95,
+            2.5,
+            0.7
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#11",
+          "name": "TextBox 10",
+          "text": "工作组一",
+          "box": [
+            0.9,
+            3.6,
+            2.4,
+            0.65
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#13",
+          "name": "TextBox 12",
+          "text": "职责描述",
+          "box": [
+            1.0,
+            4.45,
+            2.2,
+            0.35
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#14",
+          "name": "TextBox 13",
+          "text": "职责描述",
+          "box": [
+            1.0,
+            4.87,
+            2.2,
+            0.35
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#16",
+          "name": "TextBox 15",
+          "text": "工作组二",
+          "box": [
+            4.0,
+            3.6,
+            2.4,
+            0.65
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#18",
+          "name": "TextBox 17",
+          "text": "职责描述",
+          "box": [
+            4.1,
+            4.45,
+            2.2,
+            0.35
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#19",
+          "name": "TextBox 18",
+          "text": "职责描述",
+          "box": [
+            4.1,
+            4.87,
+            2.2,
+            0.35
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#21",
+          "name": "TextBox 20",
+          "text": "工作组三",
+          "box": [
+            7.1,
+            3.6,
+            2.4,
+            0.65
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#23",
+          "name": "TextBox 22",
+          "text": "职责描述",
+          "box": [
+            7.2,
+            4.45,
+            2.2,
+            0.35
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#24",
+          "name": "TextBox 23",
+          "text": "职责描述",
+          "box": [
+            7.2,
+            4.87,
+            2.2,
+            0.35
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#26",
+          "name": "TextBox 25",
+          "text": "工作组四",
+          "box": [
+            10.2,
+            3.6,
+            2.4,
+            0.65
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#28",
+          "name": "TextBox 27",
+          "text": "职责描述",
+          "box": [
+            10.3,
+            4.45,
+            2.2,
+            0.35
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#29",
+          "name": "TextBox 28",
+          "text": "职责描述",
+          "box": [
+            10.3,
+            4.87,
+            2.2,
+            0.35
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "tracker": {
+        "items": [
+          "#3",
+          "#4",
+          "#5",
+          "#6"
+        ],
+        "current": 3,
+        "mark": "#7",
+        "axis": "row"
+      },
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "region": [
+        0.55,
+        1.65,
+        12.78,
+        6.88
+      ],
+      "samples": [
+        "#8",
+        "#9",
+        "#10",
+        "#11",
+        "#12",
+        "#13",
+        "#14",
+        "#15",
+        "#16",
+        "#17",
+        "#18",
+        "#19",
+        "#20",
+        "#21",
+        "#22",
+        "#23",
+        "#24",
+        "#25",
+        "#26",
+        "#27",
+        "#28",
+        "#29"
+      ],
+      "area": [
+        0.6,
+        1.65,
+        12.1,
+        5.1
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 11,
+      "role": "content",
+      "layout": "仅标题",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "推进步骤示例",
+          "box": [
+            0.55,
+            0.45,
+            9.6,
+            0.95
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "进度 市场概览",
+          "text": "市场概览",
+          "box": [
+            10.35,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "进度 竞争格局",
+          "text": "竞争格局",
+          "box": [
+            10.97,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "进度 能力评估",
+          "text": "能力评估",
+          "box": [
+            11.59,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "进度 实施建议",
+          "text": "实施建议",
+          "box": [
+            12.21,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#9",
+          "name": "TextBox 8",
+          "text": "阶段一",
+          "box": [
+            0.85,
+            2.0,
+            2.0,
+            0.8
+          ],
+          "size": 13.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#10",
+          "name": "TextBox 9",
+          "text": "• 关键动作\n• 关键动作\n• 交付成果",
+          "box": [
+            0.65,
+            3.05,
+            2.2,
+            2.4
+          ],
+          "size": 11.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#13",
+          "name": "TextBox 12",
+          "text": "阶段二",
+          "box": [
+            3.3,
+            2.0,
+            2.0,
+            0.8
+          ],
+          "size": 13.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#14",
+          "name": "TextBox 13",
+          "text": "• 关键动作\n• 关键动作\n• 交付成果",
+          "box": [
+            3.1,
+            3.05,
+            2.2,
+            2.4
+          ],
+          "size": 11.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#17",
+          "name": "TextBox 16",
+          "text": "阶段三",
+          "box": [
+            5.75,
+            2.0,
+            2.0,
+            0.8
+          ],
+          "size": 13.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#18",
+          "name": "TextBox 17",
+          "text": "• 关键动作\n• 关键动作\n• 交付成果",
+          "box": [
+            5.55,
+            3.05,
+            2.2,
+            2.4
+          ],
+          "size": 11.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#21",
+          "name": "TextBox 20",
+          "text": "阶段四",
+          "box": [
+            8.2,
+            2.0,
+            2.0,
+            0.8
+          ],
+          "size": 13.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#22",
+          "name": "TextBox 21",
+          "text": "• 关键动作\n• 关键动作\n• 交付成果",
+          "box": [
+            8.0,
+            3.05,
+            2.2,
+            2.4
+          ],
+          "size": 11.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#25",
+          "name": "TextBox 24",
+          "text": "阶段五",
+          "box": [
+            10.65,
+            2.0,
+            2.0,
+            0.8
+          ],
+          "size": 13.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#26",
+          "name": "TextBox 25",
+          "text": "• 关键动作\n• 关键动作\n• 交付成果",
+          "box": [
+            10.45,
+            3.05,
+            2.2,
+            2.4
+          ],
+          "size": 11.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#28",
+          "name": "TextBox 27",
+          "text": "资料来源：XXX；衡策咨询分析",
+          "box": [
+            0.55,
+            6.72,
+            9.0,
+            0.25
+          ],
+          "size": 8.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "tracker": {
+        "items": [
+          "#3",
+          "#4",
+          "#5",
+          "#6"
+        ],
+        "current": 3,
+        "mark": "#7",
+        "axis": "row"
+      },
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "region": [
+        0.55,
+        1.65,
+        12.78,
+        6.6
+      ],
+      "samples": [
+        "#11",
+        "#15",
+        "#19",
+        "#23",
+        "#27"
+      ],
+      "area": [
+        0.6,
+        1.65,
+        12.1,
+        4.8
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 12,
+      "role": "content",
+      "layout": "带要点栏",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "",
+          "box": [
+            0.55,
+            0.45,
+            9.6,
+            0.95
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "Content Placeholder 2",
+          "text": "在此输入正文或插入图表",
+          "box": [
+            0.55,
+            1.75,
+            8.5,
+            4.9
+          ],
+          "size": 14.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "OBJECT",
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "进度 市场概览",
+          "text": "市场概览",
+          "box": [
+            10.35,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "进度 竞争格局",
+          "text": "竞争格局",
+          "box": [
+            10.97,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "进度 能力评估",
+          "text": "能力评估",
+          "box": [
+            11.59,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#8",
+          "name": "进度 实施建议",
+          "text": "实施建议",
+          "box": [
+            12.21,
+            0.22,
+            0.62,
+            0.25
+          ],
+          "size": 7.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#9",
+          "name": "TextBox 8",
+          "text": "• 在此输入要点一\n• 在此输入要点二\n• 在此输入要点三",
+          "box": [
+            9.6,
+            2.45,
+            3.0,
+            3.8
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "tracker": {
+        "items": [
+          "#4",
+          "#5",
+          "#6",
+          "#8"
+        ],
+        "current": 2,
+        "mark": "#7",
+        "axis": "row"
+      },
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "region": [
+        0.55,
+        1.65,
+        12.78,
+        6.88
+      ],
+      "samples": [
+        "#3",
+        "#9"
+      ],
+      "area": [
+        0.6,
+        1.65,
+        8.5,
+        5.1
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 13,
+      "role": "ending",
+      "layout": "空白",
+      "texts": [
+        {
+          "key": "#3",
+          "name": "TextBox 2",
+          "text": "北京　|　上海　|　深圳　|　香港　|　新加坡",
+          "box": [
+            0.8,
+            3.0,
+            11.0,
+            0.4
+          ],
+          "size": 13.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "TextBox 3",
+          "text": "本报告仅供委托方内部参考使用，未经衡策咨询书面许可，不得向任何第三方披露、引用或转载。报告中的分析与结论基于委托方提供的资料及公开信息，衡策咨询不对其完整性与准确性作出保证，亦不承担因使用本报告而产生的任何责任。",
+          "box": [
+            0.8,
+            5.3,
+            11.7,
+            1.4
+          ],
+          "size": 9.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "slots": {
+        "title": "#3",
+        "subtitle": [
+          "#4"
+        ]
+      },
+      "bg": "0B2644",
+      "dark": true
+    }
+  ],
+  "sheets": [
+    "template-render/sheet-1.jpg",
+    "template-render/sheet-2.jpg"
+  ]
+}

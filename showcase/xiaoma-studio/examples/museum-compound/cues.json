@@ -1,0 +1,17 @@
+{
+  "bpm": 80, "duration": 24, "root": 45,
+  "chords": [[0,3,7],[-4,0,3],[-7,-3,0],[-2,2,5]],
+  "layers": ["pad", "pluck"], "drop": 6.0, "breakdown": [20.4, 30],
+  "sfx": [
+    {"t": 0.62, "type": "thud", "gain": 0.9},
+    {"t": 1.0,  "type": "pop"},
+    {"t": 1.8,  "type": "chime", "gain": 0.7},
+    {"t": 5.5,  "type": "whoosh", "gain": 0.6},
+    {"t": 8.0,  "type": "tick"}, {"t": 9.25, "type": "tick"}, {"t": 10.5, "type": "tick"},
+    {"t": 11.75, "type": "tick"}, {"t": 13.0, "type": "tick"}, {"t": 14.25, "type": "tick"}, {"t": 15.5, "type": "tick"},
+    {"t": 15.4, "type": "swell", "gain": 0.9},
+    {"t": 16.6, "type": "chime", "gain": 0.6},
+    {"t": 20.2, "type": "whoosh", "gain": 0.6},
+    {"t": 21.0, "type": "chime", "gain": 0.8}
+  ]
+}

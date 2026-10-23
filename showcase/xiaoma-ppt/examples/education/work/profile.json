@@ -1,0 +1,632 @@
+{
+  "template": "../../templates/education-qiming.pptx",
+  "size": [
+    13.333,
+    7.5
+  ],
+  "tokens": {
+    "primary": "F2762E",
+    "secondary": "F7A677",
+    "dark": "4A2C1D",
+    "body": "6B5246",
+    "muted": "9B8B83",
+    "font": "微软雅黑",
+    "font_heading": "微软雅黑",
+    "font_latin": "微软雅黑",
+    "radius": 0.0,
+    "palette": [
+      "FFFFFF",
+      "F2762E",
+      "FBD9BD",
+      "4A2C1D",
+      "FFC24B",
+      "9A7B67",
+      "FFE6D3"
+    ],
+    "surface": "FEF1E3"
+  },
+  "theme_colors": {
+    "dk1": "000000",
+    "lt1": "FFFFFF",
+    "dk2": "1F497D",
+    "lt2": "EEECE1",
+    "accent1": "4F81BD",
+    "accent2": "C0504D",
+    "accent3": "9BBB59",
+    "accent4": "8064A2",
+    "accent5": "4BACC6",
+    "accent6": "F79646",
+    "hlink": "0000FF",
+    "folHlink": "800080"
+  },
+  "theme_fonts": {
+    "majorFont": {
+      "latin": "Calibri",
+      "ea": "宋体"
+    },
+    "minorFont": {
+      "latin": "Calibri",
+      "ea": "宋体"
+    }
+  },
+  "slides": [
+    {
+      "index": 0,
+      "role": "cover",
+      "layout": "Blank",
+      "slots": {
+        "title": "#5",
+        "subtitle": [
+          "#7"
+        ],
+        "meta": [
+          "#8"
+        ]
+      },
+      "texts": [
+        {
+          "key": "#4",
+          "name": "TextBox 3",
+          "text": "启明教育",
+          "box": [
+            1.2,
+            0.58,
+            2.2,
+            0.45
+          ],
+          "size": 14.0,
+          "wrap": false,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "TextBox 4",
+          "text": "课程标题",
+          "box": [
+            0.8,
+            2.3,
+            7.4,
+            1.8
+          ],
+          "size": 46.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#7",
+          "name": "TextBox 6",
+          "text": "副标题 / 课程模块",
+          "box": [
+            0.8,
+            4.3,
+            4.2,
+            0.5
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#8",
+          "name": "TextBox 7",
+          "text": "主讲人：XXX　　2026 年秋季",
+          "box": [
+            0.8,
+            5.3,
+            6.0,
+            0.4
+          ],
+          "size": 14.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "bg": "FEF6EB",
+      "dark": false
+    },
+    {
+      "index": 1,
+      "role": "toc",
+      "layout": "Blank",
+      "slots": {
+        "heading": [
+          "#3",
+          "#4"
+        ],
+        "items": [
+          "#7",
+          "#10",
+          "#13",
+          "#16",
+          "#19"
+        ],
+        "numbers": [
+          "#6",
+          "#9",
+          "#12",
+          "#15",
+          "#18"
+        ]
+      },
+      "texts": [
+        {
+          "key": "#3",
+          "name": "TextBox 2",
+          "text": "目录",
+          "box": [
+            0.8,
+            0.7,
+            4.0,
+            0.9
+          ],
+          "size": 36.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "TextBox 3",
+          "text": "CONTENTS",
+          "box": [
+            2.3,
+            0.92,
+            3.0,
+            0.5
+          ],
+          "size": 14.0,
+          "wrap": false,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "TextBox 5",
+          "text": "01",
+          "box": [
+            0.8,
+            1.95,
+            0.62,
+            0.45
+          ],
+          "size": 15.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#7",
+          "name": "TextBox 6",
+          "text": "目录标题",
+          "box": [
+            1.65,
+            1.91,
+            6.5,
+            0.55
+          ],
+          "size": 21.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#9",
+          "name": "TextBox 8",
+          "text": "02",
+          "box": [
+            0.8,
+            2.95,
+            0.62,
+            0.45
+          ],
+          "size": 15.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#10",
+          "name": "TextBox 9",
+          "text": "目录标题",
+          "box": [
+            1.65,
+            2.91,
+            6.5,
+            0.55
+          ],
+          "size": 21.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#12",
+          "name": "TextBox 11",
+          "text": "03",
+          "box": [
+            0.8,
+            3.95,
+            0.62,
+            0.45
+          ],
+          "size": 15.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#13",
+          "name": "TextBox 12",
+          "text": "目录标题",
+          "box": [
+            1.65,
+            3.91,
+            6.5,
+            0.55
+          ],
+          "size": 21.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#15",
+          "name": "TextBox 14",
+          "text": "04",
+          "box": [
+            0.8,
+            4.95,
+            0.62,
+            0.45
+          ],
+          "size": 15.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#16",
+          "name": "TextBox 15",
+          "text": "目录标题",
+          "box": [
+            1.65,
+            4.91,
+            6.5,
+            0.55
+          ],
+          "size": 21.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#18",
+          "name": "TextBox 17",
+          "text": "05",
+          "box": [
+            0.8,
+            5.95,
+            0.62,
+            0.45
+          ],
+          "size": 15.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#19",
+          "name": "TextBox 18",
+          "text": "目录标题",
+          "box": [
+            1.65,
+            5.91,
+            6.5,
+            0.55
+          ],
+          "size": 21.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "bg": "FEF6EB",
+      "dark": false
+    },
+    {
+      "index": 2,
+      "role": "section",
+      "layout": "Blank",
+      "slots": {
+        "title": "#4",
+        "subtitle": [
+          "#5"
+        ],
+        "number": "#3"
+      },
+      "texts": [
+        {
+          "key": "#3",
+          "name": "TextBox 2",
+          "text": "01",
+          "box": [
+            0.9,
+            1.6,
+            3.0,
+            1.5
+          ],
+          "size": 88.0,
+          "wrap": false,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "TextBox 3",
+          "text": "章节标题",
+          "box": [
+            0.9,
+            3.25,
+            9.0,
+            1.0
+          ],
+          "size": 40.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "TextBox 4",
+          "text": "这一章你会学到什么",
+          "box": [
+            0.9,
+            4.25,
+            9.0,
+            0.5
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "bg": "F1752D",
+      "dark": false
+    },
+    {
+      "index": 3,
+      "role": "content",
+      "layout": "Blank",
+      "slots": {
+        "title": "#3",
+        "kicker": []
+      },
+      "texts": [
+        {
+          "key": "#3",
+          "name": "TextBox 2",
+          "text": "页面标题",
+          "box": [
+            0.8,
+            0.55,
+            10.0,
+            0.75
+          ],
+          "size": 28.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "TextBox 5",
+          "text": "启明教育",
+          "box": [
+            11.4,
+            0.6,
+            2.2,
+            0.45
+          ],
+          "size": 14.0,
+          "wrap": false,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#8",
+          "name": "TextBox 7",
+          "text": "小标题",
+          "box": [
+            1.1,
+            2.2,
+            5.0,
+            0.5
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#9",
+          "name": "TextBox 8",
+          "text": "在此输入正文内容",
+          "box": [
+            1.1,
+            2.8,
+            5.0,
+            3.0
+          ],
+          "size": 14.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#11",
+          "name": "TextBox 10",
+          "text": "小标题",
+          "box": [
+            7.1,
+            2.2,
+            5.0,
+            0.5
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#12",
+          "name": "TextBox 11",
+          "text": "在此输入正文内容",
+          "box": [
+            7.1,
+            2.8,
+            5.0,
+            3.0
+          ],
+          "size": 14.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#13",
+          "name": "TextBox 12",
+          "text": "‹ 启明 ›",
+          "box": [
+            12.2,
+            6.9,
+            0.8,
+            0.35
+          ],
+          "size": 9.0,
+          "wrap": false,
+          "align": "r",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "region": [
+        0.8,
+        1.65,
+        12.53,
+        6.78
+      ],
+      "samples": [
+        "#7",
+        "#8",
+        "#9",
+        "#10",
+        "#11",
+        "#12"
+      ],
+      "area": [
+        0.85,
+        1.65,
+        11.6,
+        5.1
+      ],
+      "bg": "FEF6EB",
+      "dark": false
+    },
+    {
+      "index": 4,
+      "role": "ending",
+      "layout": "Blank",
+      "slots": {
+        "title": "#5",
+        "subtitle": [
+          "#6"
+        ]
+      },
+      "texts": [
+        {
+          "key": "#4",
+          "name": "TextBox 3",
+          "text": "启明教育",
+          "box": [
+            1.2,
+            0.58,
+            2.2,
+            0.45
+          ],
+          "size": 14.0,
+          "wrap": false,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "TextBox 4",
+          "text": "下课啦，谢谢大家",
+          "box": [
+            0.8,
+            2.6,
+            7.0,
+            1.1
+          ],
+          "size": 44.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "TextBox 5",
+          "text": "课后作业见学习群",
+          "box": [
+            0.8,
+            3.75,
+            7.0,
+            0.5
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "bg": "FEF6EB",
+      "dark": false
+    }
+  ],
+  "sheets": [
+    "template-render/sheet-1.jpg"
+  ]
+}

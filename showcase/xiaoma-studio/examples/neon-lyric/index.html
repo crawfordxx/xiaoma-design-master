@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>按下回车 · neon lyric 9:16</title>
+<link rel="stylesheet" href="../../engine/base.css">
+<link rel="stylesheet" href="../../engine/themes.css">
+<style>
+  /* 霓虹终端歌词：近黑 + 洋红，每句歌词一个视觉隐喻，边角铺等宽微型元信息；竖屏上下各留 220px 给平台 UI */
+  .meta { position: absolute; z-index: 40; font: 500 20px/1.5 var(--font-mono); color: var(--muted); letter-spacing: .08em; }
+  .lyric { position: absolute; left: 90px; right: 90px; z-index: 30; font: 800 96px/1.12 var(--font-display); letter-spacing: -.01em; }
+  .lyric span { color: #3a2a34; }
+  .lyric span.on { color: var(--fg); }
+  .lyric span.hot { color: var(--accent); text-shadow: 0 0 24px #ff2d8a88; }
+  .term { position: absolute; left: 90px; right: 90px; top: 360px; z-index: 20; font: 400 38px/1.6 var(--font-mono); color: #a58d9b; white-space: pre; }
+  .term b { color: var(--accent); font-weight: 400; }
+  .key { position: absolute; left: 50%; top: 880px; width: 520px; height: 300px; margin-left: -260px; z-index: 25; border-radius: 40px;
+    background: linear-gradient(180deg, #2a1f27, #140f13); border: 3px solid #ff2d8a; box-shadow: 0 30px 0 #3b0f26, 0 0 80px #ff2d8a55;
+    display: grid; place-items: center; font: 800 88px/1 var(--font-display); color: var(--fg); }
+  .big { position: absolute; left: 90px; z-index: 30; font: 900 230px/0.92 var(--font-display); letter-spacing: -.04em; color: var(--fg); }
+  .big.pink { color: var(--accent); }
+</style>
+</head>
+<body>
+<div id="stage" class="theme-neon">
+  <canvas id="cv" class="layer"></canvas>
+  <div class="meta" style="left:60px;top:240px">EVAL CONSOLE · NODE 07</div>
+  <div class="meta" style="right:60px;top:240px;text-align:right" id="m-step">step 000,000 / 412,000</div>
+  <div class="meta" style="left:60px;bottom:240px" id="m-bar">BAR 1/4 · 110 BPM</div>
+  <div class="meta" style="right:60px;bottom:240px" id="m-tc">00:00:00</div>
+  <div class="term" id="term"></div>
+  <div class="lyric" id="lyric" style="top:1420px"></div>
+  <div class="key" id="key">⏎ ENTER</div>
+  <div class="big" id="b1" style="top:520px">世界</div>
+  <div class="big pink" id="b2" style="top:740px">重新</div>
+  <div class="big" id="b3" style="top:960px">开始</div>
+  <div class="vignette"></div><div class="grain"></div>
+</div>
+
+<script src="../../engine/runtime.js"></script>
+<script>
+const { prog, ease, css, $, lerp, clamp, canvas, spring, beat, beatOf, pulse, hash, typewriter } = MS;
+MS.setup({ width: 1080, height: 1920, fps: 30, duration: 16.6, bpm: 110, background: '#0b080b' });
+const W = 1080, H = 1920;
+// 歌词：[开始拍, 结束拍, 文本]，每拍点亮 1–2 个字（卡拉 OK）
+const LY = [
+  [0, 7, '我写下的每一行'],
+  [8, 15, '都在等你运行'],
+  [16, 23, '如果你按下回车'],
+  [24, 28, '世界重新开始'],
+];
+const CODE = ['$ ./song --verse 1', '> compiling feelings...', '> line 1  我写下的', '> line 2  每一行', '> waiting for input_'];
+
+function lyric(t) {
+  const b = beatOf(t);
+  const cur = LY.find(([a, z]) => b >= a - 0.2 && b < z + 0.8);
+  const el = $('#lyric');
+  if (!cur || cur[0] >= 24) { css(el, { opacity: 0 }); return; }
+  const [a, z, s] = cur;
+  if (el.dataset.k !== s) { el.dataset.k = s; el.innerHTML = [...s].map((c) => `<span>${c}</span>`).join(''); }
+  const chars = [...el.children];
+  const lit = (b - a) / (z - a) * chars.length;           // 唱到哪个字
+  chars.forEach((c, i) => { c.className = i < lit - 1 ? 'on' : i < lit ? 'hot' : ''; });
+  const inP = prog(b, a - 0.2, a + 0.3, ease.outCubic), outP = prog(b, z + 0.2, z + 0.8, ease.inCubic);
+  css(el, { opacity: inP * (1 - outP), transform: `translateY(${(1 - inP) * 40 - outP * 30}px)` });
+}
+
+MS.render((t) => {
+  const { ctx } = canvas('#cv');
+  const b = beatOf(t);
+
+  // 背景：缓慢上滚的暗洋红代码雨 + 每拍一次的底部脉冲光
+  ctx.font = '22px Menlo, monospace';
+  for (let i = 0; i < 46; i++) {
+    const x = 40 + (i % 9) * 118, y = ((i * 211 + t * 60) % (H + 200)) - 100;
+    ctx.fillStyle = `rgba(255,45,138,${0.05 + 0.07 * hash(i)})`;
+    ctx.fillText(['0x1F', 'run()', 'await', '>>', 'null', 'ok', '…'][i % 7], x, H - y);
+  }
+  const g = ctx.createRadialGradient(W / 2, H + 100, 50, W / 2, H + 100, 900);
+  g.addColorStop(0, `rgba(255,45,138,${0.18 + 0.25 * pulse(t, 0.2)})`); g.addColorStop(1, 'rgba(255,45,138,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+
+  // 第 1 句：终端逐行打字；第 2 句：环形进度
+  const term = $('#term');
+  const tOn = b < 15.8;
+  css(term, { display: tOn ? '' : 'none', opacity: 1 - prog(b, 15, 15.8) });
+  if (tOn) {
+    const shown = CODE.map((l, i) => typewriter(l, t, beat(i * 1.6), 26)).filter(Boolean);
+    term.innerHTML = shown.join('\n').replace(/(我写下的|每一行)/g, '<b>$1</b>') + (Math.floor(t * 2.2) % 2 ? '▍' : ' ');
+  }
+  if (b >= 8 && b < 16.2) {
+    const p = prog(b, 8, 15, ease.inOutCubic), o = 1 - prog(b, 15.4, 16.2);
+    ctx.globalAlpha = o; ctx.lineWidth = 18; ctx.lineCap = 'round';
+    ctx.strokeStyle = '#2a1f27'; ctx.beginPath(); ctx.arc(W / 2, 1010, 230, 0, Math.PI * 2); ctx.stroke();
+    ctx.strokeStyle = '#ff2d8a'; ctx.shadowColor = '#ff2d8a'; ctx.shadowBlur = 30;
+    ctx.beginPath(); ctx.arc(W / 2, 1010, 230, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * p); ctx.stroke(); ctx.shadowBlur = 0;
+    ctx.fillStyle = '#f1e9ee'; ctx.font = '300 120px Inter, Helvetica, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(Math.round(p * 99) + '%', W / 2, 1050); ctx.font = '500 26px Menlo, monospace'; ctx.fillStyle = '#6d5a66';
+    ctx.fillText('RUNNING · WAITING FOR YOU', W / 2, 1310); ctx.textAlign = 'left'; ctx.globalAlpha = 1;
+  }
+
+  // 第 3 句：回车键，在第 22 拍被按下（预备 → 下压 → 回弹）
+  const kOn = b >= 15.6 && b < 22.8;
+  css($('#key'), { display: kOn ? '' : 'none' });
+  if (kOn) {
+    const enter = spring(t, beat(15.6), { stiffness: 220, damping: 16 });
+    const press = b >= 22 ? 1 - spring(t, beat(22) + 0.08, { stiffness: 500, damping: 14 }) : 0;
+    const antic = prog(b, 21.4, 22, ease.inQuad) * (b < 22 ? 1 : 0);
+    css($('#key'), { transform: `translateY(${(1 - enter) * 300 - antic * 18 + press * 26}px) scale(${enter * (1 + antic * 0.04)})`,
+      boxShadow: `0 ${30 - press * 26}px 0 #3b0f26, 0 0 ${80 + press * 200}px #ff2d8a${press > 0.3 ? 'cc' : '55'}` });
+  }
+  // 按下的瞬间：洋红泛洪铺满再收缩（画在内容之上）
+  if (b >= 22 && b < 24.2) {
+    const f = prog(b, 22, 22.7, ease.inOutCubic), back = prog(b, 23.4, 24.1, ease.inOutCubic);
+    ctx.fillStyle = '#ff2d8a'; ctx.beginPath(); ctx.arc(W / 2, 1030, (f - back) * Math.hypot(W, H) * 1.05, 0, Math.PI * 2); ctx.fill();
+  }
+
+  // 第 4 句：三个大字逐拍砸下，最后回到终端光标（呼应开场）
+  ['#b1', '#b2', '#b3'].forEach((id, i) => {
+    const s = spring(t, beat(24 + i), { stiffness: 420, damping: 22 });
+    const kick = 1 - prog(t, beat(24 + i), beat(24 + i) + 0.12, ease.outQuad);
+    const on = b >= 24 + i;
+    css($(id), { display: on ? '' : 'none', transform: `translateX(${(1 - s) * -180}px) skewX(${-10 * kick}deg)`, filter: `blur(${kick * 5}px)`, opacity: 1 - prog(b, 27.2, 27.8) });
+  });
+  if (b >= 27.6) {
+    ctx.fillStyle = Math.floor(t * 2.2) % 2 ? '#ff2d8a' : 'transparent';
+    ctx.fillRect(W / 2 - 22, 900, 44, 72);
+    ctx.fillStyle = '#6d5a66'; ctx.font = '500 26px Menlo, monospace'; ctx.textAlign = 'center';
+    ctx.fillText('$ ./song --verse 2', W / 2, 1060); ctx.textAlign = 'left';
+  }
+
+  lyric(t);
+  if (b >= 22.2) css($('#lyric'), { opacity: 1 - prog(b, 22.2, 22.7) });
+  $('#m-step').textContent = `step ${MS.counter(t, 0, 15, 0, 412000)} / 412,000`;
+  $('#m-bar').textContent = `BAR ${Math.min(7, Math.floor(b / 4) + 1)}/7 · 110 BPM`;
+  $('#m-tc').textContent = `00:00:${String(Math.floor(t)).padStart(2, '0')}:${String(Math.round(t * 30) % 30).padStart(2, '0')}`;
+});
+</script>
+</body>
+</html>

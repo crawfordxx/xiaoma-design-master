@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Draft. · launch morph 1:1</title>
+<link rel="stylesheet" href="../../engine/base.css">
+<link rel="stylesheet" href="../../engine/themes.css">
+<style>
+  /* 产品发布（亮）：一个形状贯穿所有状态，光标驱动每一次变化，镜头跟着缩放。暖白画布、黑色 UI、一个橙色强调色。 */
+  #world { position: absolute; inset: 0; transform-origin: 540px 540px; }
+  #shape { position: absolute; left: 540px; top: 540px; overflow: hidden; background: #111; }
+  .st { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font: 600 34px/1 var(--font-ui); letter-spacing: -.01em; white-space: nowrap; }
+  .mark { position: absolute; left: 0; right: 0; top: 470px; text-align: center; font: 800 150px/1 var(--font-display); letter-spacing: -.05em; color: #111; }
+  .card { color: #111; place-items: start; padding: 48px 52px; }
+  .card h3 { font: 700 46px/1.1 var(--font-ui); letter-spacing: -.02em; }
+  .card .ln { height: 14px; border-radius: 7px; background: #e6e2da; margin-top: 22px; }
+  .card .btn { position: absolute; right: 44px; bottom: 40px; padding: 18px 30px; border-radius: 40px; background: #111; color: #fff; font: 600 26px/1 var(--font-ui); }
+  .av { width: 58px; height: 58px; border-radius: 50%; border: 3px solid #111; display: inline-block; margin-left: -14px; }
+  .bars { position: absolute; left: 52px; right: 52px; bottom: 60px; height: 230px; display: flex; gap: 22px; align-items: flex-end; }
+  .bars i { flex: 1; background: #111; border-radius: 10px 10px 4px 4px; }
+  .bars i.hl { background: var(--accent); }
+  .kbd { font: 500 22px/1 var(--font-mono); color: #8b8780; border: 1.5px solid #d8d3ca; border-radius: 8px; padding: 8px 10px; }
+  #cursor { position: absolute; left: 0; top: 0; width: 58px; z-index: 50; transform-origin: 4px 4px; filter: drop-shadow(0 6px 10px rgba(0,0,0,.25)); }
+</style>
+</head>
+<body>
+<div id="stage" class="theme-launch">
+  <div id="world">
+    <div class="mark" id="mark">Draft<span id="dot" style="color:var(--accent)">.</span></div>
+    <div id="shape">
+      <div class="st" id="s-pill">＋ New note</div>
+      <canvas class="st" id="s-load" width="200" height="200"></canvas>
+      <div class="st card" id="s-card"><div style="width:100%"><h3 id="c-title"></h3><div class="ln" id="l1"></div><div class="ln" id="l2"></div><div class="ln" id="l3"></div></div><div class="btn" id="c-share">Share</div></div>
+      <div class="st" id="s-toast"><div style="display:flex;align-items:center;gap:30px"><span>Shared with 3</span><span><i class="av" id="a1" style="background:#ffb38a"></i><i class="av" id="a2" style="background:#9ed3c5"></i><i class="av" id="a3" style="background:#c6b8ff"></i></span></div></div>
+      <div class="st card" id="s-chart"><div><div class="kbd" style="display:inline-block;border:none;padding:0">THIS WEEK</div><h3 style="margin-top:14px"><span id="ch-n">0</span> words</h3></div>
+        <div class="bars" id="bars"><i></i><i></i><i></i><i></i><i></i><i class="hl"></i><i></i></div></div>
+      <div class="st card" id="s-cmd" style="place-items:center start;padding:0 40px"><div style="display:flex;align-items:center;gap:22px;width:100%"><span style="font-size:36px">⌘</span><span id="cmd-txt" style="font:500 38px/1 var(--font-ui);flex:1"></span><span class="kbd">↵</span></div></div>
+      <div class="st" id="s-done" style="background:var(--accent)">Exported ✓</div>
+    </div>
+  </div>
+  <svg id="cursor" viewBox="0 0 24 24"><path d="M3 2 L3 20 L8 15.5 L11.5 22 L14.5 20.5 L11 14 L18 14 Z" fill="#111" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+  <div class="grain"></div>
+</div>
+
+<script src="../../engine/runtime.js"></script>
+<script>
+const { prog, ease, css, $, lerp, clamp, spring, springTo, beat, beatOf, typewriter, counter } = MS;
+MS.setup({ width: 1080, height: 1080, fps: 30, duration: 12.5, bpm: 120, background: '#f4f2ee' });
+const B = (n) => beat(n);
+const SP = { stiffness: 260, damping: 26 };        // UI 弹簧：只允许一点点过冲
+
+// 形状在每个状态的 [宽, 高, 圆角, 背景]；每次变化都是一个弹簧，叠加后仍是 t 的纯函数
+const STATES = [
+  [0, 'dot', 34, 34, 17, '#ff5a1f'],
+  [2, 'pill', 380, 104, 52, '#111111'],
+  [4, 'load', 112, 112, 56, '#111111'],
+  [5.5, 'check', 112, 112, 56, '#ff5a1f'],
+  [6.5, 'card', 760, 540, 36, '#ffffff'],
+  [11, 'toast', 640, 120, 60, '#111111'],
+  [13.5, 'chart', 760, 520, 36, '#ffffff'],
+  [17.5, 'cmd', 800, 124, 26, '#ffffff'],
+  [20.5, 'done', 380, 104, 52, '#ff5a1f'],
+  [22.5, 'dot', 34, 34, 17, '#ff5a1f'],
+];
+const cur = (t) => { let s = STATES[0]; for (const x of STATES) if (beatOf(t) >= x[0]) s = x; return s; };
+const hexRGB = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+function bgAt(t) {   // 底色在 0.25 秒内过渡，不在一帧内跳变
+  let col = hexRGB(STATES[0][5]);
+  for (const s of STATES.slice(1)) col = MS.mix(col, hexRGB(s[5]), prog(t, B(s[0]), B(s[0]) + 0.25, ease.inOutQuad));
+  return `rgb(${col.map(Math.round).join(',')})`;
+}
+const track = (t, k) => springTo(t, STATES[0][k], STATES.slice(1).map((s) => [B(s[0]), s[k]]), SP);
+
+function showState(t, id, a, b) {   // 状态内容：短暂模糊切换
+  const el = $('#s-' + id);
+  const inP = prog(t, B(a) + 0.08, B(a) + 0.3, ease.outCubic), outP = b === null ? 0 : prog(t, B(b) - 0.12, B(b), ease.inCubic);
+  const v = inP * (1 - outP);
+  css(el, { display: v > 0.001 ? '' : 'none', opacity: v, filter: `blur(${(1 - v) * 8}px)` });
+  return v;
+}
+
+// 光标路径：[拍, x, y]；点击拍
+const CUR = [[0, 1180, 1180], [2.6, 600, 600], [3.5, 560, 560], [6.4, 700, 760], [9.2, 790, 760], [10.4, 790, 760], [11.6, 1000, 1000], [17.4, 400, 600], [20.2, 860, 560], [21, 860, 560], [22.4, 1180, 1180]];
+const CLICKS = [3.5, 10, 20.2];
+
+MS.render((t) => {
+  const b = beatOf(t);
+  const [, id] = cur(t);
+  const w = track(t, 2), h = track(t, 3), r = Math.max(0, track(t, 4));
+  css($('#shape'), { width: w + 'px', height: h + 'px', marginLeft: -w / 2 + 'px', marginTop: -h / 2 + 'px', borderRadius: r + 'px', background: bgAt(t),
+    boxShadow: id === 'card' || id === 'chart' || id === 'cmd' ? '0 30px 80px rgba(0,0,0,.12), 0 0 0 1.5px #e3ded5' : 'none' });
+
+  // 字标：开场从句号长出来，结尾缩回句号（最后一帧 = 第一帧）
+  const markOut = prog(b, 1.4, 2.0, ease.inCubic), markIn = prog(b, 23, 23.8, ease.outCubic);
+  const mv = (1 - markOut) * (b < 22 ? 1 : 0) + markIn;
+  css($('#mark'), { opacity: mv, transform: `scaleX(${0.6 + 0.4 * mv})`, letterSpacing: `${-0.05 - 0.2 * (1 - mv)}em` });
+  // 字标在场时由它自己的句号代表形状；字标挤压退场的同时，形状从中心接手（反向同理）
+  css($('#shape'), { top: '540px', opacity: mv > 0.5 ? 0 : 1 });
+
+  showState(t, 'pill', 2, 4); showState(t, 'card', 6.5, 11); showState(t, 'toast', 11, 13.5);
+  showState(t, 'chart', 13.5, 17.5); showState(t, 'cmd', 17.5, 20.5); showState(t, 'done', 20.5, 22.5);
+  // 加载圈 → 对勾
+  const lv = showState(t, 'load', 4, 6.5);
+  if (lv > 0) {
+    const c = $('#s-load').getContext('2d'); c.clearRect(0, 0, 200, 200); c.lineWidth = 12; c.lineCap = 'round'; c.strokeStyle = '#fff';
+    if (b < 5.5) { const a = t * 9; c.beginPath(); c.arc(100, 100, 50, a, a + 4); c.stroke(); }
+    else { const p = prog(b, 5.6, 6.2, ease.outCubic); c.beginPath(); c.moveTo(70, 102); c.lineTo(lerp(70, 92, clamp(p * 2)), lerp(102, 124, clamp(p * 2))); if (p > 0.5) c.lineTo(lerp(92, 132, (p - 0.5) * 2), lerp(124, 78, (p - 0.5) * 2)); c.stroke(); }
+  }
+  // 卡片：标题打字、三行横线依次画出、Share 按钮被点
+  $('#c-title').textContent = typewriter('Ideas for Friday', t, B(7.2), 16) + (Math.floor(t * 2.5) % 2 && b < 10 ? '|' : '');
+  ['#l1', '#l2', '#l3'].forEach((id, k) => css($(id), { width: `${[92, 78, 55][k] * prog(b, 8.4 + k * 0.4, 9.2 + k * 0.4, ease.outExpo)}%` }));
+  const press = 1 - 0.12 * (1 - spring(t, B(10), { stiffness: 500, damping: 18 })) * (b >= 10 ? 1 : 0);
+  css($('#c-share'), { transform: `scale(${b >= 10 ? press : 1})`, background: b >= 10 ? 'var(--accent)' : '#111' });
+  // 头像依次弹出
+  ['#a1', '#a2', '#a3'].forEach((id, k) => { const s = spring(t, B(11.6 + k * 0.5), { stiffness: 380, damping: 14 }); css($(id), { transform: `scale(${s})` }); });
+  // 柱状图逐根长出，第 6 根是今天（强调色）
+  [...$('#bars').children].forEach((el, k) => css(el, { height: `${[38, 55, 30, 72, 60, 96, 20][k] * prog(b, 14 + k * 0.25, 15.2 + k * 0.25, ease.outExpo)}%` }));
+  $('#ch-n').textContent = counter(t, B(14), B(16.5), 0, 4280);
+  // 命令面板打字
+  $('#cmd-txt').textContent = typewriter('Export as PDF', t, B(18.3), 14);
+
+  // 镜头：跟着形状缩放，让每个状态都占满画面（Screen Studio 式）
+  const target = (s) => clamp(820 / Math.max(s[2], s[3] * 1.4), 1, 1.35);
+  const zoom = springTo(t, 1, STATES.slice(1).map((s) => [B(s[0]), s[1] === 'dot' ? 1 : target(s)]), { stiffness: 120, damping: 24 });
+  css($('#world'), { transform: `scale(${zoom})` });
+
+  // 光标：在关键点之间按 inOutCubic 移动，点击时缩一下
+  let i = 0; while (i < CUR.length - 1 && b >= CUR[i + 1][0]) i++;
+  const [b0, x0, y0] = CUR[i], [b1, x1, y1] = CUR[Math.min(i + 1, CUR.length - 1)];
+  const p = b1 > b0 ? prog(b, b0, b1, ease.inOutCubic) : 1;
+  const click = CLICKS.reduce((m, c) => Math.max(m, b >= c - 0.15 && b < c + 0.4 ? 1 - Math.abs(b - c) / 0.4 : 0), 0);
+  css($('#cursor'), { transform: `translate(${lerp(x0, x1, p)}px, ${lerp(y0, y1, p)}px) scale(${1 - 0.18 * click})` });
+});
+</script>
+</body>
+</html>

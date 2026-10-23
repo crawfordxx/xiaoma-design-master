@@ -1,0 +1,6 @@
+{ "bpm": 96, "duration": 15, "root": 48, "chords": [[0,4,7],[5,9,12],[-3,0,4],[7,11,14]],
+  "layers": ["pad","pluck"], "drop": 9.6, "breakdown": [30, 31],
+  "sfx": [ {"t":0.0,"type":"whoosh","gain":0.5}, {"t":3.3,"type":"tick"}, {"t":4.6,"type":"swell","gain":0.4}, {"t":5.3,"type":"thud","gain":0.6},
+           {"t":5.0,"type":"pop","gain":0.5}, {"t":6.4,"type":"riser","gain":0.5}, {"t":6.9,"type":"hit","gain":0.5}, {"t":8.6,"type":"pop"},
+           {"t":9.6,"type":"chime","gain":0.7}, {"t":10.4,"type":"pop"}, {"t":10.75,"type":"pop"}, {"t":11.1,"type":"pop"},
+           {"t":11.6,"type":"swell","gain":0.6}, {"t":14.1,"type":"chime","gain":0.5}, {"t":14.2,"type":"whoosh","gain":0.5} ] }

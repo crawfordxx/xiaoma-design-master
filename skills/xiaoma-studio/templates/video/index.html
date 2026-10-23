@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>TODO 片名</title>
+<link rel="stylesheet" href="engine/base.css">
+<link rel="stylesheet" href="engine/themes.css">
+<style>
+  /* 只放这条片子特有的版式。颜色、字体一律用主题 token：var(--bg) var(--fg) var(--accent) var(--muted) var(--font-display) … */
+  .title { text-align: center; }
+  .title .over { font: italic 400 26px/1 var(--font-display-latin, var(--font-ui)); color: var(--muted); letter-spacing: .45em; text-transform: uppercase; }
+  .title h1 { margin-top: 28px; font: 700 140px/1.05 var(--font-display); color: var(--fg); letter-spacing: .06em; }
+  .title h1 em { font-style: normal; color: var(--accent); }
+  .title .sub { margin-top: 30px; font: 400 30px/1 var(--font-body); color: var(--fg); opacity: .75; letter-spacing: .3em; }
+  .meta { position: absolute; left: 96px; top: 70px; z-index: 60; font: 500 18px/1.6 var(--font-ui); color: var(--muted); letter-spacing: .24em; text-transform: uppercase; }
+  .meta b { display: block; font: 300 84px/1 var(--font-display); color: var(--accent); letter-spacing: -.01em; text-transform: none; }
+</style>
+</head>
+<body>
+<!-- 换风格只改这里的 class：theme-museum / editorial / cosmic / swiss / launch / paper / neon / brutal / blueprint / hud -->
+<div id="stage" class="theme-editorial">
+  <canvas id="cv" class="layer"></canvas>          <!-- 证据层：图表、粒子、物件。跨镜头存在，每帧都要画或清 -->
+
+  <div id="title" class="layer center"><div class="title">
+    <div class="over">TODO Latin Overline</div>
+    <h1>TODO <em>关键词</em></h1>
+    <div class="sub" id="sub">TODO 一句副标题</div>
+  </div></div>
+
+  <div class="meta" id="meta"><b id="meta-big">01</b><span id="meta-small">TODO 章节</span></div>
+
+  <div class="caption-shade"></div>
+  <div class="caption" id="cap"><span id="cap-zh"></span><small id="cap-en"></small></div>
+  <div class="vignette"></div><div class="grain"></div>
+</div>
+
+<script src="engine/runtime.js"></script>
+<script>
+const { prog, ease, css, $, lerp, clamp, spring, canvas, drawPath, shots, reveal, hash, noise, pulse } = MS;
+MS.setup({ width: 1920, height: 1080, fps: 30, duration: 30, bpm: 90, background: '#0a0a0a' });
+const W = 1920, H = 1080;
+
+// ===== 字幕表：[开始, 结束, 中文, 英文]。没有旁白时，字幕就是叙事；一行 ≤ 18 字 =====
+const CAPS = [
+  [2.4, 6.0, 'TODO 第一句：具体的场景或问题。', 'TODO first line.'],
+  [6.8, 11.0, 'TODO 第二句。', 'TODO second line.'],
+];
+
+function captions(t) {
+  const cap = CAPS.find(([a, b]) => t >= a - 0.1 && t < b + 0.6);
+  const zh = $('#cap-zh'), en = $('#cap-en');
+  if (!cap) { css($('#cap'), { opacity: 0 }); return; }
+  const [a, b, z, e] = cap;
+  if (zh.dataset.k !== z) { zh.dataset.k = z; zh.textContent = z; zh.__msSplit = null; en.textContent = e; }
+  css($('#cap'), { opacity: 1 - prog(t, b, b + 0.5) });
+  reveal(zh, t, a, { stagger: 0.045, dur: 0.35, style: 'fade' });
+  css(en, { opacity: 0.55 * prog(t, a + 0.4, a + 1.2) });
+}
+
+// ===== 钩子：0–2 秒一个具体物件在动（落下 / 弹出 / 分裂）。不要用标题淡入开场 =====
+function hook(ctx, t) {
+  if (t > 2.6) return;
+  const fall = prog(t, 0, 0.7, ease.inQuad);
+  const land = t > 0.7 ? Math.exp(-(t - 0.7) * 6) * Math.sin((t - 0.7) * 18) * 24 : 0;
+  const fade = 1 - prog(t, 1.9, 2.5);
+  ctx.globalAlpha = fade;
+  ctx.fillStyle = getComputedStyle($('#stage')).getPropertyValue('--accent');
+  ctx.beginPath(); ctx.arc(W / 2, lerp(-80, H / 2, fall) - land, 46, 0, Math.PI * 2); ctx.fill();   // TODO 换成主题物件
+  ctx.globalAlpha = 1;
+}
+
+// ===== 标题卡：开场和结尾共用（首尾呼应）=====
+function titleCard(t, start, end, closing) {
+  const a = prog(t, start, start + 1.4, ease.outCubic);
+  const b = closing ? 0 : prog(t, end - 0.9, end, ease.inCubic);
+  css($('#title'), { display: t >= start && t < end ? '' : 'none', opacity: a * (1 - b), transform: `scale(${1.04 - 0.04 * a + b * 0.06})`, filter: `blur(${b * 10}px)` });
+}
+
+// ===== 证据：正中央会动的东西（图表 / 物件 / 粒子）=====
+function evidence(ctx, t, lt, dur) {
+  const p = prog(lt, 0.3, dur - 0.5, ease.inOutCubic);
+  ctx.strokeStyle = getComputedStyle($('#stage')).getPropertyValue('--accent'); ctx.lineWidth = 3;
+  const pts = Array.from({ length: 200 }, (_, i) => [300 + i * 6.6, 760 - 420 * Math.pow(i / 199, 2)]);   // TODO 换成真实数据
+  drawPath(ctx, pts, p);
+}
+
+MS.render((t) => {
+  const { ctx } = canvas('#cv');                       // 每帧清屏：跨镜头的层不能残留
+  css($('#title'), { display: 'none' });
+  shots(t, [
+    [0, (t) => { hook(ctx, t); titleCard(t, 1.8, 6.4, false); }],
+    [6.4, (t, lt, dur) => evidence(ctx, t, lt, dur)],
+    [26, (t) => { titleCard(t, 26, 30, true); $('#sub').textContent = 'TODO 结论句'; }],
+  ]);
+  if (t < 26) $('#sub').textContent = 'TODO 一句副标题';
+  css($('#meta'), { opacity: prog(t, 6.6, 7.4) * (1 - prog(t, 25.4, 26)) });
+  captions(t);
+  css($('#cv'), { transform: `scale(${1 + 0.03 * prog(t, 0, 30, ease.linear)})` });   // 镜头永远在缓推
+});
+</script>
+</body>
+</html>

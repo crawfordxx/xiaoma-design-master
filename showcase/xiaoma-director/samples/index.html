@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>分镜样例总览</title><style>
+:root{--bg:#f6f5f2;--paper:#fff;--ink:#1d1d1f;--muted:#6b6b70;--line:#e3e1dc;--accent:#c2410c;--chip:#fff1e8}
+@media (prefers-color-scheme:dark){:root{--bg:#141414;--paper:#1d1d1f;--ink:#ececec;--muted:#9a9aa0;--line:#333;--accent:#fb923c;--chip:#3a2416}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.6 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+main{max-width:1680px;margin:0 auto;padding:32px 24px 64px}
+header,section{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:22px 26px;margin-bottom:20px}
+h1{margin:6px 0 4px;font-size:28px}
+h2{font-size:18px;margin:0 0 14px}
+h2 small{color:var(--muted);font-weight:400;font-size:13px;margin-left:6px}
+.chip{display:inline-block;background:var(--chip);color:var(--accent);font-weight:600;font-size:12px;padding:2px 10px;border-radius:99px}
+.core{color:var(--muted);margin:0 0 14px;font-size:15px}
+.metas{display:flex;flex-wrap:wrap;gap:8px 28px}
+.meta span{color:var(--muted);margin-right:6px;font-size:12px}
+details{margin-top:12px;color:var(--muted)}
+.kv div{margin:4px 0}
+.kv b{display:inline-block;min-width:84px;color:var(--muted);font-weight:500}
+.beats{display:flex;gap:3px;margin:16px 0 8px;height:46px}
+.beat{background:var(--ink);color:var(--paper);border-radius:6px;padding:4px 8px;min-width:0;font-size:12px;display:flex;flex-direction:column;justify-content:center}
+.beat:nth-child(even){background:var(--accent)}
+.beat b,.beat span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.beat-list{margin:8px 0 0;padding-left:20px;color:var(--muted)}
+.beat-list b{color:var(--ink)}
+.refs{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.ref{margin:0}
+.ref img,.ref .missing{width:100%;border-radius:8px;display:block}
+.ref figcaption{margin-top:8px}
+.ref p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.tag{font-size:11px;color:var(--accent);border:1px solid var(--accent);border-radius:4px;padding:0 5px;margin-left:6px;white-space:nowrap}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:1080px;font-size:13px}
+th{position:sticky;top:0;background:var(--paper);text-align:left;font-weight:600;color:var(--muted);border-bottom:2px solid var(--ink);padding:8px;white-space:nowrap}
+td{border-bottom:1px solid var(--line);padding:10px 8px;vertical-align:top}
+td.no{font-size:20px;font-weight:700;color:var(--accent)}
+td.tc{font-variant-numeric:tabular-nums;width:84px}
+td.tc em{display:block;color:var(--accent);font-style:normal;font-weight:600}
+td.tc .tr{display:block;margin-top:6px;color:var(--muted);white-space:normal;max-width:96px}
+td.cam div:first-child{font-weight:600}
+td.visual{min-width:180px}
+td.purpose{min-width:150px}
+td b{color:var(--muted);font-weight:500}
+.frame{width:200px;border-radius:6px;display:block;cursor:zoom-in}
+body.vertical td .frame{width:110px}
+.missing{display:flex;align-items:center;justify-content:center;aspect-ratio:16/9;background:var(--line);color:var(--muted);font-size:12px;width:200px;border-radius:6px}
+.st-ok{background:#a8a29e}.st-tight{background:#dc2626}.st-drag{background:#2563eb}.st-noted{background:#16a34a}
+.verdict{display:inline-block;font-weight:700;font-size:14px;padding:3px 12px;border-radius:6px;color:#fff;background:#78716c;margin-bottom:8px}
+.v-approve{background:#16a34a}.v-approve_with_notes{background:#ca8a04}.v-revise{background:#dc2626}
+.chart{display:flex;gap:3px;height:150px;margin:16px 0 6px;align-items:stretch}
+.chart .col{flex:1;min-width:6px;display:flex;flex-direction:column}
+.chart .plot{position:relative;flex:1;border-bottom:1px solid var(--line)}
+.chart .bar{position:absolute;bottom:0;left:0;right:0;border-radius:3px 3px 0 0}
+.chart .need{position:absolute;left:-1px;right:-1px;border-top:2px dashed var(--ink);opacity:.55}
+.chart span{font-size:10px;color:var(--muted);text-align:center;line-height:16px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.legend i.dash{border-top:2px dashed var(--ink);height:0;border-radius:0;opacity:.55}
+.pace-notes{margin:12px 0 0;padding-left:20px;color:var(--accent)}
+table.issues{min-width:0;margin-top:14px}
+table.issues td:nth-child(-n+2),table.issues td:last-child{white-space:nowrap}
+table.issues small{color:var(--muted)}
+.pace{display:inline-block;font-size:11px;color:#fff;border-radius:4px;padding:0 5px;margin-left:6px;font-style:normal;cursor:help}
+#lb{position:fixed;inset:0;background:rgba(0,0,0,.86);display:flex;align-items:center;justify-content:center;z-index:9;cursor:zoom-out}
+#lb[hidden]{display:none}
+#lb img{max-width:94vw;max-height:94vh}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;color:inherit;text-decoration:none;padding-bottom:14px}
+.card:hover{border-color:var(--accent)}
+.card img,.card .missing{width:100%;aspect-ratio:16/9;object-fit:contain;background:#000;display:block;border-radius:0}
+.card .chip{margin:12px 14px 0}
+.card h3{margin:6px 14px 2px;font-size:16px}
+.card p{margin:0 14px;color:var(--muted);font-size:13px}
+@media print{@page{size:A4 landscape;margin:10mm}body{background:#fff}header,section{border:none;padding:0}th{position:static}.frame{width:180px}}
+@media screen and (max-width:1180px){
+  table.shots{min-width:0}
+  table.shots thead{display:none}
+  table.shots,table.shots tbody{display:block}
+  table.shots tr{display:grid;grid-template-columns:28px 220px minmax(0,1fr) minmax(0,1fr);column-gap:18px;row-gap:10px;padding:18px 0;border-bottom:1px solid var(--line)}
+  body.vertical table.shots tr{grid-template-columns:28px 120px minmax(0,1fr) minmax(0,1fr)}
+  table.shots td{display:block;border:none;padding:0;min-width:0}
+  table.shots td.no{grid-column:1;grid-row:1/span 4}
+  table.shots td.img{grid-column:2;grid-row:1/span 4}
+  table.shots td.tc{width:auto}
+  table.shots td.tc .tr{display:inline;margin:0 0 0 8px}
+  table.shots td.tc em{display:inline;margin-left:8px}
+  table.shots td.cam div{display:inline}
+  table.shots td.cam div+div::before{content:" · ";color:var(--muted)}
+  .frame,.missing{width:220px}
+  body.vertical td .frame{width:120px}
+  table.shots td:not(.no):not(.img)::before{content:attr(data-label);display:block;font-size:11px;color:var(--muted);margin-bottom:2px}
+}
+@media screen and (max-width:640px){
+  main{padding:16px}
+  table.shots tr{grid-template-columns:24px minmax(0,1fr)}
+  body.vertical table.shots tr{grid-template-columns:24px minmax(0,1fr)}
+  table.shots td.no{grid-row:1/span 9}
+  table.shots td:not(.no){grid-column:2}
+  table.shots td.img{grid-row:auto}
+  .frame,.missing{width:100%}
+}
+</style></head><body><main><header><h1>分镜样例总览</h1><p class="core">17 个片种，点卡片看分镜表</p></header><div class="cards"><a class="card" href="01-tvc/storyboard.html"><img src="01-tvc/frames/s01.jpg" alt="" loading="lazy"><div class="chip">TVC 广告</div><h3>山屿冷萃 ·《一瓶清醒》</h3><p>30s · 16:9 · 12 镜 · 整片</p><p>审片：有备注通过</p></a><a class="card" href="02-brand-film/storyboard.html"><img src="02-brand-film/frames/s01.jpg" alt="" loading="lazy"><div class="chip">品牌形象宣传片</div><h3>青禾新能源 ·《一度电能走多远》</h3><p>90s · 16:9 · 39 镜 · 节选</p><p>审片：有备注通过</p></a><a class="card" href="03-short-drama/storyboard.html"><img src="03-short-drama/frames/s01.jpg" alt="" loading="lazy"><div class="chip">竖屏短剧</div><h3>退婚当天，我继承了整条老街 · 第 1 集</h3><p>90s · 9:16 · 30 镜 · 整片</p><p>审片：有备注通过</p></a><a class="card" href="04-tutorial/storyboard.html"><img src="04-tutorial/frames/s01.jpg" alt="" loading="lazy"><div class="chip">教程 / 操作演示</div><h3>《5 分钟学会数据透视表》</h3><p>90s · 16:9 · 14 镜 · 节选</p><p>审片：有备注通过</p></a><a class="card" href="05-product-promo/storyboard.html"><img src="05-product-promo/frames/s01.jpg" alt="" loading="lazy"><div class="chip">产品宣传片</div><h3>Aurora X 主动降噪头戴耳机 ·《安静，可以戴上》</h3><p>60s · 16:9 · 19 镜 · 整片</p><p>审片：有备注通过</p></a><a class="card" href="06-city-tourism/storyboard.html"><img src="06-city-tourism/frames/s01.jpg" alt="" loading="lazy"><div class="chip">文旅 / 城市宣传片</div><h3>《沙溪，慢下来的茶马古道》</h3><p>90s · 16:9 · 46 镜 · 节选</p><p>审片：有备注通过</p></a><a class="card" href="07-micro-film/storyboard.html"><img src="07-micro-film/frames/s01.jpg" alt="" loading="lazy"><div class="chip">微电影 / 剧情短片</div><h3>末班地铁</h3><p>90s · 2.39:1 · 14 镜 · 节选</p><p>审片：有备注通过</p></a><a class="card" href="08-animation/storyboard.html"><img src="08-animation/frames/s01.jpg" alt="" loading="lazy"><div class="chip">动画短片</div><h3>纸鹤邮差</h3><p>60s · 16:9 · 12 镜 · 节选</p><p>审片：通过</p></a><a class="card" href="09-explainer/storyboard.html"><img src="09-explainer/frames/s01.jpg" alt="" loading="lazy"><div class="chip">知识科普 / 解说</div><h3>《为什么飞机航线是弯的》</h3><p>90s · 16:9 · 28 镜 · 节选</p><p>审片：有备注通过</p></a><a class="card" href="10-motion-graphics/storyboard.html"><img src="10-motion-graphics/frames/s01.jpg" alt="" loading="lazy"><div class="chip">MG 动画 / 数据可视化</div><h3>《一分钟看懂家庭光伏》</h3><p>60s · 16:9 · 11 镜 · 整片</p><p>审片：有备注通过</p></a><a class="card" href="11-creator-ad/storyboard.html"><img src="11-creator-ad/frames/s01.jpg" alt="" loading="lazy"><div class="chip">达人口播 / 带货种草</div><h3>轻榨 ·《通勤党的随身榨汁杯》</h3><p>30s · 9:16 · 10 镜 · 整片</p><p>审片：有备注通过</p></a><a class="card" href="12-documentary/storyboard.html"><img src="12-documentary/frames/s01.jpg" alt="" loading="lazy"><div class="chip">纪录片 / 人物纪实</div><h3>《钟表铺的第四十年》</h3><p>90s · 16:9 · 12 镜 · 节选</p><p>审片：通过</p></a><a class="card" href="13-mv/storyboard.html"><img src="13-mv/frames/s01.jpg" alt="" loading="lazy"><div class="chip">MV / 音乐短片</div><h3>《海边的风》MV</h3><p>60s · 16:9 · 20 镜 · 节选</p><p>审片：有备注通过</p></a><a class="card" href="14-vlog/storyboard.html"><img src="14-vlog/frames/s01.jpg" alt="" loading="lazy"><div class="chip">Vlog</div><h3>《一个人去阿勒泰的第三天》</h3><p>60s · 16:9 · 16 镜 · 节选</p><p>审片：有备注通过</p></a><a class="card" href="15-trailer-pv/storyboard.html"><img src="15-trailer-pv/frames/s01.jpg" alt="" loading="lazy"><div class="chip">预告片 / 游戏 PV</div><h3>星槎 · 首曝 PV</h3><p>90s · 2.39:1 · 30 镜 · 整片</p><p>审片：有备注通过</p></a><a class="card" href="16-opening-title/storyboard.html"><img src="16-opening-title/frames/s01.jpg" alt="" loading="lazy"><div class="chip">片头 / 活动开场片</div><h3>2026 开发者大会 · 主会场开场片《从一行开始》</h3><p>30s · 16:9 · 14 镜 · 整片</p><p>审片：有备注通过</p></a><a class="card" href="17-event-recap/storyboard.html"><img src="17-event-recap/frames/s01.jpg" alt="" loading="lazy"><div class="chip">发布会 / 活动纪实</div><h3>2026 城市半程马拉松 · 赛事回顾</h3><p>90s · 16:9 · 24 镜 · 整片</p><p>审片：有备注通过</p></a></div></main><div id="lb" hidden><img alt=""></div><script>
+const lb=document.getElementById('lb');
+document.addEventListener('click',e=>{
+  const t=e.target;
+  if(t.tagName==='IMG'&&t.classList.contains('frame')){lb.querySelector('img').src=t.src;lb.hidden=false}
+  else if(lb.contains(t)){lb.hidden=true}
+});
+</script></body></html>

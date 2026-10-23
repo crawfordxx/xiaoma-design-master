@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>TODO 演示标题</title>
+<link rel="stylesheet" href="engine/base.css">
+<link rel="stylesheet" href="engine/themes.css">
+<style>
+  .slide { position: absolute; inset: 0; padding: 120px 140px 110px; display: flex; flex-direction: column; }
+  .over { font: 500 20px/1 var(--font-ui); letter-spacing: .32em; text-transform: uppercase; color: var(--muted); }
+  .over b { color: var(--accent); }
+  h1 { font: 700 104px/1.12 var(--font-display); margin-top: 40px; }
+  h2 { font: 700 76px/1.16 var(--font-display); margin-top: 28px; max-width: 1500px; }
+  h1 em, h2 em { font-style: normal; color: var(--accent); }
+  .lede { margin-top: 36px; font: 400 34px/1.6 var(--font-body); opacity: .78; max-width: 1300px; }
+  .grow { flex: 1; }
+  .row { display: flex; gap: 80px; align-items: flex-end; }
+  .stat .n { font: 300 200px/1 var(--font-ui); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+  .stat .l { margin-top: 18px; font: 400 26px/1.4 var(--font-body); color: var(--muted); }
+  .stat.hl .n { color: var(--accent); }
+  .bars { margin-top: 56px; display: grid; gap: 14px; }
+  .bar { display: grid; grid-template-columns: 300px 1fr 120px; align-items: center; gap: 24px; font: 400 24px/1 var(--font-body); }
+  .bar .track { height: 18px; background: color-mix(in srgb, var(--fg) 8%, transparent); }
+  .bar .fill { height: 100%; width: 0; background: var(--fg); }
+  .bar.hl .fill { background: var(--accent); }
+  .light { background: var(--paper, #f2f2ef); color: var(--ink, #111); }
+  .light em { color: var(--accent); }
+  .foot { position: absolute; left: 140px; right: 140px; bottom: 54px; display: flex; justify-content: space-between; font: 500 16px/1 var(--font-ui); letter-spacing: .24em; color: var(--muted); z-index: 50; }
+  #deck-progress { position: absolute; left: 0; bottom: 0; height: 4px; width: 100%; background: var(--accent); transform-origin: 0 0; z-index: 50; }
+</style>
+</head>
+<body>
+<div id="stage" class="theme-editorial">
+
+  <!-- 封面：标题就是全篇结论 -->
+  <section class="slide" data-tr="fade">
+    <div class="over" data-fx="fade" data-in="0.2"><b>TODO</b> · 副信息</div>
+    <h1 data-fx="chars" data-in="0.4">TODO 一句话结论，<em>关键词</em></h1>
+    <div class="grow"></div>
+    <p class="lede" data-fx="rise" data-in="1.4">TODO 一两句说明这份演示讲什么。</p>
+  </section>
+
+  <!-- 大数字页 -->
+  <section class="slide" data-tr="push">
+    <div class="over" data-fx="fade">TODO 章节</div>
+    <h2 data-fx="rise" data-in="0.2">TODO 结论句，<em>重点</em></h2>
+    <div class="grow"></div>
+    <div class="row">
+      <div class="stat hl" data-fx="rise" data-in="0.6"><div class="n" data-fx="count" data-to="73" data-suf="%" data-in="0.6">0</div><div class="l">TODO 说明</div></div>
+      <div class="stat" data-fx="rise" data-in="0.9"><div class="n" data-fx="count" data-to="28" data-suf="%" data-in="0.9">0</div><div class="l">TODO 对照</div></div>
+    </div>
+  </section>
+
+  <!-- 条形对比页（亮底分章） -->
+  <section class="slide light" data-tr="flood">
+    <div class="over" data-fx="fade">TODO 章节</div>
+    <h2 data-fx="rise" data-in="0.2">TODO 结论句</h2>
+    <div class="bars">
+      <div class="bar hl" data-fx="fade" data-in="0.6"><span>TODO 项 A</span><div class="track"><div class="fill" data-fx="bar" data-to="62" data-in="0.7"></div></div><span>62%</span></div>
+      <div class="bar" data-fx="fade" data-in="0.75"><span>TODO 项 B</span><div class="track"><div class="fill" data-fx="bar" data-to="25" data-in="0.85"></div></div><span>25%</span></div>
+    </div>
+    <div class="grow"></div>
+    <p class="lede" data-fx="rise" data-step="1">TODO 按一下才出现的补充。</p>
+  </section>
+
+  <div class="foot"><span>TODO 署名</span><span id="deck-num"></span></div>
+  <div id="deck-progress"></div>
+  <div class="grain"></div>
+</div>
+<script src="engine/runtime.js"></script>
+<script src="engine/deck.js"></script>
+<script>MS.deck({ width: 1920, height: 1080, fps: 30, bpm: 100, background: '#0a0a0a' });</script>
+</body>
+</html>

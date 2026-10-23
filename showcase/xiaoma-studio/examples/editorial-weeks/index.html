@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>人生只有 4000 周 · editorial data</title>
+<link rel="stylesheet" href="../../engine/base.css">
+<link rel="stylesheet" href="../../engine/themes.css">
+<style>
+  /* 编辑部数据叙事：句子在左上一句一句出现，正中是 4160 个点（每个点 = 一周），亮底翻转分章 */
+  #paper { position: absolute; inset: 0; background: var(--paper); z-index: 1; }
+  #cv { z-index: 2; }
+  .say { position: absolute; left: 150px; top: 96px; z-index: 5; font: 600 58px/1.35 var(--font-display); letter-spacing: .01em; }
+  .say em { font-style: normal; color: var(--accent); }
+  .kicker { position: absolute; left: 150px; top: 62px; z-index: 5; font: 500 18px/1 var(--font-ui); letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
+  .legend { position: absolute; left: 232px; bottom: 96px; z-index: 5; display: flex; gap: 42px; font: 400 24px/1 var(--font-body); }
+  .legend span { display: flex; align-items: center; gap: 12px; }
+  .legend i { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+  .legend b { font: 500 24px/1 var(--font-ui); margin-left: 6px; }
+  .big { position: absolute; right: 150px; top: 80px; z-index: 5; text-align: right; }
+  .big .n { font: 200 150px/1 var(--font-ui); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+  .big .u { font: 400 22px/1 var(--font-body); color: var(--muted); margin-top: 8px; letter-spacing: .2em; }
+  .note { position: absolute; right: 150px; bottom: 60px; z-index: 5; font: 400 16px/1 var(--font-ui); color: var(--muted); letter-spacing: .1em; }
+</style>
+</head>
+<body>
+<div id="stage" class="theme-editorial">
+  <div id="paper"></div>
+  <canvas id="cv" class="layer"></canvas>
+  <div class="kicker" id="kicker">LIFE IN WEEKS · 1 DOT = 1 WEEK</div>
+  <div class="say" id="say"></div>
+  <div class="big" id="big"><div class="n" id="big-n">1</div><div class="u" id="big-u">周</div></div>
+  <div class="legend" id="legend">
+    <span><i style="background:#8f8f8a"></i>睡眠<b id="lg-0">0</b></span>
+    <span><i style="background:#5b5b57"></i>工作<b id="lg-1">0</b></span>
+    <span><i style="background:#2f2f2c"></i>吃饭 · 通勤 · 杂务<b id="lg-2">0</b></span>
+    <span><i style="background:#4a6cff"></i>真正属于你<b id="lg-3">0</b></span>
+  </div>
+  <div class="note" id="note">粗略估算：寿命 80 岁、现年 30 岁、工作到 65 岁</div>
+  <div class="grain"></div>
+</div>
+
+<script src="../../engine/runtime.js"></script>
+<script>
+const { prog, ease, css, $, lerp, clamp, canvas, spring, hash, counter, reveal } = MS;
+MS.setup({ width: 1920, height: 1080, fps: 30, duration: 22, bpm: 90, background: '#0a0a0a' });
+
+const COLS = 104, ROWS = 40, TOTAL = COLS * ROWS;          // 一行两年，40 行 = 80 年 = 4160 周
+const GAP = 13.2, OX = (1920 - (COLS - 1) * GAP) / 2, OY = 360;
+const USED = 30 * 52;                                       // 已经过去的 30 年
+const CAT = [870, 430, 700, 600];                           // 剩余 2600 周：睡眠 / 工作 / 杂务 / 自由（和 = 2600）
+const CAT_COL = ['#8f8f8a', '#5b5b57', '#2f2f2c', '#4a6cff'];
+
+// 句子表：[开始, 结束, html]
+const LINES = [
+  [0.4, 3.4, '这一个点，是<em>一周</em>。'],
+  [3.6, 7.4, '活到 80 岁，你一共有 <em>4160</em> 个。'],
+  [7.6, 11.0, '30 岁的你，已经用掉了 1560 个。'],
+  [11.4, 16.2, '剩下的 2600 周，大部分<em>也不归你</em>。'],
+  [16.4, 19.2, '真正属于你的，大约只有 <em>600</em> 周。'],
+  [19.6, 22, '这一周，你打算怎么用？'],
+];
+
+// 剩余的每一周属于哪一类：用 hash 打散，同一周永远同一类（确定性）
+const order = Array.from({ length: TOTAL - USED }, (_, i) => i).sort((a, b) => hash(a, 7) - hash(b, 7));
+const catOf = new Array(TOTAL - USED);
+{ let k = 0; CAT.forEach((n, c) => { for (let j = 0; j < n; j++) catOf[order[k++]] = c; }); }
+
+function say(t) {
+  const line = LINES.find(([a, b]) => t >= a && t < b);
+  const el = $('#say');
+  if (!line) { css(el, { opacity: 0 }); return; }
+  const [a, b, html] = line;
+  if (el.dataset.k !== html) { el.dataset.k = html; el.innerHTML = html; }
+  const inP = prog(t, a, a + 0.6, ease.outCubic), outP = prog(t, b - 0.35, b, ease.inCubic);
+  css(el, { opacity: inP * (1 - outP), transform: `translateY(${(1 - inP) * 30 - outP * 16}px)` });
+}
+
+MS.render((t) => {
+  const { ctx } = canvas('#cv');
+  // 亮底翻转：11.2s 起从左上角擦开（「这只说对了一半」那一刻）
+  const flip = prog(t, 11.0, 11.6, ease.inOutCubic);
+  css($('#paper'), { clipPath: `circle(${flip * 150}% at 8% 10%)` });
+  const light = t >= 11.3;
+  css($('#stage'), { color: light ? '#111' : '#ededeb' });
+
+  const appear = prog(t, 3.6, 6.4, ease.inOutCubic);          // 4160 个点按波浪铺开
+  const used = prog(t, 7.8, 10.4, ease.inOutCubic);           // 已用部分变暗
+  const split = prog(t, 11.8, 15.4, ease.inOutCubic);         // 剩余部分分类染色
+  const focus = prog(t, 16.6, 18.0, ease.inOutCubic);         // 只留下属于你的
+  const dotR = 4.2;
+  const gather = prog(t, 18.8, 20.4, ease.linear);
+
+  for (let i = 0; i < TOTAL; i++) {
+    const c = i % COLS, r = Math.floor(i / COLS);
+    let x = OX + c * GAP, y = OY + r * GAP;
+    let a, col, rad = dotR;
+    if (i === 0) {
+      // 第一个点：开场的钩子，从画面中心弹出再归位
+      const pop = spring(t, 0.15, { stiffness: 240, damping: 12 });
+      const home = prog(t, 3.0, 3.8, ease.inOutCubic);
+      x = lerp(960, x, home); y = lerp(560, y, home);
+      rad = lerp(36 * pop, dotR, home) * (1 + 0.15 * Math.sin(t * 6) * (1 - home));
+      a = 1; col = '#4a6cff';
+    } else {
+      const d = (c + r * 1.6) / (COLS + ROWS * 1.6);
+      a = clamp((appear - d * 0.85) / 0.15);
+      if (a <= 0) continue;
+      col = light ? '#c9c9c4' : '#ededeb';
+    }
+    if (i > 0 || t > 3.8) {
+      if (i < USED) {
+        const k = clamp((used - (i / USED) * 0.8) / 0.2);
+        col = k > 0.5 ? (light ? '#e2e2de' : '#2a2a28') : col;
+        if (i === 0 && k > 0.5) col = light ? '#e2e2de' : '#2a2a28';
+      } else {
+        const j = i - USED, cat = catOf[j];
+        const k = clamp((split - hash(j, 3) * 0.7) / 0.3);
+        if (k > 0) col = CAT_COL[cat];
+        if (cat !== 3 && focus > 0) a *= 1 - focus * 0.85;
+        if (cat === 3) rad = dotR * (1 + 0.35 * focus);
+        // 结尾：600 个属于你的点收拢成一个点（呼应开场）
+        if (cat === 3 && gather > 0) {
+          const g = clamp((gather - hash(j, 5) * 0.3) / 0.7);
+          x = lerp(x, 960, ease.inOutCubic(g)); y = lerp(y, 640, ease.inOutCubic(g));
+        }
+        if (cat !== 3) a *= 1 - gather;
+      }
+    }
+    ctx.globalAlpha = a;
+    ctx.fillStyle = col;
+    ctx.beginPath(); ctx.arc(x, y, rad, 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+  if (gather >= 1) {   // 收拢完成：一个会呼吸的点
+    const r = 34 * spring(t, 20.4, { stiffness: 220, damping: 10 }) * (1 + 0.06 * Math.sin(t * 5));
+    ctx.fillStyle = '#4a6cff'; ctx.beginPath(); ctx.arc(960, 640, r, 0, Math.PI * 2); ctx.fill();
+  }
+
+  // 右上大数字：1 → 4160 → 2600 → 600
+  let n = 1, unit = '周';
+  if (t >= 3.6) n = Math.round(lerp(1, TOTAL, prog(t, 3.6, 6.4, ease.outExpo)));
+  if (t >= 7.8) n = Math.round(lerp(TOTAL, TOTAL - USED, prog(t, 7.8, 10.4, ease.inOutCubic))), unit = '周 · 剩余';
+  if (t >= 16.6) n = Math.round(lerp(TOTAL - USED, CAT[3], prog(t, 16.6, 18.0, ease.inOutCubic))), unit = '周 · 属于你';
+  $('#big-n').textContent = n.toLocaleString('en-US');
+  $('#big-u').textContent = unit;
+  css($('#big-n'), { color: t >= 16.6 ? '#4a6cff' : '' });
+  css($('#big'), { opacity: prog(t, 3.6, 4.2) });
+
+  const lg = prog(t, 12.0, 12.8, ease.outCubic);
+  css($('#legend'), { opacity: lg * (1 - prog(t, 18.8, 19.6)), transform: `translateY(${(1 - lg) * 20}px)` });
+  CAT.forEach((v, k) => { $('#lg-' + k).textContent = counter(t, 12.2 + k * 0.5, 14.6 + k * 0.5, 0, v); });
+  css($('#note'), { opacity: prog(t, 12.6, 13.4) * 0.8 * (1 - prog(t, 18.8, 19.6)) });
+  css($('#big'), { opacity: prog(t, 3.6, 4.2) * (1 - prog(t, 19.0, 19.8)) });
+  css($('#kicker'), { opacity: prog(t, 0.6, 1.4) });
+  say(t);
+});
+</script>
+</body>
+</html>

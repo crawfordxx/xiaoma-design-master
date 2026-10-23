@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>乌镇 · 交互模型（开发版）</title>
+<link rel="icon" href="data:,">
+<style>html,body{margin:0;height:100%;background:#1b1a22}#scene{width:100%;height:100%}</style>
+<script type="importmap">
+{ "imports": {
+  "three": "/node_modules/three/build/three.module.js",
+  "three/addons/": "/node_modules/three/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="scene"></div>
+<script type="module">
+import { mount } from '/src/viewer.js';
+const params = new URLSearchParams(location.search);
+window.viewer = await mount(document.getElementById('scene'), { quality: params.get('quality') || 'auto' });
+window.__viewerReady = true;
+</script>
+</body>
+</html>

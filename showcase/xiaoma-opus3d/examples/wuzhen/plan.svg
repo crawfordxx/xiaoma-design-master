@@ -1,0 +1,255 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="720" viewBox="0 0 1040 720">
+<defs><pattern id="fill" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#cfc9bd"/><path d="M0 10 L10 0" stroke="#a9a397"/></pattern><pattern id="racks" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#dfe6ee"/><rect width="8" height="3" fill="#2f4f7f"/></pattern></defs>
+<rect width="1040" height="720" fill="#e9e4d8"/>
+<rect x="40" y="40" width="400" height="176" fill="url(#fill)" />
+<rect x="600" y="40" width="400" height="176" fill="url(#fill)" />
+<rect x="40" y="512" width="400" height="168" fill="url(#fill)" />
+<rect x="768" y="564" width="232" height="116" fill="url(#fill)" />
+<rect x="40" y="384" width="960" height="16" fill="#d4cbb8" />
+<rect x="40" y="276" width="960" height="20" fill="#d4cbb8" />
+<rect x="40" y="440" width="960" height="16" fill="#d4cbb8" />
+<rect x="492" y="40" width="12" height="640" fill="#d4cbb8" />
+<rect x="536" y="40" width="12" height="640" fill="#d4cbb8" />
+<rect x="452" y="296" width="52" height="40" fill="#d4cbb8" />
+<rect x="536" y="296" width="28" height="40" fill="#d4cbb8" />
+<rect x="0" y="336" width="1040" height="48" fill="#7fa3b5" />
+<rect x="504" y="0" width="32" height="720" fill="#7fa3b5" />
+<rect x="171.2" y="378.4" width="9.600000000000023" height="5.600000000000001" fill="#9a9184" />
+<rect x="355.2" y="378.4" width="9.600000000000023" height="5.600000000000001" fill="#9a9184" />
+<rect x="611.2" y="378.4" width="9.599999999999994" height="5.600000000000001" fill="#9a9184" />
+<rect x="867.2" y="378.4" width="9.600000000000023" height="5.600000000000001" fill="#9a9184" />
+<rect x="504" y="132" width="4.800000000000001" height="8" fill="#9a9184" />
+<rect x="531.2" y="596" width="4.800000000000001" height="8" fill="#9a9184" />
+<rect x="72" y="384.8" width="378" height="13.599999999999998" fill="none" stroke="#8b3a2b" stroke-width="2" stroke-dasharray="4 3"/>
+<rect x="478" y="384.8" width="20" height="13.599999999999998" fill="none" stroke="#8b3a2b" stroke-width="2" stroke-dasharray="4 3"/>
+<rect x="542" y="384.8" width="216" height="13.599999999999998" fill="none" stroke="#8b3a2b" stroke-width="2" stroke-dasharray="4 3"/>
+<rect x="778" y="384.8" width="190" height="13.599999999999998" fill="none" stroke="#8b3a2b" stroke-width="2" stroke-dasharray="4 3"/>
+<rect x="552" y="512" width="208" height="152" fill="#dfe6ee" stroke="#2f4f7f" stroke-width="1.5"/>
+<rect x="576" y="528" width="168" height="72" fill="url(#racks)" />
+<rect x="560" y="616" width="80" height="44" fill="#6b6b72" />
+<rect x="48" y="296" width="43.19999999999999" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="69.60000000000002" y="316" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NA01</text>
+<rect x="91.19999999999999" y="296" width="43.19999999999999" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="112.80000000000001" y="316" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NA02</text>
+<rect x="134.39999999999998" y="336" width="43.19999999999999" height="8.88" fill="#a58c6f" stroke="#5a4632" stroke-width="0.8"/>
+<rect x="134.39999999999998" y="296" width="43.19999999999999" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="156" y="316" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NA03</text>
+<rect x="177.59999999999997" y="336" width="57.60000000000002" height="8.28" fill="#a58c6f" stroke="#5a4632" stroke-width="0.8"/>
+<rect x="177.59999999999997" y="296" width="57.60000000000002" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="206.39999999999998" y="316" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NA04</text>
+<rect x="235.2" y="336" width="57.599999999999994" height="7.600000000000001" fill="#a58c6f" stroke="#5a4632" stroke-width="0.8"/>
+<rect x="235.2" y="296" width="57.599999999999994" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="264" y="316" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NA05</text>
+<rect x="297.6" y="296" width="57.599999999999994" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="326.4" y="316" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NA06</text>
+<rect x="355.2" y="336" width="57.599999999999994" height="7.640000000000001" fill="#a58c6f" stroke="#5a4632" stroke-width="0.8"/>
+<rect x="355.2" y="296" width="57.599999999999994" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="384" y="316" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NA07</text>
+<rect x="417.6" y="296" width="28.799999999999997" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="432" y="316" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NA08</text>
+<rect x="566" y="336" width="43.2" height="9.48" fill="#a58c6f" stroke="#5a4632" stroke-width="0.8"/>
+<rect x="566" y="296" width="43.2" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="587.6" y="316" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NA09</text>
+<rect x="614" y="336" width="43.19999999999999" height="9.68" fill="#a58c6f" stroke="#5a4632" stroke-width="0.8"/>
+<rect x="614" y="296" width="43.19999999999999" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="635.6" y="316" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NA10</text>
+<rect x="657.2" y="336" width="43.19999999999999" height="7.280000000000001" fill="#a58c6f" stroke="#5a4632" stroke-width="0.8"/>
+<rect x="657.2" y="296" width="43.19999999999999" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="678.8" y="316" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NA11</text>
+<rect x="700.4" y="296" width="43.19999999999999" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="722" y="316" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NA12</text>
+<rect x="780.8" y="336" width="28.80000000000001" height="9.8" fill="#a58c6f" stroke="#5a4632" stroke-width="0.8"/>
+<rect x="780.8" y="296" width="28.80000000000001" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="795.2" y="316" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NA13</text>
+<rect x="809.6" y="296" width="57.60000000000002" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="838.4000000000001" y="316" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NA14</text>
+<rect x="867.2" y="336" width="43.19999999999999" height="8.64" fill="#a58c6f" stroke="#5a4632" stroke-width="0.8"/>
+<rect x="867.2" y="296" width="43.19999999999999" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="888.8000000000001" y="316" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NA15</text>
+<rect x="915.2" y="336" width="28.80000000000001" height="9.92" fill="#a58c6f" stroke="#5a4632" stroke-width="0.8"/>
+<rect x="915.2" y="296" width="28.80000000000001" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="929.6" y="316" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NA16</text>
+<rect x="944" y="336" width="43.19999999999999" height="9.44" fill="#a58c6f" stroke="#5a4632" stroke-width="0.8"/>
+<rect x="944" y="296" width="43.19999999999999" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="965.6000000000001" y="316" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NA17</text>
+<rect x="48" y="236" width="57.60000000000002" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="76.80000000000001" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB01</text>
+<rect x="105.60000000000002" y="236" width="43.19999999999999" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="127.20000000000005" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB02</text>
+<rect x="148.8" y="236" width="43.19999999999999" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="170.40000000000003" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB03</text>
+<rect x="192" y="236" width="57.60000000000002" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="220.8" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB04</text>
+<rect x="249.60000000000002" y="236" width="43.19999999999999" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="271.20000000000005" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB05</text>
+<rect x="292.8" y="236" width="57.599999999999994" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="321.6" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB06</text>
+<rect x="350.4" y="236" width="57.599999999999994" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="379.20000000000005" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB07</text>
+<rect x="408" y="236" width="43.2" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="429.6" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB08</text>
+<rect x="456" y="236" width="28.799999999999997" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="470.4" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB09</text>
+<rect x="550" y="236" width="28.799999999999997" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="564.4" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB10</text>
+<rect x="578.8" y="236" width="43.2" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="600.4" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB11</text>
+<rect x="622" y="236" width="28.80000000000001" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="636.4" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB12</text>
+<rect x="650.8" y="236" width="43.19999999999999" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="672.4" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB13</text>
+<rect x="694" y="236" width="57.599999999999994" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="722.8" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB14</text>
+<rect x="751.6" y="236" width="28.799999999999983" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="766" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB15</text>
+<rect x="780.4" y="236" width="43.19999999999999" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="802" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB16</text>
+<rect x="828.4" y="236" width="43.19999999999999" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="850" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB17</text>
+<rect x="871.5999999999999" y="236" width="57.60000000000002" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="900.4" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB18</text>
+<rect x="929.2" y="236" width="57.60000000000002" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="958" y="256" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NB19</text>
+<rect x="452" y="48" width="40" height="28.80000000000001" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="472" y="62.39999999999998" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NW01</text>
+<rect x="452" y="76.80000000000001" width="40" height="28.80000000000001" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="472" y="91.19999999999999" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NW02</text>
+<rect x="452" y="105.60000000000002" width="40" height="28.80000000000001" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="472" y="120.00000000000003" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NW03</text>
+<rect x="452" y="139.20000000000002" width="40" height="43.20000000000002" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="472" y="160.8" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NW04</text>
+<rect x="452" y="187.20000000000002" width="40" height="28.80000000000001" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="472" y="201.60000000000002" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NW05</text>
+<rect x="548" y="48" width="40" height="43.19999999999999" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="568" y="69.60000000000002" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NE01</text>
+<rect x="548" y="96" width="40" height="28.80000000000001" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="568" y="110.4" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NE02</text>
+<rect x="548" y="129.6" width="40" height="28.80000000000001" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="568" y="144" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NE03</text>
+<rect x="548" y="158.4" width="40" height="57.599999999999994" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="568" y="187.20000000000002" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">NE04</text>
+<rect x="48" y="400" width="57.60000000000002" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="76.80000000000001" y="420" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SA01</text>
+<rect x="110.39999999999998" y="400" width="28.80000000000001" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="124.79999999999995" y="420" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SA02</text>
+<rect x="139.2" y="400" width="43.19999999999999" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="160.8" y="420" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SA03</text>
+<rect x="182.39999999999998" y="400" width="57.60000000000002" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="211.2" y="420" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SA04</text>
+<rect x="240" y="400" width="43.19999999999999" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="261.6" y="420" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SA05</text>
+<rect x="283.2" y="400" width="57.599999999999994" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="312" y="420" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SA06</text>
+<rect x="345.6" y="400" width="57.599999999999994" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="374.4" y="420" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SA07</text>
+<rect x="403.2" y="400" width="43.2" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="424.79999999999995" y="420" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SA08</text>
+<rect x="550" y="400" width="57.599999999999994" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="578.8" y="420" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SA09</text>
+<rect x="607.6" y="400" width="57.599999999999994" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="636.4" y="420" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SA10</text>
+<rect x="665.2" y="400" width="43.19999999999999" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="686.8" y="420" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SA11</text>
+<rect x="708.4" y="400" width="43.19999999999999" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="730" y="420" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SA12</text>
+<rect x="756.4" y="400" width="43.19999999999999" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="778" y="420" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SA13</text>
+<rect x="804.4" y="400" width="57.60000000000002" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="833.2" y="420" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SA14</text>
+<rect x="862" y="400" width="57.60000000000002" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="890.8" y="420" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SA15</text>
+<rect x="924.4" y="400" width="57.60000000000002" height="40" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="953.2" y="420" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SA16</text>
+<rect x="48" y="456" width="57.60000000000002" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="76.80000000000001" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB01</text>
+<rect x="110.39999999999998" y="456" width="57.60000000000002" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="139.2" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB02</text>
+<rect x="168" y="456" width="43.19999999999999" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="189.60000000000002" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB03</text>
+<rect x="216" y="456" width="43.19999999999999" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="237.60000000000002" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB04</text>
+<rect x="259.2" y="456" width="43.19999999999999" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="280.79999999999995" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB05</text>
+<rect x="302.4" y="456" width="43.19999999999999" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="324" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB06</text>
+<rect x="350.4" y="456" width="28.80000000000001" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="364.79999999999995" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB07</text>
+<rect x="379.2" y="456" width="43.2" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="400.79999999999995" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB08</text>
+<rect x="427.2" y="456" width="57.6" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="456" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB09</text>
+<rect x="550" y="456" width="43.2" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="571.6" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB10</text>
+<rect x="593.2" y="456" width="57.60000000000001" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="622" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB11</text>
+<rect x="655.6" y="456" width="43.20000000000002" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="677.2" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB12</text>
+<rect x="698.8" y="456" width="57.599999999999994" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="727.6" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB13</text>
+<rect x="761.2" y="456" width="57.599999999999994" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="790" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB14</text>
+<rect x="818.8" y="456" width="28.80000000000001" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="833.2" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB15</text>
+<rect x="847.6" y="456" width="28.80000000000001" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="862" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB16</text>
+<rect x="876.4000000000001" y="456" width="57.60000000000002" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="905.2" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB17</text>
+<rect x="938.8" y="456" width="43.19999999999999" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="960.4000000000001" y="476" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SB18</text>
+<rect x="452" y="512" width="40" height="43.19999999999999" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="472" y="533.6" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SW01</text>
+<rect x="452" y="555.2" width="40" height="28.80000000000001" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="472" y="569.6" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SW02</text>
+<rect x="452" y="584" width="40" height="43.19999999999999" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="472" y="605.6" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SW03</text>
+<rect x="452" y="632" width="40" height="28.80000000000001" fill="#55565e" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="472" y="646.4" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SW04</text>
+<rect x="768" y="512" width="28.80000000000001" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="782.4" y="532" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SC01</text>
+<rect x="796.8" y="512" width="43.19999999999999" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="818.4000000000001" y="532" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SC02</text>
+<rect x="840" y="512" width="57.60000000000002" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="868.8" y="532" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SC03</text>
+<rect x="902.4" y="512" width="28.80000000000001" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="916.8" y="532" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SC04</text>
+<rect x="931.2" y="512" width="57.60000000000002" height="40" fill="#7d7e86" stroke="#f4f1ea" stroke-width="0.8"/>
+<text x="960" y="532" font-size="7" fill="#f4f1ea" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">SC05</text>
+<rect x="456.8" y="304" width="14.400000000000006" height="112" fill="#c9b48a" stroke="#3b2f1e" stroke-width="1.2"/>
+<rect x="480" y="297.6" width="80" height="12.799999999999997" fill="#c9b48a" stroke="#3b2f1e" stroke-width="1.2"/>
+<rect x="763.2" y="332" width="9.600000000000023" height="56" fill="#b8ad98" stroke="#3b2f1e" stroke-width="1.2"/>
+<rect x="500" y="386" width="40" height="12" fill="#b8ad98" stroke="#3b2f1e" stroke-width="1.2"/>
+<circle cx="56" cy="388.8" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="66" cy="388.8" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="976" cy="388.8" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="988" cy="388.8" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="497.6" cy="60" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="497.6" cy="96" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="497.6" cy="132" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="497.6" cy="168" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="497.6" cy="204" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="542.4" cy="76" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="542.4" cy="112" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="542.4" cy="148" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="542.4" cy="184" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="497.6" cy="532" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="497.6" cy="568" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="497.6" cy="608" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="497.6" cy="644" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="542.4" cy="536" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="542.4" cy="592" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="542.4" cy="648" r="8.8" fill="#8fae6a" fill-opacity="0.75"/>
+<circle cx="554.4" cy="325.6" r="16" fill="#4f7a46" fill-opacity="0.75"/>
+<circle cx="748" cy="652" r="16" fill="#4f7a46" fill-opacity="0.75"/>
+<circle cx="664" cy="640" r="16" fill="#4f7a46" fill-opacity="0.75"/>
+<line x1="20" y1="368" x2="1020" y2="368" stroke="#1d3557" stroke-width="1" stroke-dasharray="6 4"/>
+<line x1="1020" y1="356" x2="20" y2="356" stroke="#1d3557" stroke-width="1" stroke-dasharray="6 4"/>
+<line x1="523.2" y1="20" x2="523.2" y2="700" stroke="#1d3557" stroke-width="1" stroke-dasharray="6 4"/>
+<text x="464" y="286" font-size="11" fill="#3b2f1e" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">通济桥</text>
+<text x="512" y="286" font-size="11" fill="#3b2f1e" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">仁济桥</text>
+<text x="656" y="519.2" font-size="11" fill="#2f4f7f" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">染坊晒布场</text>
+<text x="240" y="372" font-size="14" fill="#fff" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">市 河</text>
+<text x="520" y="480" font-size="11" fill="#fff" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">支河</text>
+<g transform="translate(990,40)"><path d="M0 18 L8 -14 L16 18 L8 10 Z" fill="#222"/><text x="8" y="-20" font-size="12" text-anchor="middle">N</text></g>
+<line x1="20" y1="712" x2="220" y2="712" stroke="#222" stroke-width="2"/><text x="120" y="709.6" font-size="10" fill="#222" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">50 m</text>
+<path d="M24 24 l24 0 m-24 0 l0 24 m0 -24 l30 30" stroke="#8b3a2b" stroke-width="1.5" fill="none"/><text x="72" y="68" font-size="10" fill="#8b3a2b" text-anchor="middle" dominant-baseline="middle" font-family="PingFang SC, sans-serif">白莲塔 ↖ 300m</text>
+</svg>

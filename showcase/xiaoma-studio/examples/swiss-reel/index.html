@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Motion Reel · swiss</title>
+<link rel="stylesheet" href="../../engine/base.css">
+<link rel="stylesheet" href="../../engine/themes.css">
+<style>
+  .word { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; z-index: 20;
+    font: 900 260px/0.9 var(--font-display); letter-spacing: -.04em; color: var(--ink); white-space: nowrap; }
+  .marquee { position: absolute; left: 0; white-space: nowrap; font: 800 64px/1 var(--font-display); letter-spacing: .02em; color: var(--ink); z-index: 20; }
+  .marquee.outline { color: transparent; -webkit-text-stroke: 2px var(--ink); }
+  .mark { position: absolute; inset: 0; display: grid; place-items: center; z-index: 30; text-align: center; }
+  .mark h1 { font: 500 220px/1 var(--font-latin-serif); letter-spacing: -.03em; color: var(--ink); }
+  .mark h1 i { font-style: normal; color: var(--c1); }
+  .mark p { margin-top: 26px; font: 500 20px/1 var(--font-mono); letter-spacing: .5em; color: var(--ink); opacity: .7; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<div id="stage" class="theme-swiss">
+  <canvas id="bg" class="layer"></canvas>
+  <canvas id="fx" class="layer" style="z-index:10"></canvas>
+  <canvas id="flood" class="layer" style="z-index:25"></canvas>
+  <div class="word" id="word"><span class="mask"><span id="word-in">EVERY</span></span></div>
+  <div class="marquee" id="m1" style="top:330px">DESIGN • TIMING • EASING • RHYTHM • DESIGN • TIMING • EASING • RHYTHM •</div>
+  <div class="marquee outline" id="m2" style="top:430px">TYPOGRAPHY • 3D • COLOR • SHAPE • TYPOGRAPHY • 3D • COLOR • SHAPE •</div>
+  <div class="marquee" id="m3" style="top:530px">LINE • LIGHT • SPRING • LINE • LIGHT • SPRING • LINE • LIGHT • SPRING •</div>
+  <div class="mark" id="mark"><div><h1><span id="mk">Motion</span><i id="mk-dot">.</i></h1><p id="mk-sub">every frame is code</p></div></div>
+  <div class="hud" id="hud"><i></i><i></i><i></i><i></i>
+    <span class="tl">XIAOMA STUDIO — REEL 2026</span><span class="tr" id="hud-bar">BAR 1/6 · 120 BPM</span>
+    <span class="bl" id="hud-shape">SHAPE · DOT</span><span class="br" id="hud-tc">00:00:00:00</span></div>
+  <div class="grain"></div>
+</div>
+
+<script src="../../engine/runtime.js"></script>
+<script>
+const { prog, ease, css, $, lerp, clamp, canvas, spring, beat, beatOf, pulse, hash } = MS;
+MS.setup({ width: 1920, height: 1080, fps: 60, duration: 12, bpm: 120, background: '#111' });
+const C = { ink: '#111111', red: '#e8452c', yellow: '#f2c230', blue: '#2b44e8', cream: '#f1ece2' };
+const W = 1920, H = 1080, CX = W / 2, CY = H / 2;
+
+// ---- 形状：都采样成 120 个点，任意两形之间直接逐点插值 = 形变 ----
+const N = 120;
+const circle = (r) => Array.from({ length: N }, (_, i) => { const a = (i / N) * Math.PI * 2 - Math.PI / 2; return [Math.cos(a) * r, Math.sin(a) * r]; });
+function polygon(sides, r, rot = -Math.PI / 2) {
+  const v = Array.from({ length: sides }, (_, k) => { const a = rot + (k / sides) * Math.PI * 2; return [Math.cos(a) * r, Math.sin(a) * r]; });
+  return Array.from({ length: N }, (_, i) => {
+    const f = (i / N) * sides, k = Math.floor(f), u = f - k;
+    const a = v[k % sides], b = v[(k + 1) % sides];
+    return [lerp(a[0], b[0], u), lerp(a[1], b[1], u)];
+  });
+}
+const star = (r) => Array.from({ length: N }, (_, i) => { const a = (i / N) * Math.PI * 2 - Math.PI / 2; const rr = r * (0.62 + 0.38 * Math.cos(a * 5 + Math.PI / 2 * 0)); return [Math.cos(a) * rr, Math.sin(a) * rr]; });
+const morph = (A, B, p) => A.map((a, i) => [lerp(a[0], B[i][0], p), lerp(a[1], B[i][1], p)]);
+function fillShape(ctx, pts, x, y, rot, color) {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.fillStyle = color; ctx.beginPath();
+  pts.forEach(([px, py], i) => (i ? ctx.lineTo(px, py) : ctx.moveTo(px, py))); ctx.closePath(); ctx.fill(); ctx.restore();
+}
+
+// ---- 背景色时间线：按拍整屏切换，每次切换用「泛洪」——一个圆从某点扩满全屏 ----
+const FLOODS = [ // [拍, 颜色, 起点x, 起点y]
+  [4, C.red, CX, CY], [8, C.cream, W * 0.15, H * 0.8], [12, C.blue, W * 0.85, H * 0.2], [16, C.yellow, CX, H * 1.1], [20, C.cream, CX, CY],
+];
+function background(ctx, octx, t) {
+  // 底色画在最底层；进行中的泛洪画在内容之上（#flood），这样旧场景被真正盖住，不会在拍点上突然消失
+  let base = C.ink;
+  for (const [b, col, x, y] of FLOODS) {
+    const t0 = beat(b) - 0.32; // 泛洪约 0.3s，在拍点刚好铺满；半径要超过对角线，否则角落会晚一帧
+    if (t < t0) break;
+    const p = prog(t, t0, beat(b), ease.inOutCubic);
+    if (p >= 1) { base = col; continue; }
+    octx.fillStyle = col; octx.beginPath(); octx.arc(x, y, p * Math.hypot(W, H) * 1.05, 0, Math.PI * 2); octx.fill();
+    break;
+  }
+  ctx.fillStyle = base; ctx.fillRect(0, 0, W, H);
+  return base;
+}
+
+// ---- 各段内容 ----
+function dots(ctx, t) { // 0-2s：一个红点 → 分裂成四点公转 → 在 b4 前收拢成泛洪起点
+  if (t > beat(4)) return;
+  const appear = spring(t, 0.15, { stiffness: 300, damping: 14 });
+  const split = prog(t, beat(2), beat(2.6), ease.outBack);
+  const gather = prog(t, beat(3.4), beat(4) - 0.3, ease.inCubic);
+  const r = 26 * appear * (1 - gather * 0.4);
+  ctx.fillStyle = C.red;
+  for (let k = 0; k < 4; k++) {
+    const a = k * Math.PI / 2 + (t - beat(2)) * 3;
+    const d = 90 * split * (1 - gather);
+    ctx.beginPath(); ctx.arc(CX + Math.cos(a) * d, CY + Math.sin(a) * d, r, 0, Math.PI * 2); ctx.fill();
+  }
+}
+
+function words(t) { // 2-4s：红底上大字，逐拍换词，从遮罩线下弹起、带横向运动模糊
+  const el = $('#word'), inner = $('#word-in');
+  const on = t >= beat(4) && t < beat(8) - 0.32;
+  css(el, { display: on ? '' : 'none' });
+  if (!on) return;
+  const LIST = ['EVERY', 'FRAME', 'COUNTS.'];  // 最后一个词占两拍，留出被泛洪吞掉的余量
+  const i = clamp(Math.floor(beatOf(t) - 4), 0, 2);
+  inner.textContent = LIST[i];
+  const s = spring(t, beat(4 + i), { stiffness: 420, damping: 24 });
+  const kick = 1 - prog(t, beat(4 + i), beat(4 + i) + 0.12, ease.outQuad);
+  css(inner, { transform: `translateY(${(1 - s) * 105}%) skewX(${-12 * kick}deg)`, filter: `blur(${kick * 6}px)` });
+}
+
+function halftone(ctx, t) { // 4-6s：奶白底点阵，从左下角涌起一圈波，红色波峰
+  if (t < beat(8) - 0.04 || t > beat(12)) return;
+  const lt = t - beat(8);
+  const ox = W * 0.15, oy = H * 0.8;
+  for (let y = 40; y < H; y += 40) for (let x = 40; x < W; x += 40) {
+    const d = Math.hypot(x - ox, y - oy) / 900;
+    const wave = Math.sin((d - lt * 0.9) * Math.PI * 2.2);
+    const r = 2 + Math.max(0, wave) * 9 * clamp(lt * 2);
+    ctx.fillStyle = wave > 0.75 ? C.red : C.ink;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+  }
+}
+
+function sphere(ctx, t) { // 6-8s：蓝底，粒子球自转 → 收束成线框立方体
+  if (t < beat(12) || t > beat(16)) return;
+  const lt = t - beat(12);
+  const toCube = prog(t, beat(14), beat(15), ease.inOutCubic);
+  const rotY = lt * 1.2, rotX = 0.5 + lt * 0.3;
+  const R = 300 * spring(t, beat(12), { stiffness: 200, damping: 18 });
+  const P = 420;
+  ctx.fillStyle = C.cream;
+  for (let i = 0; i < P; i++) {
+    const y = 1 - (i / (P - 1)) * 2, rr = Math.sqrt(1 - y * y), th = i * 2.39996;
+    let p = [Math.cos(th) * rr, y, Math.sin(th) * rr];
+    // 立方体：把点推到最近的棱上
+    const m = Math.max(...p.map(Math.abs));
+    let q = p.map((v) => v / m);
+    const order = q.map((v, k) => [Math.abs(v), k]).sort((a, b) => b[0] - a[0]);
+    q[order[1][1]] = Math.sign(q[order[1][1]]) || 1;
+    q = q.map((v) => v * 0.62);
+    p = p.map((v, k) => lerp(v, q[k], toCube));
+    const [x1, z1] = [p[0] * Math.cos(rotY) - p[2] * Math.sin(rotY), p[0] * Math.sin(rotY) + p[2] * Math.cos(rotY)];
+    const [y2, z2] = [p[1] * Math.cos(rotX) - z1 * Math.sin(rotX), p[1] * Math.sin(rotX) + z1 * Math.cos(rotX)];
+    const persp = 1 / (1.9 - z2 * 0.6);
+    ctx.globalAlpha = 0.35 + 0.65 * (z2 + 1) / 2;
+    ctx.beginPath(); ctx.arc(CX + x1 * R * persp * 1.6, CY + y2 * R * persp * 1.6, (2 + 2.5 * (z2 + 1)) * (1 + pulse(t, 0.15) * 0.6), 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+}
+
+function shapes(ctx, t) { // 贯穿 8-10s：黄色底上一个黑色形体逐拍变形 圆→方→三角→星，配合跑马灯
+  if (t < beat(16) || t > beat(20)) return;  // 新场景的元素在泛洪铺满之后才入场
+  const seq = [circle(190), polygon(4, 230, Math.PI / 4), polygon(3, 240), star(240)];
+  const b = beatOf(t) - 16;
+  const i = clamp(Math.floor(b), 0, 3), j = Math.min(3, i + 1);
+  const p = prog(b - i, 0.55, 0.95, ease.inOutBack);
+  const s = spring(t, beat(16), { stiffness: 260, damping: 16 });
+  const pts = morph(seq[i], seq[j], p).map(([x, y]) => [x * s, y * s]);
+  fillShape(ctx, pts, CX, CY, (t - beat(16)) * 0.8, C.ink);
+  $('#hud-shape').textContent = 'SHAPE · ' + ['CIRCLE', 'SQUARE', 'TRIANGLE', 'STAR'][p > 0.5 ? j : i];
+}
+
+function marquee(t) {
+  const on = t >= beat(16) && t < beat(20);
+  ['#m1', '#m2', '#m3'].forEach((id, k) => {
+    const dir = k % 2 ? 1 : -1;
+    const enter = prog(t, beat(16) + k * 0.08, beat(16) + 0.5 + k * 0.08, ease.outExpo);
+    css($(id), { display: on ? '' : 'none', transform: `translateX(${dir * (t - beat(16)) * 260 - (k % 2 ? 900 : 200) + (1 - enter) * 1200 * -dir}px)`, opacity: 0.9 });
+  });
+}
+
+function wordmark(t) { // 10-12s：衬线字标 + 红点，红点呼应开场
+  const on = t >= beat(20) - 0.1;
+  css($('#mark'), { display: on ? '' : 'none' });
+  if (!on) return;
+  MS.reveal($('#mk'), t, beat(20), { stagger: 0.04, dur: 0.45, style: 'rise', e: ease.outExpo });
+  const d = spring(t, beat(21), { stiffness: 380, damping: 12 });
+  css($('#mk-dot'), { display: 'inline-block', transform: `scale(${d})` });
+  css($('#mk-sub'), { opacity: prog(t, beat(21.5), beat(22.5)), letterSpacing: `${0.9 - 0.4 * prog(t, beat(21.5), beat(23), ease.outCubic)}em` });
+}
+
+function hud(t, base) {
+  const dark = base === C.ink || base === C.blue;
+  css($('#hud'), { color: dark ? C.cream : C.ink, opacity: prog(t, 0.2, 0.8) * 0.75 });
+  const f = Math.round(t * 60);
+  $('#hud-tc').textContent = `00:00:${String(Math.floor(t)).padStart(2, '0')}:${String(f % 60).padStart(2, '0')}`;
+  $('#hud-bar').textContent = `BAR ${Math.floor(beatOf(t) / 4) + 1}/6 · 120 BPM`;
+  if (t < beat(16) - 0.3) $('#hud-shape').textContent = t < beat(4) ? 'SHAPE · DOT' : t < beat(8) ? 'TYPE · SLAM' : t < beat(12) ? 'PATTERN · HALFTONE' : 'PARTICLES · 420';
+  if (t >= beat(20)) $('#hud-shape').textContent = 'END · LOOP';
+}
+
+MS.render((t) => {
+  const { ctx } = canvas('#bg');
+  const fx = canvas('#fx').ctx;
+  const base = background(ctx, canvas('#flood').ctx, t);
+  dots(fx, t); halftone(ctx, t); sphere(fx, t); shapes(fx, t);
+  words(t); marquee(t); wordmark(t); hud(t, base);
+  // 每拍轻微「镜头冲击」：整体放大 1.5%，弹回
+  css($('#fx'), { transform: `scale(${1 + 0.015 * pulse(t, 0.12)})` });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>小云 · paper storybook</title>
+<link rel="stylesheet" href="../../engine/base.css">
+<link rel="stylesheet" href="../../engine/themes.css">
+</head>
+<body>
+<!-- 纸艺绘本：没有文字，用画面讲。手绘线条每秒抖 12 次（boil），一切都在动。
+     故事：一朵吸饱雨水的小云飞不起来 → 想看太阳 → 蓄力、把自己拧干 → 变轻飘上去 → 看到太阳和彩虹。 -->
+<div id="stage" class="theme-paper">
+  <canvas id="cv" class="layer"></canvas>
+  <div class="vignette"></div><div class="grain"></div>
+</div>
+<script src="../../engine/runtime.js"></script>
+<script>
+const { prog, ease, lerp, clamp, mix, canvas, spring, hash, noise } = MS;
+MS.setup({ width: 1920, height: 1080, fps: 30, duration: 15, bpm: 96, background: '#ece4d4' });
+const W = 1920, H = 1080;
+const PAL = { navy: '#24304a', navy2: '#34425f', mustard: '#e9b949', coral: '#e8846b', teal: '#3e7c78', cream: '#f4ecdc', ink: '#2a2320', grey: '#8d97a8', pink: '#e9a0a0' };
+const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const rgb = (a) => `rgb(${a.map((v) => Math.round(v)).join(',')})`;
+const mixC = (a, b, p) => rgb(mix(hex(a), hex(b), clamp(p)));
+
+let BOIL = 0;
+const jit = (i, amt = 2.2) => (hash(i, BOIL) - 0.5) * amt;  // 每 1/12 秒重新播种：手绘抖动
+
+// 手绘填色形状：多边形 + 抖动描边 + 纸片投影
+function blob(ctx, pts, fill, { ink = PAL.ink, lw = 3, shadow = true, seed = 0 } = {}) {
+  const P = pts.map(([x, y], i) => [x + jit(i + seed * 97), y + jit(i + seed * 97 + 500)]);
+  const path = () => { ctx.beginPath(); P.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.closePath(); };
+  if (shadow) { ctx.save(); ctx.translate(6, 8); ctx.fillStyle = 'rgba(42,35,32,.18)'; path(); ctx.fill(); ctx.restore(); }
+  ctx.fillStyle = fill; path(); ctx.fill();
+  if (ink) { ctx.strokeStyle = ink; ctx.lineWidth = lw; ctx.lineJoin = 'round'; path(); ctx.stroke(); }
+}
+const circlePts = (x, y, r, n = 28, sx = 1, sy = 1) => Array.from({ length: n }, (_, i) => { const a = (i / n) * Math.PI * 2; return [x + Math.cos(a) * r * sx, y + Math.sin(a) * r * sy]; });
+
+// 云朵轮廓：几个圆的外包络（按角度取最远点）
+function cloudPts(cx, cy, s, sx, sy) {
+  const bumps = [[-70, 10, 55], [-25, -25, 68], [35, -15, 62], [78, 15, 48], [0, 25, 70]];
+  return Array.from({ length: 64 }, (_, i) => {
+    const a = (i / 64) * Math.PI * 2, dx = Math.cos(a), dy = Math.sin(a);
+    let best = 0;
+    for (const [bx, by, r] of bumps) {
+      const b = bx * dx + by * dy, c = bx * bx + by * by - r * r;
+      const d = b + Math.sqrt(Math.max(0, b * b - c));
+      best = Math.max(best, d);
+    }
+    if (dy > 0.35) best = Math.min(best, 52 / dy);   // 底部压平
+    return [cx + dx * best * s * sx, cy + dy * best * s * sy];
+  });
+}
+
+function face(ctx, x, y, s, mood, look) {
+  const ex = 26 * s, ey = -6 * s, lx = look[0] * 6 * s, ly = look[1] * 6 * s;
+  ctx.fillStyle = PAL.ink;
+  for (const k of [-1, 1]) {
+    const blink = mood.blink ? 0.15 : 1;
+    ctx.beginPath(); ctx.ellipse(x + k * ex + lx, y + ey + ly, 7 * s, 10 * s * blink, 0, 0, 7); ctx.fill();
+    if (mood.happy) { ctx.fillStyle = PAL.pink; ctx.globalAlpha = 0.8; ctx.beginPath(); ctx.ellipse(x + k * (ex + 14 * s), y + 14 * s, 11 * s, 6 * s, 0, 0, 7); ctx.fill(); ctx.globalAlpha = 1; ctx.fillStyle = PAL.ink; }
+  }
+  ctx.strokeStyle = PAL.ink; ctx.lineWidth = 3.5 * s; ctx.lineCap = 'round'; ctx.beginPath();
+  const m = mood.mouth;   // -1 难过 … 1 开心
+  ctx.moveTo(x - 12 * s + lx, y + 18 * s + ly); ctx.quadraticCurveTo(x + lx, y + 18 * s + m * 12 * s + ly, x + 12 * s + lx, y + 18 * s + ly); ctx.stroke();
+  if (mood.effort) { ctx.beginPath(); ctx.moveTo(x - 40 * s, y - 26 * s); ctx.lineTo(x - 18 * s, y - 20 * s); ctx.moveTo(x + 40 * s, y - 26 * s); ctx.lineTo(x + 18 * s, y - 20 * s); ctx.stroke(); }
+}
+
+function rain(ctx, cx, cy, t, amount, seedBase, warm) {
+  for (let i = 0; i < 70 * amount; i++) {
+    const sp = 900 + hash(i, seedBase) * 300;
+    const life = ((t * sp / H + hash(i, seedBase + 1)) % 1);
+    const x = cx + (hash(i, seedBase + 2) - 0.5) * 340;
+    const y = cy + 80 + life * (H - cy);
+    ctx.strokeStyle = warm ? [PAL.coral, PAL.mustard, PAL.teal][i % 3] : '#9fb3cf';
+    ctx.globalAlpha = 0.8 * (1 - life * 0.6); ctx.lineWidth = 4; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - 4, y + 26); ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+}
+
+MS.render((t) => {
+  BOIL = Math.floor(t * 12);
+  const { ctx } = canvas('#cv');
+  const warm = prog(t, 8.6, 11.2, ease.inOutCubic);               // 色彩弧线：冷夜 → 暖晨
+
+  // 背景：天空色、远山、地面三层纸片，带轻微视差
+  ctx.fillStyle = mixC(PAL.navy, '#f0c76a', warm); ctx.fillRect(0, 0, W, H);
+  const par = (k) => k * 30 * prog(t, 8.6, 12, ease.inOutCubic);
+  blob(ctx, [[-50, 760 + par(1)], [300, 640 + par(1)], [620, 720 + par(1)], [980, 610 + par(1)], [1400, 700 + par(1)], [1980, 630 + par(1)], [1980, 1100], [-50, 1100]], mixC(PAL.navy2, PAL.coral, warm), { lw: 2.5, seed: 1 });
+  blob(ctx, [[-50, 900 + par(2)], [500, 840 + par(2)], [1100, 900 + par(2)], [1980, 830 + par(2)], [1980, 1100], [-50, 1100]], mixC('#2d4a4a', PAL.teal, warm), { lw: 2.5, seed: 2 });
+
+  // 太阳：先只是右上角的一点暖光（5s 起），变轻之后升起，光芒旋转
+  const glow = prog(t, 4.0, 5.0) * (1 - warm) * (0.6 + 0.4 * Math.sin(t * 4));
+  if (glow > 0) { const g = ctx.createRadialGradient(1640, 140, 10, 1640, 140, 260); g.addColorStop(0, `rgba(233,185,73,${0.55 * glow})`); g.addColorStop(1, 'rgba(233,185,73,0)'); ctx.fillStyle = g; ctx.fillRect(1300, 0, 620, 500); }
+  const sunUp = spring(t, 9.6, { stiffness: 60, damping: 11 });
+  if (t > 9.4) {
+    const sx = 1560, sy = lerp(620, 250, sunUp);
+    for (let k = 0; k < 12; k++) {
+      const a = k / 12 * Math.PI * 2 + t * 0.4, r1 = 120, r2 = 170 + 12 * Math.sin(t * 3 + k);
+      blob(ctx, [[sx + Math.cos(a - 0.12) * r1, sy + Math.sin(a - 0.12) * r1], [sx + Math.cos(a) * r2, sy + Math.sin(a) * r2], [sx + Math.cos(a + 0.12) * r1, sy + Math.sin(a + 0.12) * r1]], PAL.coral, { lw: 2.5, seed: 30 + k, shadow: false });
+    }
+    blob(ctx, circlePts(sx, sy, 115, 32), PAL.mustard, { seed: 50 });
+  }
+
+  // 彩虹：12s 起三条纸带依次画出
+  for (let k = 0; k < 3; k++) {
+    const p = prog(t, 11.6 + k * 0.25, 13.2 + k * 0.25, ease.inOutCubic);
+    if (p <= 0) continue;
+    ctx.strokeStyle = [PAL.coral, PAL.mustard, PAL.teal][k]; ctx.lineWidth = 34; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.arc(960, 1000, 620 - k * 36, Math.PI, Math.PI + Math.PI * p); ctx.stroke();
+  }
+
+  // ---- 主角：小云 ----
+  const sad = { mouth: -0.9, happy: false };
+  let cx = 760, cy = 500, sxx = 1, syy = 1, look = [0, 0.4], mood = { ...sad }, body = PAL.grey, rainAmt = 0.55;
+  // A 0–3s：沉甸甸地下着雨，轻轻上下浮（待机动作）
+  cy += 10 * Math.sin(t * 2.2);
+  // B 3–6.5s：眼睛先看向光（先动眼，再动身体）→ 想飞上去，抖两下，掉下来，冒汗
+  look = [mix(0, 1, prog(t, 3.2, 3.6, ease.outCubic)), mix(0.4, -0.9, prog(t, 3.2, 3.6, ease.outCubic))];
+  const tryUp = prog(t, 4.6, 5.2, ease.outCubic) * (1 - prog(t, 5.3, 5.9, ease.inQuad));
+  cy -= tryUp * 60 - (t > 5.3 && t < 6.2 ? Math.sin((t - 5.3) * 20) * 12 * Math.exp(-(t - 5.3) * 5) : 0);
+  if (t > 4.6 && t < 5.4) mood.effort = true;
+  // C 6.5–9s：预备（往上拉长）→ 用力挤压（压扁）→ 暴雨倾泻、身体变白变小
+  const antic = prog(t, 6.4, 6.9, ease.inOutQuad) * (1 - prog(t, 6.9, 7.1));
+  const squeeze = prog(t, 6.9, 7.2, ease.outQuad) * (1 - prog(t, 8.2, 8.7, ease.outBack));
+  sxx *= 1 - antic * 0.12 + squeeze * 0.3; syy *= 1 + antic * 0.22 - squeeze * 0.35;
+  if (t > 6.9 && t < 8.4) { mood = { mouth: -0.3, effort: true, blink: true }; rainAmt = 1.6; }
+  const dry = prog(t, 7.2, 8.6, ease.inOutCubic);
+  body = mixC(PAL.grey, PAL.cream, dry);
+  const shrink = 1 - 0.18 * dry; sxx *= shrink; syy *= shrink;
+  if (t > 8.4) { rainAmt = 0; look = [0.8, -0.6]; mood = { mouth: 0.2 }; }
+  // D 8.8–11.5s：变轻，沿弧线飘向太阳（跟随：身体比眼睛晚半拍）
+  const fly = prog(t, 8.9, 11.4, ease.inOutCubic);
+  cx = lerp(cx, 1000, fly); cy = lerp(cy, 360, Math.sin(fly * Math.PI / 2)) - Math.sin(fly * Math.PI) * 60;
+  if (t > 10.2) { mood = { mouth: 1, happy: true }; look = [0.6, -0.2]; }
+  // E 12s 起：开心地晃，一滴彩色的小雨珠落下 —— 呼应开场的雨
+  if (t > 11.4) { cy += 8 * Math.sin(t * 3.2); sxx *= 1 + 0.03 * Math.sin(t * 6.4); syy *= 1 - 0.03 * Math.sin(t * 6.4); }
+
+  if (rainAmt > 0) rain(ctx, cx, cy, t, rainAmt, 3, false);
+  if (t > 12.6) {   // 最后一滴：彩色
+    const p = prog(t, 12.6, 14.2, ease.inQuad);
+    blob(ctx, circlePts(cx, cy + 100 + p * 420, 16, 14, 0.8, 1.15), PAL.coral, { lw: 2.5, seed: 70, shadow: false });
+  }
+  blob(ctx, cloudPts(cx, cy, 2.0, sxx, syy), body, { lw: 4.5, seed: 9 });
+  face(ctx, cx, cy, 1.85 * Math.min(sxx, 1.1), mood, look);
+  if (t > 5.0 && t < 6.6) {   // 汗滴
+    const p = prog(t, 5.0, 6.6);
+    blob(ctx, circlePts(cx + 160, cy - 110 + p * 60, 14, 12, 0.8, 1.2), '#9fd0e8', { lw: 2, seed: 80, shadow: false });
+  }
+  if (t > 10.4) for (let k = 0; k < 3; k++) {   // 爱心依次弹出
+    const s = spring(t, 10.4 + k * 0.35, { stiffness: 300, damping: 12 });
+    const hx = cx - 190 + k * 180, hy = cy - 250 - k * 18 - (t - 10.4 - k * 0.35) * 14;
+    const heart = Array.from({ length: 30 }, (_, i) => { const a = i / 30 * Math.PI * 2; return [hx + 22 * s * Math.pow(Math.sin(a), 3), hy - 1.4 * s * (13 * Math.cos(a) - 5 * Math.cos(2 * a) - 2 * Math.cos(3 * a) - Math.cos(4 * a))]; });
+    if (s > 0.02) blob(ctx, heart, PAL.coral, { lw: 2.5, seed: 90 + k, shadow: false });
+  }
+  // 入场 / 出场：纸幕从中间拉开、最后合上（转场永远存在）
+  const open = prog(t, 0, 1.0, ease.inOutCubic), close = prog(t, 14.2, 15, ease.inOutCubic);
+  const curtain = (1 - open) + close;
+  if (curtain > 0) {
+    ctx.fillStyle = PAL.coral;
+    ctx.fillRect(0, 0, W / 2 * curtain, H); ctx.fillRect(W - W / 2 * curtain, 0, W / 2 * curtain, H);
+  }
+});
+</script>
+</body>
+</html>

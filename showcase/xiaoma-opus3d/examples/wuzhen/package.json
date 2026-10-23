@@ -1,0 +1,18 @@
+{
+  "name": "xiaoma-opus3d-example-wuzhen",
+  "private": true,
+  "type": "module",
+  "description": "乌镇西栅程序化场景：xiaoma-opus3d skill 的完整实战例子",
+  "scripts": {
+    "check": "node scripts/check-layout.mjs",
+    "build": "node scripts/build.mjs",
+    "serve": "node scripts/serve.mjs 5173"
+  },
+  "dependencies": {
+    "playwright": "1.49.1",
+    "three": "0.170.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0"
+  }
+}

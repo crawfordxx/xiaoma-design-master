@@ -1,0 +1,719 @@
+{
+  "template": "../../templates/medical-kangning.pptx",
+  "size": [
+    13.333,
+    7.5
+  ],
+  "tokens": {
+    "primary": "0E9AA7",
+    "secondary": "62BDC6",
+    "dark": "17323A",
+    "body": "41575D",
+    "muted": "7F8E93",
+    "font": "微软雅黑",
+    "font_heading": "微软雅黑",
+    "font_latin": "微软雅黑",
+    "radius": 0.12,
+    "palette": [
+      "FFFFFF",
+      "F2FAF9",
+      "0E9AA7",
+      "17323A",
+      "7C8F94",
+      "0B5563",
+      "D5F3EF"
+    ],
+    "surface": "F4FAFB"
+  },
+  "theme_colors": {
+    "dk1": "000000",
+    "lt1": "FFFFFF",
+    "dk2": "1F497D",
+    "lt2": "EEECE1",
+    "accent1": "4F81BD",
+    "accent2": "C0504D",
+    "accent3": "9BBB59",
+    "accent4": "8064A2",
+    "accent5": "4BACC6",
+    "accent6": "F79646",
+    "hlink": "0000FF",
+    "folHlink": "800080"
+  },
+  "theme_fonts": {
+    "majorFont": {
+      "latin": "Calibri",
+      "ea": "宋体"
+    },
+    "minorFont": {
+      "latin": "Calibri",
+      "ea": "宋体"
+    }
+  },
+  "slides": [
+    {
+      "index": 0,
+      "role": "cover",
+      "layout": "Blank",
+      "slots": {
+        "title": "#6",
+        "subtitle": [
+          "#7"
+        ],
+        "meta": [
+          "#9"
+        ]
+      },
+      "texts": [
+        {
+          "key": "#5",
+          "name": "TextBox 4",
+          "text": "康宁医疗集团",
+          "box": [
+            1.22,
+            0.58,
+            2.5,
+            0.45
+          ],
+          "size": 13.0,
+          "wrap": false,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "TextBox 5",
+          "text": "在此输入标题",
+          "box": [
+            0.8,
+            2.4,
+            7.5,
+            1.6
+          ],
+          "size": 42.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#7",
+          "name": "TextBox 6",
+          "text": "请输入副标题",
+          "box": [
+            0.8,
+            4.1,
+            7.5,
+            0.6
+          ],
+          "size": 20.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#9",
+          "name": "TextBox 8",
+          "text": "2026年10月",
+          "box": [
+            0.8,
+            5.24,
+            2.6,
+            0.45
+          ],
+          "size": 14.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "bg": "FEFEFE",
+      "dark": false
+    },
+    {
+      "index": 1,
+      "role": "toc",
+      "layout": "Blank",
+      "slots": {
+        "item_subs": [
+          "#10",
+          "#16",
+          "#22",
+          "#28",
+          "#34",
+          "#40"
+        ],
+        "heading": [
+          "#3",
+          "#4"
+        ],
+        "items": [
+          "#9",
+          "#15",
+          "#21",
+          "#27",
+          "#33",
+          "#39"
+        ],
+        "numbers": [
+          "#8",
+          "#14",
+          "#20",
+          "#26",
+          "#32",
+          "#38"
+        ]
+      },
+      "texts": [
+        {
+          "key": "#3",
+          "name": "TextBox 2",
+          "text": "目录",
+          "box": [
+            0.8,
+            0.7,
+            4.0,
+            0.8
+          ],
+          "size": 34.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "TextBox 3",
+          "text": "CONTENTS",
+          "box": [
+            0.8,
+            1.4,
+            4.0,
+            0.4
+          ],
+          "size": 14.0,
+          "wrap": false,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#8",
+          "name": "TextBox 7",
+          "text": "01",
+          "box": [
+            1.1,
+            2.77,
+            0.7,
+            0.45
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#9",
+          "name": "TextBox 8",
+          "text": "目录标题",
+          "box": [
+            2.0,
+            2.73,
+            2.4,
+            0.55
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#10",
+          "name": "TextBox 9",
+          "text": "简要说明",
+          "box": [
+            2.0,
+            3.3,
+            2.4,
+            0.6
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#14",
+          "name": "TextBox 13",
+          "text": "02",
+          "box": [
+            5.1,
+            2.77,
+            0.7,
+            0.45
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#15",
+          "name": "TextBox 14",
+          "text": "目录标题",
+          "box": [
+            6.0,
+            2.73,
+            2.4,
+            0.55
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#16",
+          "name": "TextBox 15",
+          "text": "简要说明",
+          "box": [
+            6.0,
+            3.3,
+            2.4,
+            0.6
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#20",
+          "name": "TextBox 19",
+          "text": "03",
+          "box": [
+            9.1,
+            2.77,
+            0.7,
+            0.45
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#21",
+          "name": "TextBox 20",
+          "text": "目录标题",
+          "box": [
+            10.0,
+            2.73,
+            2.4,
+            0.55
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#22",
+          "name": "TextBox 21",
+          "text": "简要说明",
+          "box": [
+            10.0,
+            3.3,
+            2.4,
+            0.6
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#26",
+          "name": "TextBox 25",
+          "text": "04",
+          "box": [
+            1.1,
+            4.92,
+            0.7,
+            0.45
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#27",
+          "name": "TextBox 26",
+          "text": "目录标题",
+          "box": [
+            2.0,
+            4.88,
+            2.4,
+            0.55
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#28",
+          "name": "TextBox 27",
+          "text": "简要说明",
+          "box": [
+            2.0,
+            5.45,
+            2.4,
+            0.6
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#32",
+          "name": "TextBox 31",
+          "text": "05",
+          "box": [
+            5.1,
+            4.92,
+            0.7,
+            0.45
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#33",
+          "name": "TextBox 32",
+          "text": "目录标题",
+          "box": [
+            6.0,
+            4.88,
+            2.4,
+            0.55
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#34",
+          "name": "TextBox 33",
+          "text": "简要说明",
+          "box": [
+            6.0,
+            5.45,
+            2.4,
+            0.6
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#38",
+          "name": "TextBox 37",
+          "text": "06",
+          "box": [
+            9.1,
+            4.92,
+            0.7,
+            0.45
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#39",
+          "name": "TextBox 38",
+          "text": "目录标题",
+          "box": [
+            10.0,
+            4.88,
+            2.4,
+            0.55
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#40",
+          "name": "TextBox 39",
+          "text": "简要说明",
+          "box": [
+            10.0,
+            5.45,
+            2.4,
+            0.6
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        }
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 2,
+      "role": "section",
+      "layout": "Blank",
+      "slots": {
+        "title": "#5",
+        "subtitle": [
+          "#6"
+        ],
+        "number": "#4"
+      },
+      "texts": [
+        {
+          "key": "#4",
+          "name": "TextBox 3",
+          "text": "01",
+          "box": [
+            1.0,
+            2.68,
+            1.5,
+            0.9
+          ],
+          "size": 40.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "TextBox 4",
+          "text": "章节标题",
+          "box": [
+            2.9,
+            2.45,
+            8.0,
+            0.9
+          ],
+          "size": 38.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "TextBox 5",
+          "text": "章节副标题",
+          "box": [
+            2.9,
+            3.35,
+            8.0,
+            0.5
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "bg": "0C8894",
+      "dark": true
+    },
+    {
+      "index": 3,
+      "role": "content",
+      "layout": "Title Only",
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "单击此处添加标题",
+          "box": [
+            0.85,
+            0.5,
+            9.5,
+            0.8
+          ],
+          "size": 26.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#7",
+          "name": "TextBox 6",
+          "text": "康宁医疗集团",
+          "box": [
+            10.92,
+            0.6,
+            2.5,
+            0.45
+          ],
+          "size": 13.0,
+          "wrap": false,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#9",
+          "name": "TextBox 8",
+          "text": "小标题",
+          "box": [
+            1.15,
+            2.2,
+            5.0,
+            0.5
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#10",
+          "name": "TextBox 9",
+          "text": "此处输入正文内容。",
+          "box": [
+            1.15,
+            2.8,
+            5.0,
+            3.0
+          ],
+          "size": 14.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "region": [
+        0.85,
+        1.55,
+        12.48,
+        7.1
+      ],
+      "samples": [
+        "#8",
+        "#9",
+        "#10"
+      ],
+      "area": [
+        0.9,
+        1.55,
+        10.4,
+        5.5
+      ],
+      "bg": "FEFEFE",
+      "dark": false
+    },
+    {
+      "index": 4,
+      "role": "ending",
+      "layout": "Blank",
+      "slots": {
+        "title": "#6",
+        "subtitle": [
+          "#7"
+        ]
+      },
+      "texts": [
+        {
+          "key": "#5",
+          "name": "TextBox 4",
+          "text": "康宁医疗集团",
+          "box": [
+            1.22,
+            0.58,
+            2.5,
+            0.45
+          ],
+          "size": 13.0,
+          "wrap": false,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "TextBox 5",
+          "text": "感谢聆听",
+          "box": [
+            0.8,
+            2.7,
+            8.0,
+            1.1
+          ],
+          "size": 46.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#7",
+          "name": "TextBox 6",
+          "text": "守护每一份健康",
+          "box": [
+            0.8,
+            3.8,
+            8.0,
+            0.5
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "bg": "0C8894",
+      "dark": true
+    }
+  ],
+  "sheets": [
+    "template-render/sheet-1.jpg"
+  ]
+}

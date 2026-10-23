@@ -1,0 +1,14 @@
+{
+  "bpm": 120, "duration": 12, "root": 40,
+  "chords": [[0,3,7],[-4,0,3],[3,7,10],[-2,2,5]],
+  "layers": ["pad","bass","kick","hat","clap","pluck"], "drop": 2.0, "breakdown": [10.0, 12.0],
+  "sfx": [
+    {"t": 0.15, "type": "pop"}, {"t": 1.0, "type": "pop"}, {"t": 0.0, "type": "riser", "gain": 0.8},
+    {"t": 1.68, "type": "whoosh"}, {"t": 2.0, "type": "hit"}, {"t": 2.5, "type": "thud"}, {"t": 3.0, "type": "hit"},
+    {"t": 3.68, "type": "whoosh"}, {"t": 4.0, "type": "hit", "gain": 0.7},
+    {"t": 5.68, "type": "whoosh"}, {"t": 6.0, "type": "hit", "gain": 0.7}, {"t": 7.0, "type": "glitch"},
+    {"t": 7.68, "type": "whoosh"}, {"t": 8.0, "type": "hit", "gain": 0.7},
+    {"t": 8.3, "type": "tick"}, {"t": 8.8, "type": "tick"}, {"t": 9.3, "type": "tick"}, {"t": 9.8, "type": "tick"},
+    {"t": 9.68, "type": "whoosh"}, {"t": 10.0, "type": "thud"}, {"t": 10.5, "type": "chime"}
+  ]
+}

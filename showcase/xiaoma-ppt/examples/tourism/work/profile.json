@@ -1,0 +1,584 @@
+{
+  "template": "../../templates/tourism-yunqi.pptx",
+  "size": [
+    13.333,
+    7.5
+  ],
+  "tokens": {
+    "primary": "2F7D6D",
+    "secondary": "C2412D",
+    "dark": "2B2B2B",
+    "body": "515151",
+    "muted": "8A8A8A",
+    "font": "思源宋体",
+    "font_heading": "思源宋体",
+    "font_latin": "思源宋体",
+    "radius": 0.0,
+    "palette": [
+      "2F7D6D",
+      "C9BFAE",
+      "C2412D",
+      "2B2B2B",
+      "FFFFFF",
+      "D8CFBF",
+      "8C8577",
+      "F3E3C3",
+      "D7E6DF"
+    ],
+    "surface": "FFFFFF"
+  },
+  "theme_colors": {
+    "dk1": "000000",
+    "lt1": "FFFFFF",
+    "dk2": "1F497D",
+    "lt2": "EEECE1",
+    "accent1": "4F81BD",
+    "accent2": "C0504D",
+    "accent3": "9BBB59",
+    "accent4": "8064A2",
+    "accent5": "4BACC6",
+    "accent6": "F79646",
+    "hlink": "0000FF",
+    "folHlink": "800080"
+  },
+  "theme_fonts": {
+    "majorFont": {
+      "latin": "Calibri",
+      "ea": "宋体"
+    },
+    "minorFont": {
+      "latin": "Calibri",
+      "ea": "宋体"
+    }
+  },
+  "slides": [
+    {
+      "index": 0,
+      "role": "cover",
+      "layout": "Blank",
+      "slots": {
+        "title": "#5",
+        "subtitle": [
+          "#6",
+          "#7",
+          "#4"
+        ]
+      },
+      "texts": [
+        {
+          "key": "#4",
+          "name": "TextBox 3",
+          "text": "云栖",
+          "box": [
+            0.8,
+            0.81,
+            0.62,
+            0.37
+          ],
+          "size": 13.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "TextBox 4",
+          "text": "主标题",
+          "box": [
+            0.8,
+            1.9,
+            9.0,
+            1.4
+          ],
+          "size": 54.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "TextBox 5",
+          "text": "副标题",
+          "box": [
+            0.8,
+            3.3,
+            9.0,
+            0.6
+          ],
+          "size": 20.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#7",
+          "name": "TextBox 6",
+          "text": "云栖文旅集团　·　20XX",
+          "box": [
+            0.8,
+            4.0,
+            6.0,
+            0.4
+          ],
+          "size": 13.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "bg": "F0ECE1",
+      "dark": false
+    },
+    {
+      "index": 1,
+      "role": "toc",
+      "layout": "Blank",
+      "slots": {
+        "heading": [
+          "#3",
+          "#5"
+        ],
+        "items": [
+          "#9",
+          "#13",
+          "#17",
+          "#21",
+          "#25"
+        ],
+        "numbers": [
+          "#8",
+          "#12",
+          "#16",
+          "#20",
+          "#24"
+        ]
+      },
+      "texts": [
+        {
+          "key": "#3",
+          "name": "TextBox 2",
+          "text": "目　录",
+          "box": [
+            0.8,
+            0.7,
+            5.0,
+            1.0
+          ],
+          "size": 36.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "TextBox 4",
+          "text": "录",
+          "box": [
+            3.2,
+            0.91,
+            0.5,
+            0.3
+          ],
+          "size": 13.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#8",
+          "name": "TextBox 7",
+          "text": "01",
+          "box": [
+            1.15,
+            2.4,
+            1.6,
+            0.8
+          ],
+          "size": 30.0,
+          "wrap": false,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#9",
+          "name": "TextBox 8",
+          "text": "目录标题",
+          "box": [
+            1.15,
+            3.3,
+            2.0,
+            1.4
+          ],
+          "size": 19.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#12",
+          "name": "TextBox 11",
+          "text": "02",
+          "box": [
+            3.6,
+            2.4,
+            1.6,
+            0.8
+          ],
+          "size": 30.0,
+          "wrap": false,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#13",
+          "name": "TextBox 12",
+          "text": "目录标题",
+          "box": [
+            3.6,
+            3.3,
+            2.0,
+            1.4
+          ],
+          "size": 19.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#16",
+          "name": "TextBox 15",
+          "text": "03",
+          "box": [
+            6.05,
+            2.4,
+            1.6,
+            0.8
+          ],
+          "size": 30.0,
+          "wrap": false,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#17",
+          "name": "TextBox 16",
+          "text": "目录标题",
+          "box": [
+            6.05,
+            3.3,
+            2.0,
+            1.4
+          ],
+          "size": 19.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#20",
+          "name": "TextBox 19",
+          "text": "04",
+          "box": [
+            8.5,
+            2.4,
+            1.6,
+            0.8
+          ],
+          "size": 30.0,
+          "wrap": false,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#21",
+          "name": "TextBox 20",
+          "text": "目录标题",
+          "box": [
+            8.5,
+            3.3,
+            2.0,
+            1.4
+          ],
+          "size": 19.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#24",
+          "name": "TextBox 23",
+          "text": "05",
+          "box": [
+            10.95,
+            2.4,
+            1.6,
+            0.8
+          ],
+          "size": 30.0,
+          "wrap": false,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#25",
+          "name": "TextBox 24",
+          "text": "目录标题",
+          "box": [
+            10.95,
+            3.3,
+            2.0,
+            1.4
+          ],
+          "size": 19.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "bg": "F0ECE1",
+      "dark": false
+    },
+    {
+      "index": 2,
+      "role": "section",
+      "layout": "Blank",
+      "slots": {
+        "title": "#4",
+        "subtitle": [
+          "#5"
+        ],
+        "number": "#3"
+      },
+      "texts": [
+        {
+          "key": "#3",
+          "name": "TextBox 2",
+          "text": "01",
+          "box": [
+            0.9,
+            1.5,
+            3.0,
+            1.6
+          ],
+          "size": 80.0,
+          "wrap": false,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "TextBox 3",
+          "text": "章节标题",
+          "box": [
+            0.9,
+            3.1,
+            9.0,
+            1.0
+          ],
+          "size": 40.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "TextBox 4",
+          "text": "章节副标题",
+          "box": [
+            0.9,
+            4.1,
+            9.0,
+            0.5
+          ],
+          "size": 17.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "bg": "2B6A5F",
+      "dark": true
+    },
+    {
+      "index": 3,
+      "role": "content",
+      "layout": "Blank",
+      "slots": {
+        "title": "#5",
+        "kicker": [
+          "#4"
+        ]
+      },
+      "texts": [
+        {
+          "key": "#4",
+          "name": "TextBox 3",
+          "text": "栖",
+          "box": [
+            0.8,
+            0.7,
+            0.42,
+            0.25
+          ],
+          "size": 13.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "TextBox 4",
+          "text": "页面标题",
+          "box": [
+            1.4,
+            0.5,
+            10.0,
+            0.8
+          ],
+          "size": 28.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#8",
+          "name": "TextBox 7",
+          "text": "在此输入正文内容",
+          "box": [
+            0.8,
+            1.9,
+            6.0,
+            4.0
+          ],
+          "size": 15.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#9",
+          "name": "TextBox 8",
+          "text": "云栖文旅 · YUNQI",
+          "box": [
+            10.6,
+            7.0,
+            2.2,
+            0.3
+          ],
+          "size": 9.0,
+          "wrap": false,
+          "align": "r",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "region": [
+        1.2,
+        1.71,
+        12.13,
+        6.88
+      ],
+      "samples": [
+        "#6",
+        "#8"
+      ],
+      "area": [
+        1.25,
+        1.71,
+        10.8,
+        3.3
+      ],
+      "bg": "F0ECE1",
+      "dark": false
+    },
+    {
+      "index": 4,
+      "role": "ending",
+      "layout": "Blank",
+      "slots": {
+        "title": "#5",
+        "subtitle": [
+          "#6",
+          "#4"
+        ]
+      },
+      "texts": [
+        {
+          "key": "#4",
+          "name": "TextBox 3",
+          "text": "云栖",
+          "box": [
+            0.8,
+            0.81,
+            0.62,
+            0.37
+          ],
+          "size": 13.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "TextBox 4",
+          "text": "山水相逢　后会有期",
+          "box": [
+            0.8,
+            2.2,
+            9.0,
+            1.2
+          ],
+          "size": 46.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "TextBox 5",
+          "text": "欢迎来云栖",
+          "box": [
+            0.8,
+            3.4,
+            9.0,
+            0.5
+          ],
+          "size": 20.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "bg": "F0ECE1",
+      "dark": false
+    }
+  ],
+  "sheets": [
+    "template-render/sheet-1.jpg"
+  ]
+}

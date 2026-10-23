@@ -1,0 +1,6 @@
+{ "bpm": 110, "duration": 16.6, "root": 42, "chords": [[0,3,7],[-4,0,3],[-2,2,5],[-5,-1,2]],
+  "layers": ["pad","bass","kick","hat","clap","pluck"], "drop": 8.73, "breakdown": [14.7, 30],
+  "sfx": [ {"t":0.0,"type":"tick"},{"t":0.87,"type":"tick"},{"t":1.75,"type":"tick"},{"t":2.62,"type":"tick"},{"t":3.49,"type":"tick"},
+           {"t":4.36,"type":"swell","gain":0.6}, {"t":6.7,"type":"riser","gain":0.7}, {"t":8.73,"type":"hit"},
+           {"t":8.51,"type":"pop"}, {"t":11.67,"type":"riser","gain":0.6}, {"t":12.0,"type":"thud"}, {"t":12.0,"type":"glitch"},
+           {"t":13.09,"type":"hit"},{"t":13.64,"type":"hit"},{"t":14.18,"type":"hit"}, {"t":15.06,"type":"chime","gain":0.6} ] }

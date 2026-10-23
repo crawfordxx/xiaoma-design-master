@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>沉没成本 · SUNK COST — 别让已花的钱替你做决定</title>
+<link rel="stylesheet" href="engine/base.css">
+<link rel="stylesheet" href="engine/themes.css">
+<style>
+  .slide { position: absolute; inset: 0; padding: 120px 140px 110px; display: flex; flex-direction: column; }
+  .over { font: 500 20px/1 var(--font-ui); letter-spacing: .32em; text-transform: uppercase; color: var(--muted); }
+  .over b { color: var(--accent); }
+  h1 { font: 700 104px/1.14 var(--font-display); margin-top: 44px; }
+  h2 { font: 700 76px/1.2 var(--font-display); margin-top: 32px; max-width: 1560px; }
+  h1 em, h2 em { font-style: normal; color: var(--accent); }
+  .lede { margin-top: 36px; font: 400 34px/1.62 var(--font-body); opacity: .78; max-width: 1360px; }
+  .lede b { color: var(--fg); font-weight: 600; }
+  .grow { flex: 1; }
+  .row { display: flex; gap: 90px; align-items: flex-end; }
+  .stat .n { font: 300 190px/1 var(--font-ui); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+  .stat .l { margin-top: 18px; font: 400 26px/1.45 var(--font-body); color: var(--muted); max-width: 380px; }
+  .stat.hl .n { color: var(--accent); }
+  .bars { margin-top: 60px; display: grid; gap: 18px; max-width: 1560px; }
+  .bar { display: grid; grid-template-columns: 300px 1fr 150px; align-items: center; gap: 26px; font: 400 26px/1 var(--font-body); }
+  .bar .track { height: 22px; background: color-mix(in srgb, var(--fg) 8%, transparent); }
+  .bar .fill { height: 100%; width: 0; background: var(--fg); }
+  .bar.hl .fill { background: var(--accent); }
+  .bar .val { font: 300 44px/1 var(--font-ui); font-variant-numeric: tabular-nums; text-align: right; }
+  .bar.hl .val { color: var(--accent); }
+  .eq { margin-top: 52px; padding: 36px 44px; border-left: 5px solid var(--accent); font: 500 40px/1.6 var(--font-mono); background: color-mix(in srgb, var(--fg) 5%, transparent); }
+  .eq em { font-style: normal; color: var(--accent); }
+  .eq small { display: block; margin-top: 10px; font: 400 24px/1.5 var(--font-body); color: var(--muted); }
+  .list { margin-top: 54px; display: grid; gap: 44px; max-width: 1560px; }
+  .item { display: grid; grid-template-columns: 130px 1fr; gap: 34px; align-items: start; }
+  .item .no { font: 300 88px/1 var(--font-ui); color: var(--accent); font-variant-numeric: tabular-nums; }
+  .item h3 { font: 700 44px/1.2 var(--font-display); }
+  .item p { margin-top: 12px; font: 400 29px/1.55 var(--font-body); color: var(--muted); max-width: 1200px; }
+  .item p b { color: var(--fg); font-weight: 600; }
+  .check { margin-top: 56px; display: grid; gap: 42px; max-width: 1560px; }
+  .check .c { display: grid; grid-template-columns: 76px 1fr; gap: 30px; align-items: center; border-bottom: 2px solid color-mix(in srgb, var(--fg) 22%, transparent); padding-bottom: 42px; }
+  .check .box { width: 56px; height: 56px; border: 3px solid var(--accent); border-radius: 10px; font: 700 34px/50px var(--font-ui); color: var(--accent); text-align: center; background: color-mix(in srgb, var(--accent) 12%, transparent); }
+  .check p { font: 600 42px/1.35 var(--font-display); }
+  .light { --bg: #f2f2ef; --fg: #141414; --muted: #82807c; --grain: .03; --vignette: .08; background: var(--bg); }
+  .foot { position: absolute; left: 140px; right: 140px; bottom: 54px; display: flex; justify-content: space-between; font: 500 16px/1 var(--font-ui); letter-spacing: .24em; color: var(--muted); z-index: 50; }
+  #deck-progress { position: absolute; left: 0; bottom: 0; height: 4px; width: 100%; background: var(--accent); transform-origin: 0 0; z-index: 50; }
+  .coinmark { position: absolute; right: 150px; bottom: 130px; width: 96px; height: 96px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; font: 700 46px var(--font-body); color: #0c1030; }
+  .coinmark::after { content: ''; position: absolute; inset: 12px; border: 2px solid rgba(255,255,255,.35); border-radius: 50%; }
+</style>
+</head>
+<body>
+<div id="stage" class="theme-editorial">
+
+  <!-- 1 封面：标题即结论 -->
+  <section class="slide" data-tr="fade">
+    <div class="over" data-fx="fade" data-in="0.2"><b>行为经济学</b> · BEHAVIORAL ECONOMICS · NO.07</div>
+    <h1 data-fx="chars" data-in="0.4">沉没成本：<em>已花的钱</em>，<br>别替你做决定</h1>
+    <div class="grow"></div>
+    <p class="lede" data-fx="rise" data-in="1.5">为什么 80 块的烂片能扣住你 90 分钟——以及怎么停下来。<br>SUNK COST · 别让过去，偷走未来。</p>
+  </section>
+
+  <!-- 2 场景 -->
+  <section class="slide" data-tr="push">
+    <div class="over" data-fx="fade">场景 · THE SCENE</div>
+    <h2 data-fx="rise" data-in="0.2">花 80 块看烂片：走，还是看完？</h2>
+    <div class="grow"></div>
+    <div class="row">
+      <div class="stat hl" data-fx="rise" data-in="0.6"><div class="n" data-fx="count" data-to="80" data-pre="¥" data-in="0.6">0</div><div class="l">票价 · 落座那一刻已沉没</div></div>
+      <div class="stat" data-fx="rise" data-in="0.9"><div class="n" data-fx="count" data-to="20" data-suf=" min" data-in="0.9">0</div><div class="l">已看 · 确认是烂片</div></div>
+      <div class="stat" data-fx="rise" data-in="1.2"><div class="n" data-fx="count" data-to="90" data-suf=" min" data-in="1.2">0</div><div class="l">还剩 · 可以拿回来的人生</div></div>
+    </div>
+    <p class="lede" data-fx="rise" data-step="1">大多数人选择留下——<b>“票都买了”</b>。</p>
+  </section>
+
+  <!-- 3 定义 -->
+  <section class="slide" data-tr="push">
+    <div class="over" data-fx="fade">定义 · DEFINITION</div>
+    <h2 data-fx="rise" data-in="0.2">已经付出、且<em>收不回来</em>的成本，<br>叫沉没成本</h2>
+    <p class="lede" data-fx="rise" data-in="0.9">票钱在你坐下那一刻就已沉没。无论走或留，它都回不来——<b>回不来的东西，不该进入决定</b>。</p>
+    <div class="grow"></div>
+    <div class="eq" data-fx="left" data-in="1.5">理性决策 = f( 未来的成本 , 未来的收益 )<em>　//　沉没成本 ∉ 输入项</em><small>经济学只把“边际量”算进决策：从现在起还会发生的成本与收益。</small></div>
+  </section>
+
+  <!-- 4 实验证据（亮底分章） -->
+  <section class="slide light" data-tr="flood">
+    <div class="over" data-fx="fade">证据 · EVIDENCE</div>
+    <h2 data-fx="rise" data-in="0.2">同一张季票，付得越多的人，看得越多</h2>
+    <div class="bars">
+      <div class="bar hl" data-fx="fade" data-in="0.7"><span>付全价 $15</span><div class="track"><div class="fill" data-fx="bar" data-to="88" data-in="0.8"></div></div><span class="val">5.3 场</span></div>
+      <div class="bar" data-fx="fade" data-in="0.9"><span>随机折 $2</span><div class="track"><div class="fill" data-fx="bar" data-to="70" data-in="1.0"></div></div><span class="val">4.2 场</span></div>
+      <div class="bar" data-fx="fade" data-in="1.1"><span>随机折 $7</span><div class="track"><div class="fill" data-fx="bar" data-to="55" data-in="1.2"></div></div><span class="val">3.3 场</span></div>
+    </div>
+    <p class="lede" data-fx="rise" data-step="1">Arkes &amp; Blumer（1985）：俄亥俄大学剧院 60 张季票随机打折，统计前半季到场次数。<b>同一张票，付全价的人到得最多</b>——沉没成本在真实行为里生效。</p>
+  </section>
+
+  <!-- 5 组织版本：协和谬误 -->
+  <section class="slide light" data-tr="push">
+    <div class="over" data-fx="fade">组织版本 · THE CONCORDE FALLACY</div>
+    <h2 data-fx="rise" data-in="0.2">国家也会掉进去：协和飞机</h2>
+    <div class="grow"></div>
+    <div class="row">
+      <div class="stat" data-fx="rise" data-in="0.6"><div class="n" data-fx="count" data-to="70" data-pre="£" data-suf="M" data-in="0.6">0</div><div class="l">1962 年立项预算</div></div>
+      <div class="stat hl" data-fx="rise" data-in="0.9"><div class="n" data-fx="count" data-to="1.3" data-dec="1" data-pre="£" data-suf="B" data-in="0.9">0</div><div class="l">最终投入 · 约 16 倍超支</div></div>
+      <div class="stat" data-fx="rise" data-in="1.2"><div class="n" data-fx="count" data-to="27" data-suf=" 年" data-in="1.2">0</div><div class="l">服役期 1976–2003 · 亏损运营</div></div>
+    </div>
+    <p class="lede" data-fx="rise" data-step="1">明知收不回成本，英法两国仍持续追加投入——“协和谬误”由此得名。</p>
+  </section>
+
+  <!-- 6 机制 -->
+  <section class="slide" data-tr="zoom">
+    <div class="over" data-fx="fade">机制 · WHY WE FALL</div>
+    <h2 data-fx="rise" data-in="0.2">三个坑，把人按回座位</h2>
+    <div class="list">
+      <div class="item" data-fx="left" data-in="0.8">
+        <div class="no">01</div>
+        <div><h3>损失厌恶</h3><p>丢 100 元的痛，约等于捡 200 元的快乐——所以总想<b>“把它赚回来”</b>，哪怕希望渺茫。<span style="font-size:.8em">Kahneman &amp; Tversky, 1979</span></p></div>
+      </div>
+      <div class="item" data-fx="left" data-in="1.3">
+        <div class="no">02</div>
+        <div><h3>自我辩护</h3><p>“现在放弃，就等于承认当初选错了。”离开的不只是影院，还有<b>对自己的好感</b>。</p></div>
+      </div>
+      <div class="item" data-fx="left" data-in="1.8">
+        <div class="no">03</div>
+        <div><h3>承诺升级</h3><p>投入越多，越想“再加一点赢回来”——于是窟窿越填越大。<span style="font-size:.8em">Staw, 1976</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 决策法则 -->
+  <section class="slide" data-tr="push">
+    <div class="over" data-fx="fade">法则 · THE RULE</div>
+    <h2 data-fx="rise" data-in="0.2">决策只问两个问题，<br>且都<em>从今天算起</em></h2>
+    <div class="list" style="margin-top:64px">
+      <div class="item" data-fx="left" data-in="0.9">
+        <div class="no">Q1</div>
+        <div><h3>继续，还要再花多少？</h3><p>90 分钟、更多注意力、更多钱。</p></div>
+      </div>
+      <div class="item" data-fx="left" data-in="1.4">
+        <div class="no">Q2</div>
+        <div><h3>继续，能换回什么？</h3><p>若答案是“只求个心理交代”，那就是沉没成本在替你买单。</p></div>
+      </div>
+    </div>
+    <div class="grow"></div>
+    <p class="lede" data-fx="rise" data-step="1">凡是<b>“为了对得起过去”</b>而付出的，都是在为昨天陪葬。</p>
+  </section>
+
+  <!-- 8 自检三问（亮底） -->
+  <section class="slide light" data-tr="flood">
+    <div class="over" data-fx="fade">工具 · CHECKLIST</div>
+    <h2 data-fx="rise" data-in="0.2">下次舍不得时，问自己三句</h2>
+    <div class="check">
+      <div class="c" data-fx="rise" data-in="0.7"><div class="box" data-fx="scale" data-in="0.7">1</div><p>如果今天<b style="color:var(--accent)">从零开始</b>，我还会选它吗？</p></div>
+      <div class="c" data-fx="rise" data-in="1.1"><div class="box" data-fx="scale" data-in="1.1">2</div><p>接下来的 90 分钟，能换回什么？</p></div>
+      <div class="c" data-fx="rise" data-in="1.5"><div class="box" data-fx="scale" data-in="1.5">3</div><p>我是在<b style="color:var(--accent)">为未来付费</b>，还是在为过去陪葬？</p></div>
+    </div>
+  </section>
+
+  <!-- 9 收尾：呼应封面 -->
+  <section class="slide" data-tr="fade">
+    <div class="over" data-fx="fade" data-in="0.2">THE SUNK COST FALLACY</div>
+    <h1 data-fx="chars" data-in="0.4">别让过去，<br><em>偷走未来</em></h1>
+    <div class="grow"></div>
+    <p class="lede" data-fx="rise" data-in="1.5">沉没的已经沉没。下一个决定，从水面之上开始。</p>
+    <div class="coinmark" data-fx="scale" data-in="1.9">¥</div>
+  </section>
+
+  <div class="foot"><span>沉没成本 · SUNK COST</span><span id="deck-num"></span></div>
+  <div id="deck-progress"></div>
+  <div class="grain"></div>
+</div>
+<script src="engine/runtime.js"></script>
+<script src="engine/deck.js"></script>
+<script>MS.deck({ width: 1920, height: 1080, fps: 30, bpm: 90, background: '#0a0a0a' });</script>
+</body>
+</html>

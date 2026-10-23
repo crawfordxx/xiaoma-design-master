@@ -1,0 +1,1366 @@
+{
+  "template": "../../templates/energy-yuechuan.pptx",
+  "size": [
+    10.0,
+    5.625
+  ],
+  "tokens": {
+    "primary": "0B5CAD",
+    "secondary": "00A19A",
+    "dark": "1A1A1A",
+    "body": "434343",
+    "muted": "818181",
+    "font": "微软雅黑",
+    "font_heading": "微软雅黑",
+    "font_latin": "Arial",
+    "radius": 0.0,
+    "palette": [
+      "FFFFFF",
+      "0B5CAD",
+      "EDF2F7",
+      "00A19A",
+      "5B6B7F",
+      "1A1A1A",
+      "F3F6FA",
+      "081834",
+      "D5DCE6",
+      "0F2747",
+      "F5A623",
+      "F5C77E"
+    ],
+    "surface": "F5F8FC"
+  },
+  "theme_colors": {
+    "dk1": "1A1A1A",
+    "lt1": "FFFFFF",
+    "dk2": "0F2747",
+    "lt2": "EDF2F7",
+    "accent1": "0B5CAD",
+    "accent2": "00A19A",
+    "accent3": "F5A623",
+    "accent4": "5B6B7F",
+    "accent5": "8CC63F",
+    "accent6": "E4572E",
+    "hlink": "0B5CAD",
+    "folHlink": "5B6B7F"
+  },
+  "theme_fonts": {
+    "majorFont": {
+      "latin": "Arial",
+      "ea": "微软雅黑"
+    },
+    "minorFont": {
+      "latin": "Arial",
+      "ea": "微软雅黑"
+    }
+  },
+  "slides": [
+    {
+      "index": 0,
+      "role": "cover",
+      "layout": "封面",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "岳川能源202X年度工作汇报",
+          "box": [
+            0.6,
+            1.75,
+            6.4,
+            1.1
+          ],
+          "size": 32.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "CENTER_TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "Subtitle 2",
+          "text": "汇报人：XXX　|　202X年XX月",
+          "box": [
+            0.6,
+            3.15,
+            6.0,
+            0.8
+          ],
+          "size": 14.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "SUBTITLE",
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "TextBox 3",
+          "text": "ANNUAL WORK REPORT",
+          "box": [
+            0.62,
+            1.42,
+            5.0,
+            0.3
+          ],
+          "size": 11.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "slots": {
+        "title": "#2",
+        "subtitle": [],
+        "meta": [
+          "#3"
+        ],
+        "kicker": [
+          "#4"
+        ]
+      },
+      "bg": "0C2041",
+      "dark": true
+    },
+    {
+      "index": 1,
+      "role": "toc",
+      "layout": "目录",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "目录",
+          "box": [
+            4.1,
+            0.55,
+            4.0,
+            0.7
+          ],
+          "size": 30.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "TextBox 2",
+          "text": "CONTENTS",
+          "box": [
+            4.15,
+            1.08,
+            2.0,
+            0.3
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "TextBox 4",
+          "text": "01",
+          "box": [
+            4.15,
+            1.55,
+            0.46,
+            0.46
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#6",
+          "name": "TextBox 5",
+          "text": "目录标题内容",
+          "box": [
+            4.8,
+            1.55,
+            4.2,
+            0.46
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#10",
+          "name": "TextBox 9",
+          "text": "02",
+          "box": [
+            4.15,
+            2.27,
+            0.46,
+            0.46
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#11",
+          "name": "TextBox 10",
+          "text": "目录标题内容",
+          "box": [
+            4.8,
+            2.27,
+            4.2,
+            0.46
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#15",
+          "name": "TextBox 14",
+          "text": "03",
+          "box": [
+            4.15,
+            2.99,
+            0.46,
+            0.46
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#16",
+          "name": "TextBox 15",
+          "text": "目录标题内容",
+          "box": [
+            4.8,
+            2.99,
+            4.2,
+            0.46
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#20",
+          "name": "TextBox 19",
+          "text": "04",
+          "box": [
+            4.15,
+            3.71,
+            0.46,
+            0.46
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#21",
+          "name": "TextBox 20",
+          "text": "目录标题内容",
+          "box": [
+            4.8,
+            3.71,
+            4.2,
+            0.46
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#25",
+          "name": "TextBox 24",
+          "text": "05",
+          "box": [
+            4.15,
+            4.43,
+            0.46,
+            0.46
+          ],
+          "size": 12.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#26",
+          "name": "TextBox 25",
+          "text": "目录标题内容",
+          "box": [
+            4.8,
+            4.43,
+            4.2,
+            0.46
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": true
+        }
+      ],
+      "slots": {
+        "heading": [
+          "#2",
+          "#3"
+        ],
+        "items": [
+          "#6",
+          "#11",
+          "#16",
+          "#21",
+          "#26"
+        ],
+        "numbers": [
+          "#5",
+          "#10",
+          "#15",
+          "#20",
+          "#25"
+        ]
+      },
+      "toc_current": null,
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 2,
+      "role": "section",
+      "layout": "章节",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "章节标题",
+          "box": [
+            1.0,
+            2.35,
+            6.5,
+            0.85
+          ],
+          "size": 32.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "Text Placeholder 2",
+          "text": "01",
+          "box": [
+            1.0,
+            1.15,
+            3.0,
+            1.1
+          ],
+          "size": 60.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "BODY",
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "TextBox 3",
+          "text": "在此输入本章节的简要说明",
+          "box": [
+            1.0,
+            3.45,
+            6.0,
+            0.4
+          ],
+          "size": 13.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "slots": {
+        "title": "#2",
+        "subtitle": [
+          "#4"
+        ],
+        "number": "#3"
+      },
+      "bg": "0B5CAD",
+      "dark": true
+    },
+    {
+      "index": 3,
+      "role": "content",
+      "layout": "标题和内容",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "",
+          "box": [
+            0.5,
+            0.14,
+            7.6,
+            0.52
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "Content Placeholder 2",
+          "text": "一级要点：在此输入工作内容\n二级要点：补充说明文字\n二级要点：补充说明文字\n一级要点：在此输入工作内容\n二级要点：补充说明文字\n三级要点：数据来源或备注",
+          "box": [
+            0.5,
+            0.95,
+            9.0,
+            4.1
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "OBJECT",
+          "nested": false
+        }
+      ],
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "region": [
+        0.5,
+        0.91,
+        9.5,
+        5.1
+      ],
+      "samples": [
+        "#3"
+      ],
+      "area": [
+        0.55,
+        0.91,
+        8.9,
+        2.9
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 4,
+      "role": "content",
+      "layout": "仅标题",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "",
+          "box": [
+            1.45,
+            0.14,
+            6.6,
+            0.52
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "导航 1",
+          "text": "第一部分",
+          "box": [
+            0.08,
+            1.0,
+            1.0,
+            0.5
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "导航 2",
+          "text": "第二部分",
+          "box": [
+            0.08,
+            1.62,
+            1.0,
+            0.5
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#7",
+          "name": "导航 3",
+          "text": "第三部分",
+          "box": [
+            0.08,
+            2.24,
+            1.0,
+            0.5
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#8",
+          "name": "导航 4",
+          "text": "第四部分",
+          "box": [
+            0.08,
+            2.86,
+            1.0,
+            0.5
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "tracker": {
+        "items": [
+          "#5",
+          "#6",
+          "#7",
+          "#8"
+        ],
+        "current": 0,
+        "mark": "#4",
+        "axis": "col"
+      },
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "region": [
+        1.2,
+        0.91,
+        8.8,
+        5.1
+      ],
+      "samples": [],
+      "area": [
+        1.35,
+        0.91,
+        7.4,
+        2.9
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 5,
+      "role": "content",
+      "layout": "两栏内容",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "两栏内容示例",
+          "box": [
+            0.5,
+            0.14,
+            7.6,
+            0.52
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#3",
+          "name": "Content Placeholder 2",
+          "text": "在此输入对比内容\n在此输入对比内容",
+          "box": [
+            0.5,
+            0.95,
+            4.35,
+            4.1
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "OBJECT",
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "Content Placeholder 3",
+          "text": "在此输入对比内容\n在此输入对比内容",
+          "box": [
+            5.15,
+            0.95,
+            4.35,
+            4.1
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "OBJECT",
+          "nested": false
+        }
+      ],
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "region": [
+        0.5,
+        0.91,
+        9.5,
+        5.1
+      ],
+      "samples": [
+        "#3",
+        "#4"
+      ],
+      "area": [
+        0.55,
+        0.91,
+        8.9,
+        2.9
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 6,
+      "role": "content",
+      "layout": "图片与文字",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "图文排版示例",
+          "box": [
+            0.5,
+            0.14,
+            7.6,
+            0.52
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#4",
+          "name": "Text Placeholder 3",
+          "text": "在此输入图片说明文字，建议不超过 80 字。",
+          "box": [
+            5.1,
+            0.95,
+            4.4,
+            4.1
+          ],
+          "size": 14.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "BODY",
+          "nested": false
+        }
+      ],
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "region": [
+        0.5,
+        0.91,
+        9.5,
+        5.1
+      ],
+      "samples": [
+        "#3",
+        "#4"
+      ],
+      "area": [
+        0.55,
+        0.91,
+        8.9,
+        2.9
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 7,
+      "role": "content",
+      "layout": "仅标题",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "表格示例",
+          "box": [
+            0.5,
+            0.14,
+            7.6,
+            0.52
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        }
+      ],
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "region": [
+        0.5,
+        0.91,
+        9.5,
+        5.1
+      ],
+      "samples": [
+        "#3"
+      ],
+      "area": [
+        0.55,
+        0.91,
+        8.9,
+        2.9
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 8,
+      "role": "content",
+      "layout": "仅标题",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "图表示例",
+          "box": [
+            0.5,
+            0.14,
+            7.6,
+            0.52
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        }
+      ],
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "region": [
+        0.5,
+        0.91,
+        9.5,
+        5.1
+      ],
+      "samples": [
+        "#3"
+      ],
+      "area": [
+        0.55,
+        0.91,
+        8.9,
+        2.9
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 9,
+      "role": "content",
+      "layout": "仅标题",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "核心指标示例",
+          "box": [
+            0.5,
+            0.14,
+            7.6,
+            0.52
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "TextBox 5",
+          "text": "XX%",
+          "box": [
+            0.5,
+            2.3,
+            2.05,
+            0.7
+          ],
+          "size": 30.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#7",
+          "name": "TextBox 6",
+          "text": "指标名称",
+          "box": [
+            0.5,
+            3.0,
+            2.05,
+            0.4
+          ],
+          "size": 14.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#8",
+          "name": "TextBox 7",
+          "text": "在此输入指标说明",
+          "box": [
+            0.65,
+            3.45,
+            1.75,
+            0.8
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#13",
+          "name": "TextBox 12",
+          "text": "XX%",
+          "box": [
+            2.8,
+            2.3,
+            2.05,
+            0.7
+          ],
+          "size": 30.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#14",
+          "name": "TextBox 13",
+          "text": "指标名称",
+          "box": [
+            2.8,
+            3.0,
+            2.05,
+            0.4
+          ],
+          "size": 14.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#15",
+          "name": "TextBox 14",
+          "text": "在此输入指标说明",
+          "box": [
+            2.95,
+            3.45,
+            1.75,
+            0.8
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#20",
+          "name": "TextBox 19",
+          "text": "XX%",
+          "box": [
+            5.1,
+            2.3,
+            2.05,
+            0.7
+          ],
+          "size": 30.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#21",
+          "name": "TextBox 20",
+          "text": "指标名称",
+          "box": [
+            5.1,
+            3.0,
+            2.05,
+            0.4
+          ],
+          "size": 14.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#22",
+          "name": "TextBox 21",
+          "text": "在此输入指标说明",
+          "box": [
+            5.25,
+            3.45,
+            1.75,
+            0.8
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#27",
+          "name": "TextBox 26",
+          "text": "XX%",
+          "box": [
+            7.4,
+            2.3,
+            2.05,
+            0.7
+          ],
+          "size": 30.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#28",
+          "name": "TextBox 27",
+          "text": "指标名称",
+          "box": [
+            7.4,
+            3.0,
+            2.05,
+            0.4
+          ],
+          "size": 14.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        },
+        {
+          "key": "#29",
+          "name": "TextBox 28",
+          "text": "在此输入指标说明",
+          "box": [
+            7.55,
+            3.45,
+            1.75,
+            0.8
+          ],
+          "size": 10.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": true
+        }
+      ],
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "region": [
+        0.5,
+        0.91,
+        9.5,
+        5.1
+      ],
+      "samples": [
+        "#9",
+        "#16",
+        "#23",
+        "#30"
+      ],
+      "area": [
+        0.55,
+        0.91,
+        8.9,
+        2.9
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 10,
+      "role": "content",
+      "layout": "仅标题",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "",
+          "box": [
+            0.5,
+            0.14,
+            7.6,
+            0.52
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        }
+      ],
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "region": [
+        0.5,
+        0.91,
+        9.5,
+        5.1
+      ],
+      "samples": [],
+      "area": [
+        0.55,
+        0.91,
+        8.9,
+        2.9
+      ],
+      "bg": "0E2746",
+      "dark": true
+    },
+    {
+      "index": 11,
+      "role": "content",
+      "layout": "仅标题",
+      "texts": [
+        {
+          "key": "#2",
+          "name": "Title 1",
+          "text": "发展历程示例",
+          "box": [
+            0.5,
+            0.14,
+            7.6,
+            0.52
+          ],
+          "size": 22.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": "TITLE",
+          "nested": false
+        },
+        {
+          "key": "#5",
+          "name": "TextBox 4",
+          "text": "202X",
+          "box": [
+            0.75,
+            2.1,
+            1.4,
+            0.5
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "TextBox 5",
+          "text": "在此输入事件描述",
+          "box": [
+            0.65,
+            3.25,
+            1.6,
+            0.9
+          ],
+          "size": 11.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#8",
+          "name": "TextBox 7",
+          "text": "202X",
+          "box": [
+            2.55,
+            2.1,
+            1.4,
+            0.5
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#9",
+          "name": "TextBox 8",
+          "text": "在此输入事件描述",
+          "box": [
+            2.45,
+            3.25,
+            1.6,
+            0.9
+          ],
+          "size": 11.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#11",
+          "name": "TextBox 10",
+          "text": "202X",
+          "box": [
+            4.35,
+            2.1,
+            1.4,
+            0.5
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#12",
+          "name": "TextBox 11",
+          "text": "在此输入事件描述",
+          "box": [
+            4.25,
+            3.25,
+            1.6,
+            0.9
+          ],
+          "size": 11.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#14",
+          "name": "TextBox 13",
+          "text": "202X",
+          "box": [
+            6.15,
+            2.1,
+            1.4,
+            0.5
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#15",
+          "name": "TextBox 14",
+          "text": "在此输入事件描述",
+          "box": [
+            6.05,
+            3.25,
+            1.6,
+            0.9
+          ],
+          "size": 11.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#17",
+          "name": "TextBox 16",
+          "text": "202X",
+          "box": [
+            7.95,
+            2.1,
+            1.4,
+            0.5
+          ],
+          "size": 18.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#18",
+          "name": "TextBox 17",
+          "text": "在此输入事件描述",
+          "box": [
+            7.85,
+            3.25,
+            1.6,
+            0.9
+          ],
+          "size": 11.0,
+          "wrap": true,
+          "align": "ctr",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "slots": {
+        "title": "#2",
+        "kicker": []
+      },
+      "region": [
+        0.5,
+        0.91,
+        9.5,
+        5.1
+      ],
+      "samples": [
+        "#3",
+        "#4",
+        "#5",
+        "#6",
+        "#7",
+        "#8",
+        "#9",
+        "#10",
+        "#11",
+        "#12",
+        "#13",
+        "#14",
+        "#15",
+        "#16",
+        "#17",
+        "#18"
+      ],
+      "area": [
+        0.55,
+        0.91,
+        8.9,
+        2.9
+      ],
+      "bg": "FFFFFF",
+      "dark": false
+    },
+    {
+      "index": 12,
+      "role": "ending",
+      "layout": "空白",
+      "texts": [
+        {
+          "key": "#5",
+          "name": "TextBox 4",
+          "text": "谢谢聆听",
+          "box": [
+            0.6,
+            2.0,
+            7.0,
+            0.9
+          ],
+          "size": 40.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        },
+        {
+          "key": "#6",
+          "name": "TextBox 5",
+          "text": "敬请批评指正",
+          "box": [
+            0.6,
+            2.9,
+            7.0,
+            0.5
+          ],
+          "size": 16.0,
+          "wrap": true,
+          "align": "l",
+          "placeholder": null,
+          "nested": false
+        }
+      ],
+      "slots": {
+        "title": "#5",
+        "subtitle": [
+          "#6"
+        ]
+      },
+      "bg": "0A1D3D",
+      "dark": true
+    }
+  ],
+  "sheets": [
+    "template-render/sheet-1.jpg",
+    "template-render/sheet-2.jpg"
+  ]
+}

@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>复利的形状 · museum documentary</title>
+<link rel="stylesheet" href="../../engine/base.css">
+<link rel="stylesheet" href="../../engine/themes.css">
+<style>
+  /* 博物馆纪录片：左上年代 + 地点，右上文献引注 + 红印，底部双语字幕，正中是会动的证据。 */
+  .era { position: absolute; left: 96px; top: 70px; z-index: 60; }
+  .era .year { font: 300 92px/1 var(--font-display); color: var(--accent); letter-spacing: -.01em; font-variant-numeric: lining-nums; }
+  .era .place { margin-top: 12px; font: 400 22px/1 var(--font-body); color: var(--muted); letter-spacing: .3em; }
+  .era .rule { width: 0; height: 1px; background: var(--accent); opacity: .6; margin-top: 18px; }
+  .cite { position: absolute; right: 96px; top: 74px; text-align: right; z-index: 60; }
+  .cite em { display: block; font: italic 400 22px/1.3 var(--font-display-latin); color: var(--muted); }
+  .cite b { display: block; margin-top: 8px; font: 500 22px/1 var(--font-body); color: var(--fg); letter-spacing: .12em; }
+  .cite .seal { display: inline-block; margin-top: 10px; width: 30px; height: 30px; border: 1.5px solid var(--accent-2); color: var(--accent-2); font: 700 15px/27px var(--font-body); text-align: center; }
+  .title { text-align: center; }
+  .title .over { font: italic 400 28px/1 var(--font-display-latin); color: var(--muted); letter-spacing: .45em; text-transform: uppercase; }
+  .title h1 { margin-top: 30px; font: 600 150px/1.05 var(--font-body); color: var(--accent); letter-spacing: .14em;
+    background: linear-gradient(180deg, #f3dfae 0%, #c9a35b 55%, #8a6a32 100%); -webkit-background-clip: text; color: transparent; }
+  .title .sub { margin-top: 34px; font: 400 30px/1 var(--font-body); color: var(--fg); letter-spacing: .5em; opacity: .8; }
+  .title .curve { display: block; margin: 26px auto 0; }
+  .ledger { position: absolute; right: 110px; top: 300px; width: 400px; border-top: 1px solid #ffffff22; font: 400 24px/1 var(--font-body); }
+  .ledger div { display: flex; justify-content: space-between; padding: 18px 4px; border-bottom: 1px solid #ffffff14; color: var(--muted); }
+  .ledger div span:last-child { color: var(--fg); font: 400 30px/1 var(--font-display); }
+  .ledger div.hl span:last-child { color: var(--accent); }
+  .credit { position: absolute; right: 60px; bottom: 40px; font: 400 15px/1 var(--font-ui); color: var(--muted); letter-spacing: .2em; z-index: 60; opacity: .7; }
+</style>
+</head>
+<body>
+<div id="stage" class="theme-museum">
+  <canvas id="cv" class="layer"></canvas>
+  <canvas id="hook" class="layer"></canvas>
+
+  <div id="title" class="layer center"><div class="title">
+    <div class="over">De Forma Usurae</div>
+    <h1><span id="t-h1">复利的形状</span></h1>
+    <svg class="curve" width="520" height="70" viewBox="0 0 520 70"><path id="t-curve" d="M0 66 C 200 66, 330 60, 400 40 S 500 6, 520 2" fill="none" stroke="#c9a35b" stroke-width="1.5"/></svg>
+    <div class="sub" id="t-sub">人类如何学会让时间替自己工作</div>
+  </div></div>
+
+  <div class="era" id="era"><div class="year" id="year">1202</div><div class="place" id="place">比萨 · 斐波那契</div><div class="rule" id="rule"></div></div>
+  <div class="cite" id="cite"><em id="cite-latin">Liber Abaci</em><b id="cite-zh">《计算之书》</b><span class="seal">证</span></div>
+
+  <div class="ledger" id="ledger">
+    <div><span>本金</span><span>1</span></div>
+    <div><span>年利率</span><span>100%</span></div>
+    <div><span>结算次数</span><span id="n-val">1</span></div>
+    <div class="hl"><span>一年后</span><span id="v-val">2.000000</span></div>
+  </div>
+
+  <div id="formula" style="position:absolute;left:0;right:0;text-align:center;top:150px;font:400 54px/1 var(--font-display-latin);color:var(--fg);letter-spacing:.02em">e = lim<sub style="font-size:.4em;vertical-align:-1.2em;margin-left:-2.2em;margin-right:1.2em">n→∞</sub> (1 + 1/n)<sup style="font-size:.5em">n</sup> <span id="f-glow" style="color:var(--accent);margin-left:.6em">≈ 2.71828</span></div>
+  <div id="e-tag" style="position:absolute;left:1296px;top:268px;font:italic 400 34px/1 var(--font-display-latin);color:#b0412e">e</div>
+  <div class="caption-shade"></div>
+  <div class="caption" id="cap"><span id="cap-zh"></span><small id="cap-en"></small></div>
+  <div class="credit">XIAOMA · STUDIO</div>
+  <div class="vignette"></div><div class="grain"></div>
+</div>
+
+<script src="../../engine/runtime.js"></script>
+<script>
+const { prog, ease, css, $, lerp, clamp, counter, canvas, drawPath, hash, noise, shots, reveal, spring } = MS;
+MS.setup({ width: 1920, height: 1080, fps: 30, duration: 24, bpm: 80, background: '#0b0a08' });
+
+// 字幕表：[开始, 结束, 中文, 英文]。没有旁白，字幕就是叙事。
+const CAPS = [
+  [2.4, 5.6, '钱放着不动，它就只是钱。', 'Money at rest is only money.'],
+  [6.4, 10.6, '一年结一次息，一块钱变成两块。', 'Compound once a year: one becomes two.'],
+  [10.8, 15.4, '把一年切得越细，它长得越快——但有个尽头。', 'Slice the year finer, it grows faster — up to a limit.'],
+  [15.6, 19.6, '这个尽头，是 2.71828…', 'That limit is 2.71828…'],
+];
+const MARKS = [1, 2, 4, 12, 365, 8760, 1e6];
+
+function captions(t) {
+  const cap = CAPS.find(([a, b]) => t >= a - 0.1 && t < b + 0.6);
+  const zh = $('#cap-zh'), en = $('#cap-en');
+  if (!cap) { css($('#cap'), { opacity: 0 }); return; }
+  const [a, b, z, e] = cap;
+  if (zh.dataset.k !== z) { zh.dataset.k = z; zh.textContent = z; zh.__msSplit = null; en.textContent = e; }
+  css($('#cap'), { opacity: 1 - prog(t, b, b + 0.5) });
+  reveal(zh, t, a, { stagger: 0.045, dur: 0.35, style: 'fade' });
+  css(en, { opacity: 0.55 * prog(t, a + 0.4, a + 1.2) });
+}
+
+// 证据：给定结算次数 n，一年内 (1+1/n)^(n·x) 的阶梯曲线
+function growthPath(n, x0, y0, w, h) {
+  const pts = [];
+  const steps = Math.min(n, 400);
+  for (let i = 0; i <= 400; i++) {
+    const x = i / 400;
+    const k = Math.floor(x * steps) / steps;
+    const v = Math.pow(1 + 1 / n, n * (n > 400 ? x : k));
+    pts.push([x0 + x * w, y0 + h - (v - 1) / 1.9 * h]);
+  }
+  return pts;
+}
+
+function evidence(t, lt, dur) {
+  const { ctx, w, h } = canvas('#cv');
+  const X = 200, Y = 260, W = 1080, H = 580;
+  const inP = prog(t, 6.0, 7.2, ease.outCubic);
+  ctx.globalAlpha = inP;
+  // 坐标轴与刻度：发丝线
+  ctx.strokeStyle = '#ece4d322'; ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) { ctx.beginPath(); ctx.moveTo(X, Y + H - i * H / 4); ctx.lineTo(X + W, Y + H - i * H / 4); ctx.stroke(); }
+  ctx.fillStyle = '#7d7362'; ctx.font = '400 20px "Songti SC", serif';
+  ['1.0', '1.5', '2.0', '2.5', '2.9'].forEach((s, i) => ctx.fillText(s, X - 56, Y + H - i * H / 4 * (i < 4 ? 1 : 0.95) + 7));
+  ctx.fillText('一年', X + W - 40, Y + H + 40);
+  // e 的极限线
+  const eP = prog(t, 15.4, 16.6, ease.inOutCubic);
+  const ey = Y + H - (Math.E - 1) / 1.9 * H;
+  ctx.setLineDash([6, 8]); ctx.strokeStyle = '#b0412e'; ctx.globalAlpha = inP * eP;
+  drawPath(ctx, [[X, ey], [X + W, ey]], eP); ctx.setLineDash([]);
+  ctx.globalAlpha = inP;
+  // 已经出现过的曲线变暗留痕，当前曲线描金
+  const idx = Math.min(MARKS.length - 1, Math.floor(clamp((t - 7.0) / 1.25, 0, MARKS.length - 1)));
+  for (let i = 0; i <= idx; i++) {
+    const born = 7.0 + i * 1.25;
+    const p = prog(t, born, born + 1.1, ease.outCubic);
+    const old = i < idx;
+    ctx.strokeStyle = old ? '#c9a35b55' : '#e8c77f'; ctx.lineWidth = old ? 1.2 : 2.6;
+    ctx.shadowColor = old ? 'transparent' : '#c9a35b'; ctx.shadowBlur = old ? 0 : 14;
+    drawPath(ctx, growthPath(MARKS[i], X, Y, W, H), p);
+  }
+  ctx.shadowBlur = 0;
+  // 终点的金币：每次换 n 跳一下（弹簧）
+  const n = MARKS[idx];
+  const v = Math.pow(1 + 1 / n, n);
+  const bump = 1 + 0.25 * (1 - spring(t, 7.0 + idx * 1.25 + 1.0, { stiffness: 260, damping: 14 })) * (t > 7.9 ? 1 : 0);
+  const cy = Y + H - (v - 1) / 1.9 * H;
+  ctx.fillStyle = '#c9a35b'; ctx.beginPath(); ctx.arc(X + W, cy, 9 * bump * prog(t, 7.6, 8.0), 0, Math.PI * 2); ctx.fill();
+  // 到达 e 之后：终点每拍放一圈涟漪，避免画面停住
+  if (t > 16.2) {
+    for (let k = 0; k < 3; k++) {
+      const ph = ((MS.beatOf(t) + k / 3) % 1);
+      ctx.strokeStyle = `rgba(201,163,91,${0.6 * (1 - ph)})`; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(X + W, cy, 10 + 70 * ease.outCubic(ph), 0, Math.PI * 2); ctx.stroke();
+    }
+  }
+  ctx.globalAlpha = 1;
+  $('#n-val').textContent = n >= 1e6 ? '1,000,000' : n.toLocaleString('en-US');
+  $('#v-val').textContent = v.toFixed(6);
+  css($('#ledger'), { opacity: prog(t, 6.6, 7.6), transform: `translateY(${(1 - prog(t, 6.6, 7.6, ease.outCubic)) * 30}px)` });
+  css($('#ledger .hl span:last-child'), { color: t > 15.6 ? '#e8c77f' : '' });
+}
+
+function era(t) {
+  // 年代计数器：1202 → 1683（伯努利发现 e），数字滚动 + 地点切换
+  const p = prog(t, 14.6, 15.8, ease.inOutCubic);
+  $('#year').textContent = Math.round(lerp(1202, 1683, p));
+  const late = t > 15.2;
+  $('#place').textContent = late ? '巴塞尔 · 雅各布·伯努利' : '比萨 · 斐波那契';
+  $('#cite-latin').textContent = late ? 'Quaestiones nonnullae de usuris' : 'Liber Abaci';
+  $('#cite-zh').textContent = late ? '《关于利息的若干问题》' : '《计算之书》';
+  const show = prog(t, 5.8, 6.8, ease.outCubic) * (1 - prog(t, 20.2, 20.8));
+  css($('#era'), { opacity: show, transform: `translateY(${(1 - show) * 16}px)` });
+  css($('#cite'), { opacity: show * 0.9 });
+  css($('#rule'), { width: 240 * prog(t, 6.2, 7.4, ease.outExpo) + 'px' });
+  const swap = Math.abs(t - 15.2) < 0.25 ? 1 - Math.abs(t - 15.2) / 0.25 : 0;
+  css($('#place'), { opacity: 1 - swap }); css($('#cite'), { filter: `blur(${swap * 4}px)` });
+}
+
+function hook(t) {
+  const { ctx, w, h } = canvas('#hook');
+  if (t > 2.6) return;
+  const fall = prog(t, 0, 0.7, ease.inQuad);
+  const land = spring(t, 0.7, { stiffness: 320, damping: 16 });
+  const split = prog(t, 1.0, 1.7, ease.outBack);
+  const fade = 1 - prog(t, 1.9, 2.5);
+  const y = lerp(-80, h / 2, fall) - (t > 0.7 ? 26 * (1 - land) * Math.sin((t - 0.7) * 18) * Math.exp(-(t - 0.7) * 6) : 0);
+  const coin = (x, r, label) => {
+    const g = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, r * 0.1, x, y, r);
+    g.addColorStop(0, '#f6e2a8'); g.addColorStop(0.6, '#c9a35b'); g.addColorStop(1, '#7a5a26');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#f3dfae88'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(x, y, r * 0.78, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = '#5a4018'; ctx.font = `600 ${r * 0.8}px "Songti SC", serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(label, x, y + 2);
+  };
+  ctx.globalAlpha = fade;
+  // 落地的影子
+  ctx.fillStyle = `rgba(0,0,0,${0.5 * fall})`; ctx.beginPath(); ctx.ellipse(w / 2, h / 2 + 78, 70 * fall, 10 * fall, 0, 0, Math.PI * 2); ctx.fill();
+  if (split <= 0) coin(w / 2, 66, '1');
+  else { coin(w / 2 - 90 * split, 66, '1'); coin(w / 2 + 90 * split, 66 * Math.min(1, split), '1'); }
+  ctx.globalAlpha = 1;
+}
+
+function formula(t) {
+  // 16.4s 后：极限公式逐字升起 + e 的标签，填补曲线画完后的空档
+  const el = $('#formula');
+  const a = prog(t, 16.6, 17.4, ease.outCubic) * (1 - prog(t, 20.2, 20.6));
+  css(el, { opacity: a, transform: `translateY(${(1 - a) * 24}px)` });
+  css($('#e-tag'), { opacity: prog(t, 16.0, 16.6) * (1 - prog(t, 20.2, 20.6)) });
+  css($('#f-glow'), { opacity: 0.35 + 0.35 * Math.sin(t * 3) });
+}
+
+function titleCard(t, start, end, closing) {
+  const el = $('#title');
+  const a = prog(t, start, start + 1.4, ease.outCubic);
+  const b = closing ? 0 : prog(t, end - 0.9, end, ease.inCubic);
+  css(el, { opacity: a * (1 - b), transform: `scale(${1.04 - 0.04 * a + b * 0.06})`, filter: `blur(${b * 10}px)` });
+  const curve = $('#t-curve');
+  curve.style.strokeDasharray = 600; curve.style.strokeDashoffset = 600 * (1 - prog(t, start + 0.4, start + 2.2, ease.inOutCubic));
+  css($('#t-sub'), { opacity: prog(t, start + 1.0, start + 2.0), letterSpacing: `${0.8 - 0.3 * prog(t, start + 1.0, start + 2.6, ease.outCubic)}em` });
+}
+
+MS.render((t) => {
+  // 镜头：0 开场标题 → 1 证据（曲线逐级逼近 e）→ 2 片尾标题回到开场（首尾呼应）
+  shots(t, [
+    [0, (t) => { titleCard(t, 1.8, 5.6, false); css($('#ledger'), { opacity: 0 }); canvas('#cv'); }],
+    [5.6, (t, lt, dur) => { css($('#title'), { opacity: 0 }); evidence(t, lt, dur); }],
+    [20.4, (t) => { evidence(t); css($('#cv'), { opacity: 1 - prog(t, 20.4, 21.2) }); css($('#ledger'), { opacity: 1 - prog(t, 20.4, 21.0) }); titleCard(t, 20.8, 24, true); $('#t-sub').textContent = '它的尽头，叫 e'; }],
+  ]);
+  if (t < 20.4) { $('#t-sub').textContent = '人类如何学会让时间替自己工作'; css($('#cv'), { opacity: 1 }); }
+  hook(t);   // 跨镜头的层必须每帧都画/清，不能只在某个镜头里画
+  era(t);
+  formula(t);
+  captions(t);
+  // 镜头始终在动：整体缓慢推近，避免死帧
+  css($('#cv'), { transform: `scale(${1 + 0.03 * prog(t, 5.6, 20.4, ease.linear)})` });
+});
+</script>
+</body>
+</html>

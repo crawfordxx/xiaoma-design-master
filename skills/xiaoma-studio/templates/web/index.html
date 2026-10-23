@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- title 写「产品名 · 一句话能力：关键词、关键词 | 公司名」；description 用一段话讲清做什么，不堆形容词 -->
+  <title>示例产品 · 一句话说清它替你做什么 | 公司名</title>
+  <meta name="description" content="一段话：给谁用、替他做哪几件事、交付什么结果。" />
+  <link rel="stylesheet" href="./css/base.css" />
+</head>
+<!-- 主题：t-paper 纸墨编辑 / t-signal 深空信号 / t-light 亮色编辑。一页只用一套 -->
+<body class="t-paper">
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="nav" id="nav">
+    <!-- logo 只用品牌方给的正式文件：浅底彩色版、深底反白版各一张，不要自己改色、描边、做印章 -->
+    <a class="nav__brand" href="./" aria-label="首页">
+      <img class="on-light" src="./assets/logo-color.svg" alt="品牌名" />
+      <img class="on-dark" src="./assets/logo-white.svg" alt="" aria-hidden="true" />
+    </a>
+    <nav class="nav__links" aria-label="页内导航">
+      <a href="#demo">一键演示</a>
+      <a href="#ability">能力</a>
+      <a href="#steps">工作流</a>
+    </nav>
+    <!-- 每页都要有通往「真正用起来」的入口：下载 / 登录 / 试用，访客找不到就会说「没有登录按钮」 -->
+    <a class="nav__dl" href="./download">下载客户端</a>
+    <a class="btn btn--main" href="./demo">预约演示</a>
+  </header>
+
+  <main>
+    <!-- ① 首屏：一张海报图打底（视频可选，加载好再淡入），口号拆字升起，两个按钮 -->
+    <section class="hero" id="top" data-theme="dark">
+      <div class="ph hero__media" data-asset="hero">首屏主视觉：真实地点的电影感宽画幅，左下三分之一留暗部给文字</div>
+      <!-- <img class="hero__media" src="./assets/hero.webp" alt="" aria-hidden="true" />
+           <video class="hero__media" src="./assets/hero.mp4" poster="./assets/hero.webp" muted loop playsinline autoplay></video> -->
+      <div class="hero__shade" aria-hidden="true"></div>
+      <div class="hero__content">
+        <p class="kicker">产品类别 · 一句话定位 <em>English Subtitle</em></p>
+        <h1 class="display" data-split><span>四字口号，</span><span>四字口号</span></h1>
+        <p class="lede">它替你做哪几件具体的事（动词开头，三到五件）。这些都交给它，你只需要做决定。</p>
+        <div class="hero__ctas">
+          <a class="btn btn--main beam" href="#demo" data-cursor="开始">一键试一下</a>
+          <a class="btn btn--ghost" href="#ability">它还能做什么</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② 过去 / 现在：先讲用户的痛，划掉的旧做法 + 一句新做法 -->
+    <section class="sec" id="pain">
+      <header class="sec-head">
+        <span class="sec-no">01</span>
+        <div>
+          <h2 class="title">一句话说出过去有多麻烦。</h2>
+          <p class="lede">再一句话说现在怎么做。</p>
+        </div>
+      </header>
+      <ul class="contrast">
+        <li><s>旧做法一：具体到人和时间的麻烦</s><b>新做法一：结果，不是功能名</b></li>
+        <li><s>旧做法二</s><b>新做法二</b></li>
+        <li><s>旧做法三</s><b>新做法三</b></li>
+      </ul>
+    </section>
+
+    <!-- ③ 核心演示：让访客自己点一下，看它一步步做完，最后给出能拿走的产物 -->
+    <section class="sec" id="demo">
+      <header class="sec-head">
+        <span class="sec-no">02</span>
+        <div><h2 class="title">选好条件，看它现场做一遍。</h2></div>
+      </header>
+      <div class="demo">
+        <div class="panel">
+          <p class="kicker">条件一</p>
+          <div class="chips" data-group="a"><button class="chip is-on">选项甲</button><button class="chip">选项乙</button><button class="chip">选项丙</button></div>
+          <p class="kicker">条件二</p>
+          <div class="chips" data-group="b"><button class="chip">1 天</button><button class="chip is-on">3 天</button><button class="chip">5 天</button></div>
+          <button class="btn btn--main beam" data-action="run" data-cursor="生成">一键生成</button>
+          <!-- 演示边界写清楚：示例数据、不连外部服务；想用真的，告诉他去哪 -->
+          <p class="kicker" style="margin-top:1.2rem;letter-spacing:.08em">演示环境 · 使用示例数据。真实使用请<a href="./download" style="text-decoration:underline">下载客户端</a></p>
+        </div>
+        <div class="panel" id="agent">
+          <p class="kicker">数字员工 · <span data-status>待命</span> <span class="num" data-timer>0.0s</span></p>
+          <ol class="log" data-log></ol>
+          <div class="result" data-result hidden>
+            <h3 class="title" style="font-size:2rem">产物的名字</h3>
+            <p class="lede">产物摘要：点开能看、能导出、能改条件重来。</p>
+            <button class="btn btn--ghost" data-action="again" style="margin-top:1.2rem">换个条件再来</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ 能力格：一格一个能力，一张图 + 一句话 -->
+    <section class="sec" id="ability">
+      <header class="sec-head"><span class="sec-no">03</span><div><h2 class="title">它还能做这些。</h2></div></header>
+      <div class="bento">
+        <article class="cell cell--a"><div class="ph" style="position:absolute;inset:0">能力配图 A</div><h3>能力 A</h3><p>一句话结果</p></article>
+        <article class="cell cell--b"><h3>能力 B</h3><p>没有图的格子用纯底 + 大号数字或图标</p></article>
+        <article class="cell cell--c"><h3>能力 C</h3><p>一句话结果</p></article>
+        <article class="cell cell--d"><h3>能力 D</h3><p>一句话结果</p></article>
+      </div>
+    </section>
+
+    <!-- ⑤ 工作流：所有步骤一屏排开，每步一张图 + 动词标题 + 一句话 -->
+    <section class="sec" id="steps">
+      <header class="sec-head"><span class="sec-no">04</span><div><h2 class="title">从一句话，到上线。</h2><p class="lede">每一步都有数字员工在做，每一步都由你拍板。</p></div></header>
+      <div class="steps" style="--n:5">
+        <article class="step"><div class="step__img ph">配图</div><h3>导入资料</h3><p>一句话说这一步产出什么。</p></article>
+        <article class="step"><div class="step__img ph">配图</div><h3>策划方案</h3><p>一句话。</p></article>
+        <article class="step"><div class="step__img ph">配图</div><h3>生产内容</h3><p>一句话。</p></article>
+        <article class="step"><div class="step__img ph">配图</div><h3>多渠道发布</h3><p>一句话。</p></article>
+        <article class="step"><div class="step__img ph">配图</div><h3>数据复盘</h3><p>一句话。</p></article>
+      </div>
+    </section>
+
+    <!-- ⑥ 收尾：深色，口号回到首屏那句（首尾呼应），一个主按钮 -->
+    <section class="sec sec--dark cta" id="contact" data-theme="dark">
+      <p class="kicker">品牌名 · 一句话定位</p>
+      <h2 class="display" data-split><span>回到首屏那句口号</span></h2>
+      <div class="cta__row">
+        <a class="btn btn--main beam" href="./demo">预约演示</a>
+        <a class="btn btn--ghost" href="./download">下载客户端</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <!-- 公司全称、备案号、电话等对外信息从品牌方的正式资料复制，不凭记忆写 -->
+    <span>© 2026 公司全称</span>
+    <span>演示内容为示意</span>
+  </footer>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>

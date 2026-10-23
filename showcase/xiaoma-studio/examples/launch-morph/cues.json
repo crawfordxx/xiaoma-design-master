@@ -1,0 +1,9 @@
+{ "bpm": 120, "duration": 12.5, "root": 45, "chords": [[0,4,7],[5,9,12],[-3,0,4],[7,11,14]],
+  "layers": ["pad","bass","kick","hat","pluck"], "drop": 3.25, "breakdown": [11.25, 20],
+  "sfx": [ {"t":0.7,"type":"whoosh","gain":0.5}, {"t":1.0,"type":"pop"}, {"t":1.75,"type":"tick"}, {"t":2.75,"type":"riser","gain":0.4},
+           {"t":2.0,"type":"pop"}, {"t":2.75,"type":"chime","gain":0.6}, {"t":3.25,"type":"whoosh","gain":0.5},
+           {"t":3.6,"type":"tick"},{"t":3.8,"type":"tick"},{"t":4.0,"type":"tick"},{"t":4.2,"type":"tick"}, {"t":5.0,"type":"pop"},
+           {"t":5.5,"type":"whoosh","gain":0.5}, {"t":5.8,"type":"pop"},{"t":6.05,"type":"pop"},{"t":6.3,"type":"pop"},
+           {"t":6.75,"type":"whoosh","gain":0.5}, {"t":7.0,"type":"tick"},{"t":7.13,"type":"tick"},{"t":7.25,"type":"tick"},
+           {"t":8.75,"type":"whoosh","gain":0.5}, {"t":10.1,"type":"pop"}, {"t":10.25,"type":"chime","gain":0.7},
+           {"t":11.25,"type":"whoosh","gain":0.5}, {"t":11.5,"type":"pop"} ] }

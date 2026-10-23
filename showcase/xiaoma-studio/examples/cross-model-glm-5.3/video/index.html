@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>沉没成本 · The Sunk Cost Fallacy</title>
+<link rel="stylesheet" href="engine/base.css">
+<link rel="stylesheet" href="engine/themes.css">
+<style>
+  /* 编辑部数据叙事：黑白灰 + 一个蓝。亮底翻转（22–36s）只是换 token，不改原型。 */
+  .theme-editorial.light { --bg: #f2f2ef; --fg: #141414; --muted: #8a8a86; --grain: .03; }
+  .theme-editorial.light .caption-shade { opacity: 0; }
+
+  .fxcanvas { z-index: 75; }   /* 泛洪盖住字幕：转场时字幕色随底色换，不产生瞬跳 */
+
+  #title { z-index: 10; }
+  .title { text-align: center; }
+  .title .over { font: 500 24px/1 var(--font-grotesk); color: var(--muted); letter-spacing: .5em; text-transform: uppercase; }
+  .title h1 { margin-top: 30px; font: 700 168px/1.05 var(--font-display); color: var(--fg); letter-spacing: .08em; }
+  .title h1 em { font-style: normal; color: var(--accent); }
+  .title .sub { margin-top: 34px; font: 400 34px/1 var(--font-body); color: var(--fg); opacity: .75; letter-spacing: .34em; }
+  .title .rule { width: 120px; height: 3px; background: var(--accent); margin: 36px auto 0; }
+
+  .bigz { position: absolute; inset: 0; display: grid; place-items: center; z-index: 12; }
+  #q1 .chars { font: 700 220px/1 var(--font-display); color: var(--fg); letter-spacing: .02em; }
+  #q1 .chars em { font-style: normal; color: var(--muted); font-weight: 300; }
+  #q2 { text-align: center; }
+  #q2 .l1 { font: 700 108px/1.2 var(--font-display); color: var(--fg); letter-spacing: .04em; }
+  #q2 .l1 em { font-style: normal; color: var(--accent); }
+  #q2 .l2 { margin-top: 26px; font: 500 52px/1 var(--font-body); color: var(--fg); opacity: .85; letter-spacing: .18em; }
+  #no { text-align: center; }
+  #no .nu { font: 800 360px/1 var(--font-display); color: var(--fg); letter-spacing: 0; }
+  #no .nu em { font-style: normal; color: var(--accent); }
+  #no .l2 { font: 600 58px/1.4 var(--font-body); color: var(--fg); letter-spacing: .1em; margin-top: 10px; }
+  #no .l2 em { font-style: normal; color: var(--accent); }
+  #no .bar { width: 0; height: 5px; background: var(--accent); margin: 26px auto 0; }
+
+  .meta { position: absolute; left: 96px; top: 70px; z-index: 60; font: 500 17px/1 var(--font-mono); color: var(--muted); letter-spacing: .28em; text-transform: uppercase; }
+  .meta b { color: var(--accent); font-weight: 500; }
+  .cite { position: absolute; right: 96px; top: 70px; text-align: right; z-index: 60; }
+  .cite em { display: block; font: italic 500 25px/1.3 'Cormorant Garamond', Georgia, serif; color: var(--muted); }
+  .cite b { display: block; margin-top: 8px; font: 500 20px/1 var(--font-body); color: var(--fg); letter-spacing: .1em; }
+  #stage { --caption-size: 46px; }
+</style>
+</head>
+<body>
+<div id="stage" class="theme-editorial">
+  <canvas id="cv" class="layer"></canvas>
+
+  <div id="title" class="layer center" style="display:none"><div class="title">
+    <div class="over" id="t-over">The Sunk Cost Fallacy</div>
+    <h1><span id="t-h1a">沉没</span><em id="t-h1b">成本</em></h1>
+    <div class="rule" id="t-rule"></div>
+    <div class="sub" id="t-sub">为什么我们舍不得放手</div>
+  </div></div>
+
+  <div id="q1" class="bigz" style="display:none"><div class="chars"><span id="q1a">走</span><em id="q1s">／</em><span id="q1b">留</span></div></div>
+  <div id="q2" class="bigz" style="display:none"><div class="l1" id="q2a">“<em>已经花的钱</em>”</div><div class="l2" id="q2b">该影响决定吗？</div></div>
+  <div id="no" class="bigz" style="display:none"><div class="nu">不<em>。</em></div><div class="l2" id="no2">沉掉的成本，<em>恰恰不该算</em></div><div class="bar" id="nobar"></div></div>
+
+  <div class="meta" id="meta"><b id="meta-n">01</b> <span id="meta-t">影院 · THEATER</span></div>
+  <div class="cite" id="cite" style="opacity:0"><em>Arkes &amp; Blumer, 1985</em><b>《沉没成本的心理学》</b></div>
+
+  <canvas id="fx" class="layer fxcanvas"></canvas>
+  <div class="caption-shade"></div>
+  <div class="caption" id="cap"><span id="cap-zh"></span><small id="cap-en"></small></div>
+  <div class="vignette"></div><div class="grain"></div>
+</div>
+
+<script src="engine/runtime.js"></script>
+<script>
+const { prog, ease, css, $, lerp, clamp, spring, canvas, drawPath, shots, reveal, hash, noise, pulse, beat, beatOf } = MS;
+MS.setup({ width: 1920, height: 1080, fps: 30, duration: 58, bpm: 90, background: '#0a0a0a' });
+const W = 1920, H = 1080;
+const ACC = '#4a6cff', FG = '#ededeb', MUT = '#6e6e6b', SUNK = '#5a5a58', PAPER = '#f2f2ef', INK = '#141414';
+const ZH = '"PingFang SC","Noto Sans SC","Hiragino Sans GB",sans-serif';
+const MONO = '"JetBrains Mono","SF Mono",Menlo,monospace';
+const LAT = '"Helvetica Neue",Arial,sans-serif';
+const SQ = (x) => Math.sqrt(x);
+// 泛洪/收拢半径刚好盖过对角线：面积匀速增长，单帧新增 ≈ 屏幕 5–6%
+const RMAX = Math.hypot(W, H) / 2 * 1.35;   // 略大于对角线：四角在扩张快速段就被盖住，不产生尾段单帧 pop
+const CXF = 1280, WLINE = 560;
+
+// ===== 字幕表：[开始, 结束, 中文, 英文]。没有旁白，字幕就是叙事 =====
+const CAPS = [
+  [2.8, 6.0, '你花 80 块，买了张电影票。', 'You paid ¥80 for a ticket.'],
+  [6.6, 10.4, '看到 20 分钟，你发现它是烂片。', 'Twenty minutes in, you know it\u2019s bad.'],
+  [10.8, 13.8, '走，还是看完？', 'Leave, or sit through it?'],
+  [14.4, 18.0, '大多数人留下——“票都买了”。', 'Most stay: \u201CI already paid.\u201D'],
+  [18.4, 21.6, '“已经花的钱”该影响决定吗？', 'Should money already spent matter?'],
+  [22.6, 26.2, '不。沉掉的成本，不该算。', 'No. Sunk costs shouldn\u2019t count.'],
+  [26.6, 30.2, '1985 年，剧院季票实验。', 'A 1985 season-ticket experiment.'],
+  [30.6, 33.6, '付全价的人，看得最多。', 'Full-price buyers showed up most.'],
+  [33.8, 35.6, '付得越多，看得越多。', 'Pay more, attend more.'],
+  [38.0, 41.0, '沉下去的，捞不回来。', 'What\u2019s sunk stays sunk.'],
+  [41.4, 44.4, '决策，只看水面之上。', 'Decide only by what\u2019s above the line.'],
+  [44.8, 48.2, '烂片离场，只损失 80 元。', 'Walk out: you lose only ¥80.'],
+  [48.6, 52.0, '看完它，再搭上 90 分钟。', 'Stay: another 90 minutes gone.'],
+  [52.4, 55.4, '别让过去，偷走未来。', 'Don\u2019t let the past spend your future.'],
+];
+
+function captions(t) {
+  const cap = CAPS.find(([a, b]) => t >= a - 0.1 && t < b + 0.6);
+  const zh = $('#cap-zh'), en = $('#cap-en');
+  if (!cap) { css($('#cap'), { opacity: 0 }); return; }
+  const [a, b, z, e] = cap;
+  if (zh.dataset.k !== z) { zh.dataset.k = z; zh.textContent = z; zh.__msSplit = null; en.textContent = e; }
+  css($('#cap'), { opacity: 1 - prog(t, b, b + 0.5) });
+  reveal(zh, t, a, { stagger: 0.045, dur: 0.35, style: 'fade' });
+  css(en, { opacity: 0.55 * prog(t, a + 0.4, a + 1.2) });
+}
+
+// ===== 硬币：本片母题 =====
+function coin(ctx, x, y, r, o = {}) {
+  const { dim = 0, alpha = 1, sq = 0, glow = 0, glyph = '¥' } = o;   // dim 0=亮(未来) 1=沉没
+  const fill = dim >= 0.999 ? SUNK : ACC, mark = dim >= 0.999 ? '#3a3a38' : '#eef0ff';
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.translate(x, y);
+  ctx.scale(1 + sq, 1 - sq);
+  if (glow) { ctx.shadowColor = ACC; ctx.shadowBlur = glow; }
+  ctx.fillStyle = dim > 0 && dim < 1 ? mix(ACC, SUNK, dim) : fill;
+  ctx.beginPath(); ctx.arc(0, 0, r, 0, 7); ctx.fill();
+  ctx.shadowBlur = 0;
+  ctx.strokeStyle = 'rgba(255,255,255,.32)'; ctx.lineWidth = Math.max(1.5, r * 0.075);
+  ctx.beginPath(); ctx.arc(0, 0, r * 0.7, 0, 7); ctx.stroke();
+  ctx.fillStyle = dim > 0 && dim < 1 ? mix('#eef0ff', '#3a3a38', dim) : mark;
+  ctx.font = `700 ${r * 1.02}px ${ZH}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(glyph, 0, r * 0.06);
+  ctx.restore();
+}
+function mix(a, b, p) {
+  const pa = parseInt(a.slice(1), 16), pb = parseInt(b.slice(1), 16);
+  const r = Math.round(lerp(pa >> 16, pb >> 16, p)), g = Math.round(lerp((pa >> 8) & 255, (pb >> 8) & 255, p)), bl = Math.round(lerp(pa & 255, pb & 255, p));
+  return `rgb(${r},${g},${bl})`;
+}
+function ripple(ctx, x, y, p, col = 'rgba(237,237,235,.5)') {
+  if (p <= 0 || p >= 1) return;
+  ctx.strokeStyle = col; ctx.lineWidth = 2 * (1 - p);
+  for (let k = 0; k < 2; k++) {
+    const q = clamp(p * 1.4 - k * 0.3, 0, 1); if (q <= 0 || q >= 1) continue;
+    ctx.globalAlpha = (1 - q) * 0.8;
+    ctx.beginPath(); ctx.ellipse(x, y, 20 + 90 * ease.outCubic(q), (20 + 90 * ease.outCubic(q)) * 0.3, 0, 0, 7); ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+}
+function rrect(ctx, x, y, w, h, r) {
+  ctx.beginPath(); ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+}
+
+// ===== A 0–6.0 钩子：三枚硬币落下 + 标题卡 =====
+function shotA(ctx, t) {
+  const stackY = 720;
+  const xs = [W / 2 - 150, W / 2, W / 2 + 150];
+  const drops = [[0.05, 0.45, 64], [0.45, 0.90, 52], [0.85, 1.30, 52]];   // 第一枚是主角币
+  const gp = prog(t, 0.0, 0.8);
+  if (gp > 0 && t < 5.4) {                                            // 背后微光：视线引导
+    const g = ctx.createRadialGradient(W / 2, stackY - 40, 10, W / 2, stackY - 40, 460);
+    g.addColorStop(0, `rgba(74,108,255,${0.10 * gp * (1 - prog(t, 5.0, 5.4))})`);
+    g.addColorStop(1, 'rgba(74,108,255,0)');
+    ctx.fillStyle = g; ctx.fillRect(W / 2 - 470, stackY - 510, 940, 960);
+  }
+  for (let i = 0; i < 3; i++) {
+    const [d, land, R] = drops[i];
+    if (t < d) continue;
+    const fall = prog(t, d, land, ease.inQuad);
+    const dodge = prog(t, 2.0, 2.6, ease.inOutCubic);                 // 标题出现后下移让位
+    const out = prog(t, 5.5, 6.0, ease.inCubic);                      // 6s 前缩向中心，准备飞入票
+    const bounce = t > land ? Math.exp(-(t - land) * 7) * Math.sin((t - land) * 22) : 0;
+    const y = lerp(-80, stackY, fall) - (648 - stackY) * dodge - Math.abs(bounce) * 26 + 12 * out;
+    const sq = t > land ? Math.exp(-(t - land) * 9) * Math.cos((t - land) * 26) * 0.22 : 0;
+    const cx = lerp(xs[i], W / 2, out);
+    coin(ctx, cx, y, R * (1 - 0.35 * out) * (1 + 0.02 * pulse(t, 0.3)), { sq: sq * (1 - out), glow: out > 0 || i > 0 ? 0 : 20 });
+    if (t > land && t < land + 1.0 && out <= 0) ripple(ctx, xs[i], stackY + R - 8, prog(t, land, land + 0.95), 'rgba(74,108,255,.55)');
+  }
+}
+function titleCard(t, start, end, closing) {
+  const a = prog(t, start, start + 1.3, ease.outCubic);
+  const b = closing ? 0 : prog(t, end - 0.7, end, ease.inCubic);
+  const on = t >= start - 0.05 && t < end + (closing ? 10 : 0);
+  css($('#title'), { display: on ? '' : 'none', opacity: a * (1 - b), transform: `scale(${1.05 - 0.05 * a + b * 0.08})`, filter: `blur(${b * 12}px)` });
+  if (on) {
+    css($('#t-over'), { opacity: prog(t, start + 0.1, start + 0.7) });
+    reveal($('#t-h1a'), t, start + 0.25, { stagger: 0.09, dur: 0.6, style: 'rise', e: ease.outExpo });
+    reveal($('#t-h1b'), t, start + 0.61, { stagger: 0.09, dur: 0.6, style: 'rise', e: ease.outExpo });
+    css($('#t-rule'), { width: `${120 * prog(t, start + 0.8, start + 1.4, ease.outCubic)}px` });
+    css($('#t-sub'), { opacity: 0.78 * prog(t, start + 1.0, start + 1.6) });
+  }
+}
+
+// ===== B 6–14 电影票：钱打进票里，进度条，走/留 =====
+function shotB(ctx, t) {
+  const TX = W / 2, TY = 620;
+  const pop = spring(t, 6.0, { stiffness: 200, damping: 20 });
+  const dim = 1 - 0.6 * prog(t, 11.0, 11.6);                          // 大问句出现后票变暗
+  const out = prog(t, 13.5, 14.0, ease.inCubic);                      // 缩向点阵
+  ctx.save();
+  ctx.globalAlpha = dim * (1 - out * 0.4);
+  ctx.translate(TX, TY); ctx.scale(pop * (1 - 0.62 * out), pop * (1 - 0.62 * out)); ctx.translate(-TX, -TY);
+  ctx.fillStyle = '#161616'; rrect(ctx, TX - 300, TY - 150, 600, 300, 18); ctx.fill();
+  ctx.strokeStyle = '#3c3c3c'; ctx.lineWidth = 2.5; rrect(ctx, TX - 300, TY - 150, 600, 300, 18); ctx.stroke();
+  ctx.setLineDash([10, 10]); ctx.strokeStyle = '#3c3c3c'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(TX - 130, TY - 150); ctx.lineTo(TX - 130, TY + 150); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = SUNK;
+  [[TX - 130, TY - 150], [TX - 130, TY + 150]].forEach(([x, y]) => { ctx.beginPath(); ctx.arc(x, y, 13, 0, 7); ctx.fill(); });
+  ctx.fillStyle = MUT; ctx.font = `500 22px ${MONO}`; ctx.textAlign = 'left';
+  ctx.fillText('MOVIE TICKET', TX - 260, TY - 92);
+  ctx.fillStyle = FG; ctx.font = `600 40px ${ZH}`; ctx.fillText('电影票 · 一张', TX - 260, TY - 30);
+  const paid = prog(t, 7.6, 8.6, ease.outCubic);
+  const v = Math.round(lerp(0, 80, paid));
+  ctx.font = `300 96px ${LAT}`; ctx.fillStyle = ACC;
+  ctx.fillText(`¥${v}`, TX - 264, TY + 88);
+  ctx.font = `500 24px ${ZH}`; ctx.fillStyle = MUT;
+  ctx.fillText('已沉没 · SUNK', TX - 120, TY + 84);
+  const st = spring(t, 8.8, { stiffness: 260, damping: 15 });          // 「已支付」印章
+  if (t > 8.8) {
+    ctx.save(); ctx.translate(TX + 180, TY - 60); ctx.rotate(-0.12); ctx.scale(st, st);
+    ctx.strokeStyle = ACC; ctx.lineWidth = 3.5; rrect(ctx, -86, -34, 172, 68, 8); ctx.stroke();
+    ctx.fillStyle = ACC; ctx.font = `700 34px ${ZH}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('已支付', 0, 2); ctx.restore();
+  }
+  ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
+  ctx.restore();
+
+  const flights = [7.4, 7.9, 8.3];                                    // 硬币飞进票
+  for (let i = 0; i < 3; i++) {
+    const d = flights[i];
+    if (t < d || t > d + 0.55) continue;
+    const p = ease.inCubic(prog(t, d, d + 0.5));
+    const sx = W / 2 - 150 + i * 150, sy = 648;
+    coin(ctx, lerp(sx, TX + 120, p), lerp(sy, TY - 40, p) - Math.sin(p * Math.PI) * 90, 52 * (1 - 0.7 * p));
+  }
+  if (t > 8.3 && t < 9.2) {                                           // 吸收闪光
+    const p = prog(t, 8.3, 9.2);
+    ctx.strokeStyle = `rgba(74,108,255,${0.7 * (1 - p)})`; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(TX + 120, TY - 40, 20 + 70 * ease.outCubic(p), 0, 7); ctx.stroke();
+  }
+
+  const bp = prog(t, 9.2, 10.4, ease.outCubic);                       // 进度条 → 18%
+  const bx = TX - 260, by = TY + 200, bw = 520;
+  ctx.fillStyle = '#262626'; rrect(ctx, bx, by, bw, 18, 9); ctx.fill();
+  ctx.fillStyle = ACC; rrect(ctx, bx, by, Math.max(18, bw * 0.18 * bp), 18, 9); ctx.fill();
+  ctx.fillStyle = MUT; ctx.font = `500 24px ${MONO}`;
+  ctx.fillText('00:20', bx, by + 60);
+  ctx.fillStyle = SUNK; ctx.textAlign = 'right'; ctx.fillText('01:50', bx + bw, by + 60); ctx.textAlign = 'left';
+  const bad = spring(t, 10.4, { stiffness: 300, damping: 13 });        // 「烂片」徽标
+  if (t > 10.4) {
+    ctx.save(); ctx.translate(TX + 380, TY + 20); ctx.rotate(0.1); ctx.scale(bad, bad);
+    ctx.fillStyle = ACC; rrect(ctx, -74, -36, 148, 72, 36); ctx.fill();
+    ctx.fillStyle = '#0c1030'; ctx.font = `700 36px ${ZH}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('烂片', 0, 2); ctx.restore(); ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
+  }
+}
+
+// ===== C 14–22 点阵：大多数留下 =====
+function shotC(ctx, t) {
+  const N = 10, cell = 62, x0 = W / 2 - cell * (N - 1) / 2, y0 = 350;
+  const dimAll = 1 - 0.78 * prog(t, 18.4, 19.2);
+  const out = prog(t, 21.4, 22.0, ease.inCubic);
+  ctx.save();
+  for (let i = 0; i < 100; i++) {
+    const gx = i % N, gy = Math.floor(i / N);
+    const x = x0 + gx * cell, y = y0 + gy * cell;
+    const born = 14.1 + hash(i) * 1.4;
+    if (t < born) continue;
+    const s = spring(t, born, { stiffness: 320, damping: 16 });
+    const flip = 15.8 + hash(i, 7) * 1.9;
+    const isStay = hash(i, 3) < 0.73;
+    let col = SUNK, drop = 0, al = 1;
+    if (t >= flip && isStay) col = ACC;
+    if (!isStay) {
+      const d0 = 16.6 + hash(i, 11) * 1.3;
+      if (t > d0) { const p = prog(t, d0, d0 + 0.8, ease.inQuad); drop = p * 150; al = 1 - p; }
+    }
+    ctx.globalAlpha = dimAll * (1 - out) * al;
+    ctx.fillStyle = col;
+    ctx.beginPath(); ctx.arc(x, y + drop, 13 * s, 0, 7); ctx.fill();
+  }
+  ctx.restore();
+  const lp = prog(t, 16.2, 17.0);                                      // 图例
+  if (lp > 0 && t < 18.6) {
+    ctx.globalAlpha = lp * dimAll;
+    ctx.fillStyle = ACC; ctx.beginPath(); ctx.arc(x0 - 90, y0 - 60, 12, 0, 7); ctx.fill();
+    ctx.fillStyle = FG; ctx.font = `500 26px ${ZH}`; ctx.textAlign = 'left';
+    ctx.fillText('留下', x0 - 66, y0 - 51);
+    ctx.globalAlpha = 1;
+  }
+}
+
+// ===== E 26–36 实验（亮底）：三根柱子 =====
+function shotE(ctx, t) {
+  const ax = 460, ay = 760, aw = 1180, ah = 430;
+  const axisP = prog(t, 26.4, 27.4, ease.inOutCubic);
+  ctx.strokeStyle = '#c9c9c2'; ctx.lineWidth = 2;
+  drawPath(ctx, [[ax, ay], [ax, ay - ah * axisP]], axisP);
+  drawPath(ctx, [[ax, ay], [ax + aw * axisP, ay]], axisP);
+  ctx.strokeStyle = '#dedad2'; ctx.lineWidth = 1;                      // 横向发丝线
+  for (let i = 1; i <= 3; i++) {
+    const yy = ay - ah * i / 3 * axisP;
+    drawPath(ctx, [[ax, yy], [ax + aw, yy]], prog(t, 26.8, 27.8));
+  }
+  ctx.fillStyle = MUT; ctx.font = `500 22px ${MONO}`; ctx.textAlign = 'right';
+  ['2 场', '4 场', '6 场'].forEach((s, i) => ctx.fillText(s, ax - 18, ay - ah * (i + 1) / 3 + 8));
+  ctx.textAlign = 'left';
+  ctx.fillText('前半季到场 / PLAYS, 1ST HALF', ax + aw - 240, ay + 78);
+
+  const bars = [
+    { x: 620, v: 5.29, t0: 27.4, d: 1.8, col: ACC, w: 200, lab: '付全价 $15', hl: true },
+    { x: 920, v: 4.17, t0: 29.4, d: 1.6, col: '#111111', w: 200, lab: '折价 −$2' },
+    { x: 1220, v: 3.32, t0: 31.2, d: 1.6, col: 'rgba(17,17,17,.38)', w: 200, lab: '折价 −$7' },
+  ];
+  for (const b of bars) {
+    const p = prog(t, b.t0, b.t0 + b.d, ease.outCubic);
+    const hgt = (b.v / 6) * ah * p;
+    ctx.fillStyle = b.col; ctx.fillRect(b.x - b.w / 2, ay - hgt, b.w, hgt);
+    const num = b.v * p;                                               // 数字滚动
+    ctx.fillStyle = b.hl ? ACC : '#111';
+    ctx.font = `300 62px ${LAT}`; ctx.textAlign = 'center';
+    ctx.fillText(num.toFixed(1), b.x, ay - hgt - 26);
+    ctx.fillStyle = '#5a5a56'; ctx.font = `500 27px ${ZH}`;
+    ctx.fillText(b.lab, b.x, ay + 44);
+    if (b.hl) {                                                        // 结论：圈出全价，拍点上呼吸
+      const cp = prog(t, 33.0, 33.7, ease.outBack);
+      if (cp > 0) {
+        const br = 1 + 0.035 * pulse(t, 0.3);
+        ctx.strokeStyle = ACC; ctx.lineWidth = 3.5;
+        ctx.beginPath(); ctx.ellipse(b.x, ay - (b.v / 6) * ah - 50, 130 * cp * br, 92 * cp * br, 0, 0, 7); ctx.stroke();
+        ctx.fillStyle = ACC; ctx.globalAlpha = 0.5 + 0.5 * pulse(t, 0.3);
+        ctx.font = `300 62px ${LAT}`; ctx.textAlign = 'center';
+        ctx.fillText(b.v.toFixed(1), b.x, ay - (b.v / 6) * ah - 26);
+        ctx.globalAlpha = 1;
+      }
+    }
+  }
+  ctx.fillStyle = MUT; ctx.font = `500 22px ${ZH}`; ctx.textAlign = 'left';
+  ctx.fillText('同一张季票 · 随机折扣 · 60 位真实观众', 520, 880);
+}
+
+// ===== F 36–44 水面：沉没的字面化 =====
+function shotF(ctx, t) {
+  const inP = prog(t, 36.2, 37.2, ease.inOutCubic);
+  ctx.globalAlpha = inP;
+  ctx.fillStyle = 'rgba(74,108,255,.05)';                              // 水下微光
+  ctx.fillRect(0, WLINE, W, H - WLINE);
+  ctx.strokeStyle = 'rgba(237,237,235,.34)'; ctx.lineWidth = 2;
+  drawPath(ctx, [[0, WLINE], [W, WLINE]], inP);
+  ctx.fillStyle = MUT; ctx.font = `500 20px ${MONO}`;
+  ctx.fillText('ABOVE · 未来 FUTURE', 110, WLINE - 26);
+  ctx.fillText('BELOW · 沉没 SUNK', 110, WLINE + 44);
+  ctx.globalAlpha = 1;
+  // 水下微粒子：缓缓下沉，画面不死
+  for (let i = 0; i < 9; i++) {
+    const seed = hash(i, 21);
+    const px = 140 + seed * 1640, sp = 18 + hash(i, 22) * 26;
+    const cyc = 340, off = hash(i, 23) * cyc;
+    const py = WLINE + 30 + ((t * sp + off) % cyc);
+    ctx.fillStyle = `rgba(237,237,235,${0.16 * inP})`;
+    ctx.fillRect(px, py, 3, 3);
+  }
+  // 三枚硬币：落下→穿线变暗→缓沉
+  const drops = [[36.8, 700], [38.1, 960], [39.4, 1130]];
+  for (const [d, x] of drops) {
+    const cross = d + 0.55;
+    if (t < d) continue;
+    const fall = prog(t, d, cross, ease.inQuad);
+    const sink = t > cross ? ease.outCubic(prog(t, cross, cross + 1.8)) : 0;
+    const yy = t > cross ? WLINE + sink * 220 : lerp(-60, WLINE, fall);
+    const dimP = t > cross ? prog(t, cross - 0.05, cross + 0.3) : 0;
+    const alpha = t > cross ? 1 - 0.85 * sink : 1;
+    coin(ctx, x, yy, 44, { dim: dimP, alpha });
+    if (t > cross - 0.05) ripple(ctx, x, WLINE, prog(t, cross, cross + 1.0), 'rgba(74,108,255,.6)');
+  }
+  // 浮在水面上的亮硬币（未来）——之后成为 G 的出口灯
+  if (t > 40.6) {
+    const s = spring(t, 40.6, { stiffness: 220, damping: 14 });
+    const bob = noise(t * 0.8) * 7;
+    const ringP = (beatOf(t) * 0.5) % 1;
+    ctx.strokeStyle = `rgba(74,108,255,${0.5 * (1 - ringP)})`; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(CXF, WLINE - 62, 52 + 60 * ease.outCubic(ringP), 0, 7); ctx.stroke();
+    coin(ctx, CXF, WLINE - 62 + bob, 44 * s, { glow: 26 });
+  }
+}
+
+// ===== G 44–58 放映厅：离场 vs 烧时间 + 标题卡回归 =====
+function seat(ctx, x, y, s, al) {
+  ctx.globalAlpha = al;
+  ctx.fillStyle = '#2a2a2a';
+  rrect(ctx, x - 60 * s, y - 130 * s, 120 * s, 66 * s, 12 * s); ctx.fill();
+  rrect(ctx, x - 66 * s, y - 70 * s, 132 * s, 22 * s, 8 * s); ctx.fill();
+  ctx.globalAlpha = 1;
+}
+function person(ctx, x, y, pose, al, walkPh) {                         // pose 0=坐 1=站；y 是地板
+  ctx.save(); ctx.globalAlpha = al; ctx.strokeStyle = FG; ctx.fillStyle = FG; ctx.lineWidth = 11; ctx.lineCap = 'round';
+  const hipY = lerp(y - 78, y - 4, pose), neck = [x, lerp(hipY - 108, y - 168, pose)];
+  const head = [x, neck[1] - 27];
+  ctx.beginPath(); ctx.moveTo(x, hipY); ctx.lineTo(neck[0], neck[1]); ctx.stroke();
+  ctx.beginPath(); ctx.arc(head[0], head[1], 19, 0, 7); ctx.fill();
+  const kx = lerp(x + 46, x + 13 * Math.cos(walkPh), pose), ky = lerp(y - 74, y - 40, pose);
+  const fx2 = lerp(x + 52, x + 16 * Math.cos(walkPh + 3.4), pose);
+  ctx.beginPath(); ctx.moveTo(x, hipY); ctx.lineTo(kx, ky); ctx.lineTo(fx2, y - 2); ctx.stroke();
+  const arm = lerp(-0.5, 0.15, pose);
+  ctx.beginPath(); ctx.moveTo(x, neck[1] + 16); ctx.lineTo(x + 42 * Math.cos(walkPh * 0.7 + arm * 2), neck[1] + 62 - arm * 24); ctx.stroke();
+  ctx.restore();
+}
+function shotG(ctx, t) {
+  const floor = 800;
+  const fadeOut = 1 - prog(t, 51.0, 51.8);
+  const gIn = prog(t, 43.4, 44.5);                                     // 场景整体渐显（clip 之外也不跳）
+  // 银幕（左）：光锥 + 亮边，影院感
+  const glowAl = (0.13 - 0.08 * prog(t, 47.8, 48.6)) * gIn * fadeOut;
+  const g = ctx.createRadialGradient(40, 540, 60, 40, 540, 980);
+  g.addColorStop(0, `rgba(237,237,235,${glowAl})`); g.addColorStop(1, 'rgba(237,237,235,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, 1000, H);
+  ctx.fillStyle = `rgba(237,237,235,${0.10 * gIn * fadeOut})`; ctx.fillRect(56, 360, 30, 380);
+  // 地板与座位（错峰淡入）
+  ctx.strokeStyle = 'rgba(237,237,235,.25)'; ctx.lineWidth = 2;
+  ctx.globalAlpha = gIn * fadeOut;
+  drawPath(ctx, [[80, floor], [1840, floor]], prog(t, 43.6, 44.2));
+  ctx.globalAlpha = 1;
+  for (let i = 0; i < 8; i++) {
+    const a = prog(t, 43.6 + hash(i) * 0.6, 44.4) * gIn * fadeOut;
+    seat(ctx, 300 + i * 200, floor - 66, 0.66, 0.24 * a);
+  }
+  for (let i = 0; i < 8; i++) {
+    const a = prog(t, 43.7 + hash(i, 5) * 0.6, 44.5) * gIn * fadeOut;
+    seat(ctx, 340 + i * 200, floor, 1, 0.58 * a);
+  }
+  // 出口门（= 亮硬币的位置，匹配剪辑）
+  const doorP = prog(t, 43.9, 44.6);
+  const doorBright = 0.55 + 0.45 * prog(t, 46.2, 46.8) - 0.35 * prog(t, 47.8, 48.6);
+  const dg = ctx.createRadialGradient(CXF, 640, 20, CXF, 640, 360);
+  dg.addColorStop(0, `rgba(74,108,255,${0.30 * doorBright * fadeOut})`); dg.addColorStop(1, 'rgba(74,108,255,0)');
+  ctx.fillStyle = dg; ctx.fillRect(CXF - 380, 220, 760, 760);
+  ctx.strokeStyle = `rgba(74,108,255,${doorP * fadeOut})`; ctx.lineWidth = 5;
+  rrect(ctx, CXF - 80, 470, 160, 300, 12); ctx.stroke();
+  ctx.fillStyle = `rgba(74,108,255,${0.22 * doorP * doorBright * fadeOut})`;
+  rrect(ctx, CXF - 80, 470, 160, 300, 12); ctx.fill();
+  ctx.fillStyle = ACC; ctx.globalAlpha = doorP * fadeOut;
+  ctx.font = `700 34px ${MONO}`; ctx.textAlign = 'center';
+  ctx.fillText('EXIT', CXF, 442); ctx.font = `500 26px ${ZH}`; ctx.fillText('出口', CXF, 478);
+  ctx.globalAlpha = 1;
+
+  // 剧情甲：起身离场（44.2–46.8）—— 走的人脚下有一团跟随光
+  const sit = spring(t, 44.2, { stiffness: 180, damping: 22 });
+  const walkX = lerp(860, CXF - 40, prog(t, 44.9, 46.5, ease.inOutCubic));
+  const walkPh = t > 44.9 && t < 46.6 ? t * 9 : 0;
+  const px = t < 44.9 ? 860 : walkX;
+  const spotAl = prog(t, 43.9, 44.6) * fadeOut;
+  if (spotAl > 0) {
+    const spot = ctx.createRadialGradient(px, floor - 60, 10, px, floor - 60, 200);
+    spot.addColorStop(0, `rgba(237,237,235,${0.10 * spotAl})`); spot.addColorStop(1, 'rgba(237,237,235,0)');
+    ctx.fillStyle = spot; ctx.fillRect(px - 210, floor - 270, 420, 420);
+  }
+  const exitedAl = 1 - prog(t, 46.3, 46.7);
+  if (t < 47.6) person(ctx, px, floor, sit, exitedAl * fadeOut, walkPh);
+  // 留在座位上的票：掉落 + 沉没
+  const tk0 = 46.0;
+  if (t > tk0) {
+    const fall = prog(t, tk0, tk0 + 0.35, ease.inQuad);
+    const sink = prog(t, 46.5, 47.6, ease.outCubic);
+    const ty = lerp(floor - 130, floor - 6, fall) + sink * 26;
+    ctx.save(); ctx.translate(860, ty); ctx.rotate(-0.1 + sink * 0.05);
+    ctx.globalAlpha = lerp(0.95, 0.35, sink) * fadeOut;
+    ctx.fillStyle = SUNK; rrect(ctx, -60, -34, 120, 68, 8); ctx.fill();
+    ctx.fillStyle = '#2e2e2c'; ctx.font = `500 32px ${LAT}`; ctx.textAlign = 'center';
+    ctx.fillText('¥80', 0, 11); ctx.restore(); ctx.globalAlpha = 1;
+    const lp = prog(t, 47.0, 47.6);
+    if (lp > 0) {
+      ctx.fillStyle = MUT; ctx.globalAlpha = lp * fadeOut * 0.95;
+      ctx.font = `500 26px ${ZH}`; ctx.textAlign = 'center';
+      ctx.fillText('已沉没 · gone', 860, ty + 74); ctx.globalAlpha = 1;
+    }
+  }
+  // 剧情乙：坐住 → 时钟烧掉 90 分钟（47.8–51.0）
+  if (t >= 47.8) {
+    const backAl = prog(t, 47.9, 48.4) * (1 - 0.4 * prog(t, 49.8, 50.6)) * fadeOut;
+    person(ctx, 860, floor, 1 - prog(t, 47.9, 48.3), backAl, 0);
+    const cp = prog(t, 48.4, 50.4, ease.outCubic);
+    if (cp > 0) {
+      const cx = 960, cy = 430, r = 150;
+      ctx.strokeStyle = `rgba(237,237,235,.35)`; ctx.lineWidth = 2;
+      ctx.globalAlpha = fadeOut;
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.stroke();
+      for (let i = 0; i < 12; i++) {
+        const a = i / 12 * Math.PI * 2;
+        ctx.beginPath(); ctx.moveTo(cx + Math.cos(a) * (r - 12), cy + Math.sin(a) * (r - 12));
+        ctx.lineTo(cx + Math.cos(a) * (r - 2), cy + Math.sin(a) * (r - 2)); ctx.stroke();
+      }
+      ctx.strokeStyle = cp < 1 ? ACC : SUNK; ctx.lineWidth = 10;       // 时间烧尽
+      ctx.beginPath(); ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (1 - cp)); ctx.stroke();
+      const ha = -Math.PI / 2 + Math.PI * 2 * 2.6 * cp;                // 指针
+      ctx.strokeStyle = FG; ctx.lineWidth = 5;
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(ha) * (r - 30), cy + Math.sin(ha) * (r - 30)); ctx.stroke();
+      const mins = Math.round(90 * cp);                                // 00:00 → 90:00
+      ctx.fillStyle = cp < 1 ? ACC : SUNK; ctx.font = `300 96px ${MONO}`; ctx.textAlign = 'center';
+      ctx.fillText(`${String(Math.floor(mins / 60)).padStart(2, '0')}:${String(mins % 60).padStart(2, '0')}`, cx, cy + r + 110);
+      ctx.fillStyle = MUT; ctx.font = `500 24px ${ZH}`;
+      ctx.fillText('再搭上 · 90 分钟', cx, cy + r + 156);
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  // 尾声硬币（呼应开场）：落下、变暗、沉没；涟漪循环到最后一帧，避免静止收尾
+  if (t > 55.8) {
+    const land = 56.35, yEnd = 830;
+    const fall = prog(t, 55.8, land, ease.inQuad);
+    const y = lerp(-60, yEnd, fall);
+    const sink = prog(t, 56.8, 57.7, ease.outCubic);
+    const dimP = prog(t, 56.9, 57.5);
+    const sq = t > land ? Math.exp(-(t - land) * 9) * Math.cos((t - land) * 26) * 0.2 : 0;
+    coin(ctx, W / 2, y + sink * 26, 44, { dim: dimP, sq, alpha: 1 - 0.2 * sink });
+    if (t > land) {
+      ripple(ctx, W / 2, yEnd + 40, prog(t, land, land + 0.9));
+      const lp2 = (beatOf(t) * 0.5) % 1;
+      ctx.strokeStyle = `rgba(237,237,235,${0.25 * (1 - lp2)})`; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.ellipse(W / 2, yEnd + 44, 24 + 60 * ease.outCubic(lp2), (24 + 60 * ease.outCubic(lp2)) * 0.3, 0, 0, 7); ctx.stroke();
+    }
+  }
+}
+
+// ===== 泛洪（画在内容之上）：半径 ∝ √p，面积匀速，首帧只新增约 5% 屏幕 =====
+function floods(octx, t) {
+  const f1 = prog(t, 21.4, 22.0, SQ);                                  // 翻亮（铺满于拍 33）
+  if (f1 > 0 && f1 < 1) { octx.fillStyle = PAPER; octx.beginPath(); octx.arc(W / 2, H / 2, f1 * RMAX, 0, 7); octx.fill(); }
+  const f2 = prog(t, 35.4, 36.0, SQ);                                  // 翻回黑（铺满于拍 54）
+  if (f2 > 0 && f2 < 1) { octx.fillStyle = '#0a0a0a'; octx.beginPath(); octx.arc(W / 2, H / 2, f2 * RMAX, 0, 7); octx.fill(); }
+}
+
+MS.render((t) => {
+  const { ctx } = canvas('#cv');                                       // 每帧清屏
+  const { ctx: octx } = canvas('#fx');
+  // 亮底 token 在四角被泛洪盖住之后（p≈0.58）切换，翻转完全藏在泛洪底下
+  const light = t >= 21.8 && t < 35.8;
+  $('#stage').classList.toggle('light', light);
+
+  // G 先画（F 收进亮硬币 = 出口灯，形成推镜穿越）
+  let gDrawn = false;
+  if (t >= 43.3) { shotG(ctx, t); gDrawn = true; }
+
+  // F：43.3–44.2 被圆形裁剪收进硬币；面积匀速收拢，推镜用线性进度
+  if (t >= 36 && t < 44.2) {
+    const plin = prog(t, 43.3, 44.2);
+    if (plin <= 0) shotF(ctx, t);
+    else {
+      ctx.save();
+      ctx.beginPath(); ctx.arc(CXF, WLINE - 62, RMAX * SQ(1 - plin), 0, 7); ctx.clip();
+      const k = 1 + 0.8 * plin;                                        // 向硬币推进（线性）
+      ctx.translate(CXF, WLINE - 62); ctx.scale(k, k); ctx.translate(-CXF, -(WLINE - 62));
+      shotF(ctx, t); ctx.restore();
+      const bob2 = noise(t * 0.8) * 7, sc2 = spring(t, 40.6, { stiffness: 220, damping: 14 });
+      coin(ctx, CXF, WLINE - 62 + bob2, 44 * sc2, { glow: 30 + 40 * plin, alpha: 1 - prog(t, 44.0, 44.35) });  // 渐隐成出口灯
+    }
+  }
+
+  shots(t, [
+    [0, (t) => { shotA(ctx, t); titleCard(t, 2.2, 6.0, false); }],
+    [6, (t, lt) => shotB(ctx, t)],
+    [14, (t) => shotC(ctx, t)],
+    [22, (t) => {}],                                                   // 大字「不。」走 DOM
+    [26, (t) => shotE(ctx, t)],
+    [36, (t) => {}],                                                   // F 已在上方裁剪块里画
+    [44, (t) => { if (!gDrawn) shotG(ctx, t); }],
+  ]);
+  if (t >= 52.2) titleCard(t, 52.2, 58, true);                         // 尾声标题卡
+
+  // —— DOM 大字块（每帧归位，防残留）——
+  const q1on = t >= 11.2 && t < 13.9;
+  css($('#q1'), { display: q1on ? '' : 'none' });
+  if (q1on) {
+    const a = spring(t, 11.2, { stiffness: 240, damping: 14 }), b = spring(t, 11.7, { stiffness: 240, damping: 14 });
+    const out = prog(t, 13.4, 13.9, ease.inCubic);
+    css($('#q1a'), { display: 'inline-block', transform: `scale(${a}) translateY(${-10 * (1 - a)}px)`, opacity: 1 });
+    css($('#q1b'), { display: 'inline-block', transform: `scale(${b}) translateY(${10 * (1 - b)}px)`, opacity: 1 });
+    css($('#q1s'), { opacity: prog(t, 11.45, 11.75) });
+    css($('#q1'), { opacity: 1 - out });
+  }
+  const q2on = t >= 18.6 && t < 21.9;
+  css($('#q2'), { display: q2on ? '' : 'none' });
+  if (q2on) {
+    reveal($('#q2a'), t, 18.6, { stagger: 0.06, dur: 0.5, style: 'rise', e: ease.outExpo });
+    css($('#q2b'), { opacity: prog(t, 20.0, 20.7), transform: `translateY(${(1 - prog(t, 20.0, 20.7, ease.outCubic)) * 26}px)` });
+  }
+  const noon = t >= 22.0 && t < 26.0;
+  css($('#no'), { display: noon ? '' : 'none' });
+  if (noon) {
+    const s = spring(t, 22.0, { stiffness: 200, damping: 16 });
+    const out2 = prog(t, 25.5, 26.0, ease.inCubic);
+    css($('#no .nu'), { transform: `scale(${s}) rotate(${(1 - s) * -6}deg)` });
+    css($('#no'), { opacity: (1 - out2) });
+    css($('#no2'), { opacity: prog(t, 23.6, 24.3), transform: `translateY(${(1 - prog(t, 23.6, 24.3, ease.outCubic)) * 30}px)` });
+    css($('#nobar'), { width: `${320 * prog(t, 22.9, 23.7, ease.outCubic)}px` });
+  }
+  // 引注 / 章节角标
+  css($('#cite'), { opacity: prog(t, 26.6, 27.4) * (1 - prog(t, 35.4, 35.9)) });
+  const chs = [[6.6, 22.0, '01', '影院 · THEATER'], [22.4, 36.0, '02', '实验 · EXPERIMENT'], [36.4, 43.8, '03', '水面 · THE LINE']];
+  let metaOn = false;
+  for (const [a, b, n, s] of chs) if (t >= a && t < b) {
+    metaOn = true;
+    if ($('#meta-t').dataset.k !== s) { $('#meta-t').dataset.k = s; $('#meta-n').textContent = n; $('#meta-t').textContent = s; }
+    css($('#meta'), { opacity: prog(t, a, a + 0.6) * (1 - prog(t, b - 0.5, b)) });
+  }
+  if (!metaOn) css($('#meta'), { opacity: 0 });
+
+  floods(octx, t);
+  // 暗角在泛洪窗口内平滑插值（它在泛洪层之上，不能靠 class 瞬翻）
+  const vp = t < 21.4 ? 0.25 : t < 22.0 ? lerp(0.25, 0.10, SQ(prog(t, 21.4, 22.0)))
+            : t < 35.4 ? 0.10 : t < 36.0 ? lerp(0.10, 0.25, SQ(prog(t, 35.4, 36.0))) : 0.25;
+  css($('.vignette'), { opacity: String(vp) });
+  captions(t);
+  if (t < 52.2 && $('#t-sub').dataset.k !== 'a') { $('#t-sub').dataset.k = 'a'; $('#t-sub').textContent = '为什么我们舍不得放手'; }
+  if (t >= 52.2 && $('#t-sub').dataset.k !== 'z') { $('#t-sub').dataset.k = 'z'; $('#t-sub').textContent = '别让过去，偷走未来'; }
+  css($('#cv'), { transform: `scale(${1 + 0.035 * (t / 58)})` });      // 镜头永远在缓推
+});
+</script>
+</body>
+</html>

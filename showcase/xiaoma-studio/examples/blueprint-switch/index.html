@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Anatomy of a Keyswitch · blueprint</title>
+<link rel="stylesheet" href="../../engine/base.css">
+<link rel="stylesheet" href="../../engine/themes.css">
+<style>
+  /* 工程爆炸图：浅灰蓝、等轴测线稿、窄体大写标题、规格表、编号 0x / 06 */
+  .grid { position: absolute; inset: 0; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 48px 48px; opacity: .35; }
+  .panel { position: absolute; left: 1210px; top: 230px; width: 560px; z-index: 10; }
+  .panel .num { font: 500 20px/1 var(--font-ui); color: var(--accent); letter-spacing: .2em; }
+  .panel h2 { margin-top: 14px; font: 700 84px/0.95 var(--font-display); letter-spacing: .01em; text-transform: uppercase; }
+  .panel p { margin-top: 22px; font: 400 27px/1.55 var(--font-body); color: #3c434b; }
+  .spec { margin-top: 30px; border-top: 1.5px solid var(--fg); }
+  .spec div { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--line); font: 400 20px/1 var(--font-ui); }
+  .spec div span:first-child { color: var(--muted); letter-spacing: .14em; text-transform: uppercase; }
+  .spec div span:last-child { font: 500 24px/1 var(--font-body); }
+  .head { position: absolute; left: 110px; top: 70px; z-index: 10; font: 500 18px/1 var(--font-ui); letter-spacing: .3em; color: var(--muted); }
+  .head b { color: var(--fg); font-weight: 600; }
+  .foot { position: absolute; left: 110px; right: 110px; bottom: 56px; display: flex; justify-content: space-between; z-index: 10; font: 500 16px/1 var(--font-ui); letter-spacing: .24em; color: var(--muted); }
+  .tag { position: absolute; z-index: 9; font: 600 18px/1 var(--font-ui); letter-spacing: .16em; color: var(--accent); text-transform: uppercase; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div id="stage" class="theme-blueprint">
+  <div class="grid"></div>
+  <canvas id="cv" class="layer"></canvas>
+  <div class="head"><b>ANATOMY OF A KEYSWITCH</b> · LINEAR · EXPLODED VIEW</div>
+  <div class="panel" id="panel"><div class="num" id="p-num">00 / 06</div><h2 id="p-title">ONE KEY,<br>SIX PARTS</h2><p id="p-desc"></p><div class="spec" id="p-spec"></div></div>
+  <div class="tag" id="tag"></div>
+  <div class="foot"><span>FIG. 01 · NOT TO SCALE</span><span id="f-tc">T+00.00</span></div>
+</div>
+<script src="../../engine/runtime.js"></script>
+<script>
+const { prog, ease, css, $, lerp, clamp, canvas, spring, springTo } = MS;
+MS.setup({ width: 1920, height: 1080, fps: 30, duration: 16, bpm: 100, background: '#eef1f4' });
+const C = { fg: '#15181c', line: '#c6ccd3', fill: '#ffffff', tint: '#dde4f7', accent: '#3a57d6', red: '#e2552d' };
+
+// 等轴测投影：世界单位 → 画面像素
+let S = 7.2, OX = 620, OY = 610;   // 镜头：爆炸时拉远、下移，保证整件在画面内
+const iso = (x, y, z) => [OX + (x - y) * 0.866 * S, OY + (x + y) * 0.5 * S - z * S];
+
+function poly(ctx, pts, fill, stroke, lw = 2) {
+  ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.closePath();
+  if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+  if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lw; ctx.lineJoin = 'round'; ctx.stroke(); }
+}
+// 长方体（可做上窄下宽的键帽）：只画可见的三个面
+function box(ctx, cx, cy, z, w, d, h, { top = 1, fill = C.fill, side = C.tint, stroke = C.fg, lw = 2 } = {}) {
+  const b = (sx, sy, zz, k = 1) => iso(cx + sx * w / 2 * k, cy + sy * d / 2 * k, zz);
+  const [p1, p2, p3, p4] = [b(-1, -1, z), b(1, -1, z), b(1, 1, z), b(-1, 1, z)];
+  const [q1, q2, q3, q4] = [b(-1, -1, z + h, top), b(1, -1, z + h, top), b(1, 1, z + h, top), b(-1, 1, z + h, top)];
+  poly(ctx, [p2, p3, q3, q2], side, stroke, lw);          // 右面
+  poly(ctx, [p3, p4, q4, q3], fill, stroke, lw);          // 左面
+  poly(ctx, [q1, q2, q3, q4], fill, stroke, lw);          // 顶面
+}
+function spiral(ctx, z, h, r, turns, color, lw) {
+  ctx.beginPath();
+  for (let i = 0; i <= 240; i++) { const a = i / 240 * turns * Math.PI * 2; const [x, y] = iso(Math.cos(a) * r, Math.sin(a) * r, z + h * i / 240); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+  ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.stroke();
+}
+
+// 零件：[名称, 底部 z, 爆炸后额外抬升, 绘制函数, 标题, 描述, 规格]
+const PARTS = [
+  ['PCB', 0, 0, (ctx, z, hl) => box(ctx, 0, 0, z, 56, 56, 2, { side: hl ? '#c9d3f5' : C.tint, stroke: hl ? C.accent : C.fg }), 'THE BOARD', '开关焊在电路板上。两个金属脚穿过板孔，按下时接通电路。', [['CONTACT', '双触点'], ['PINS', '2 × 金属脚'], ['MOUNT', '板载 / 定位柱']]],
+  ['BOTTOM', 3, 6, (ctx, z, hl) => box(ctx, 0, 0, z, 28, 28, 8, { stroke: hl ? C.accent : C.fg, lw: hl ? 3 : 2 }), 'BOTTOM HOUSING', '下壳托住弹簧，内部藏着金属触片，是整个开关的地基。', [['MATERIAL', '尼龙 / PC'], ['ROLE', '承托 + 导电'], ['LEGS', '定位柱 × 1']]],
+  ['SPRING', 11, 14, (ctx, z, hl) => spiral(ctx, z, 15, 4.2, 7, hl ? C.accent : C.fg, hl ? 3 : 2), 'THE SPRING', '决定手感的核心。线性轴压下去力度均匀增加，没有段落感。', [['ACTUATION', '约 45 cN'], ['TYPE', '线性'], ['SHAPE', '圆柱螺旋']]],
+  ['STEM', 15, 26, (ctx, z, hl) => { box(ctx, 0, 0, z, 6, 6, 15, { fill: hl ? '#ffd9cc' : '#fbe1d8', side: '#f2b9a6', stroke: hl ? C.red : C.fg, lw: hl ? 3 : 2 }); box(ctx, 0, 0, z + 15, 10, 2.4, 4, { fill: '#fbe1d8', side: '#f2b9a6', stroke: hl ? C.red : C.fg }); box(ctx, 0, 0, z + 15, 2.4, 10, 4, { fill: '#fbe1d8', side: '#f2b9a6', stroke: hl ? C.red : C.fg }); }, 'THE STEM', '轴心带着十字头上下滑动，按到触发点时推开触片。', [['PRE-TRAVEL', '2.0 mm'], ['TOTAL TRAVEL', '4.0 mm'], ['MOUNT', '十字口']]],
+  ['TOP', 22, 36, (ctx, z, hl) => box(ctx, 0, 0, z, 28, 28, 7, { top: 0.9, stroke: hl ? C.accent : C.fg, lw: hl ? 3 : 2 }), 'TOP HOUSING', '上壳给轴心导向、防止晃动，扣在下壳上合成一个整体。', [['MATERIAL', '尼龙 / PC'], ['ROLE', '导向 + 封装'], ['FIT', '卡扣']]],
+  ['CAP', 31, 50, (ctx, z, hl) => box(ctx, 0, 0, z, 36, 36, 10, { top: 0.72, side: '#e8ecf4', stroke: hl ? C.accent : C.fg, lw: hl ? 3 : 2 }), 'THE KEYCAP', '手指唯一碰到的部分。表面的弧度和材质决定触感和声音。', [['MATERIAL', 'PBT / ABS'], ['PROFILE', '弧面'], ['MOUNT', '十字口']]],
+];
+const FOCUS0 = 3.6, STEP = 1.75;                 // 第 1 个零件 3.6s 高亮，之后每 1.75s 下一个
+const focusIdx = (t) => (t < FOCUS0 ? -1 : t >= FOCUS0 + STEP * 6 ? -2 : Math.floor((t - FOCUS0) / STEP));
+
+MS.render((t) => {
+  const { ctx } = canvas('#cv');
+  const drop = spring(t, 0.1, { stiffness: 160, damping: 12 });
+  const explode = prog(t, 1.6, 3.2, ease.inOutCubic) * (1 - prog(t, 14.2, 15.0, ease.inOutCubic));
+  const fi = focusIdx(t);
+  S = lerp(8.4, 5.4, explode); OY = lerp(640, 900, explode); OX = lerp(640, 600, explode);
+  // 结尾按一下键：预备上抬 → 压下 4mm → 回弹（呼应开场的落下）
+  const press = t > 15 ? (1 - spring(t, 15.25, { stiffness: 400, damping: 14 })) * (t > 15.25 ? 1 : 0) - 0.15 * prog(t, 15.0, 15.25, ease.outQuad) * (t < 15.25 ? 1 : 0) : 0;
+  const yDrop = (1 - drop) * -60;
+
+  // 画顺序：从下往上（后画的盖住先画的）
+  PARTS.forEach(([name, z0, lift, draw], i) => {
+    const stagger = clamp((explode * 1.3 - i * 0.05));
+    let z = z0 + lift * ease.inOutCubic(clamp(stagger)) - yDrop * (i / 5);
+    if (i >= 3 && t > 15) z -= press * 4;
+    const hl = fi === i;
+    ctx.globalAlpha = fi >= 0 && !hl ? 0.45 : 1;
+    draw(ctx, z, hl);
+    ctx.globalAlpha = 1;
+    if (hl) {  // 引线：从零件右侧拉到右侧面板
+      const [ax, ay] = iso(16, -16, z + 4);
+      const p = prog(t, FOCUS0 + i * STEP, FOCUS0 + i * STEP + 0.4, ease.outCubic);
+      ctx.strokeStyle = C.accent; ctx.lineWidth = 1.5; ctx.setLineDash([5, 6]);
+      ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(lerp(ax, 1170, p), lerp(ay, 260, p)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = C.accent; ctx.beginPath(); ctx.arc(ax, ay, 6, 0, Math.PI * 2); ctx.fill();
+      css($('#tag'), { left: ax - 20 + 'px', top: ay + 18 + 'px', opacity: p });
+      $('#tag').textContent = name;
+    }
+  });
+  if (fi < 0) css($('#tag'), { opacity: 0 });
+
+  // 右侧面板：标题、描述、规格逐行
+  const panel = $('#panel');
+  if (fi >= 0) {
+    const [, , , , title, desc, spec] = PARTS[fi];
+    if (panel.dataset.k !== title) {
+      panel.dataset.k = title;
+      $('#p-num').textContent = `${String(fi + 1).padStart(2, '0')} / 06`;
+      $('#p-title').innerHTML = title.replace(' ', '<br>');
+      $('#p-desc').textContent = desc;
+      $('#p-spec').innerHTML = spec.map(([k, v]) => `<div><span>${k}</span><span>${v}</span></div>`).join('');
+    }
+    const lt = t - (FOCUS0 + fi * STEP);
+    css($('#p-title'), { transform: `translateY(${(1 - prog(lt, 0, 0.45, ease.outExpo)) * 50}px)`, opacity: prog(lt, 0, 0.3) });
+    css($('#p-desc'), { opacity: prog(lt, 0.2, 0.6) });
+    [...$('#p-spec').children].forEach((el, k) => css(el, { opacity: prog(lt, 0.35 + k * 0.12, 0.65 + k * 0.12), transform: `translateX(${(1 - prog(lt, 0.35 + k * 0.12, 0.75 + k * 0.12, ease.outCubic)) * 30}px)` }));
+  } else {
+    if (panel.dataset.k !== 'intro' + fi) {
+      panel.dataset.k = 'intro' + fi;
+      $('#p-num').textContent = fi === -2 ? '06 / 06' : '00 / 06';
+      $('#p-title').innerHTML = fi === -2 ? 'PRESS<br>ONCE.' : 'ONE KEY,<br>SIX PARTS';
+      $('#p-desc').textContent = fi === -2 ? '六个零件，4 毫米行程，一次按下。' : '';
+      $('#p-spec').innerHTML = '';
+    }
+    const a = fi === -1 ? prog(t, 0.6, 1.3, ease.outCubic) : prog(t, 14.3, 14.9, ease.outCubic);
+    css($('#p-title'), { opacity: a, transform: `translateY(${(1 - a) * 40}px)` }); css($('#p-desc'), { opacity: a });
+  }
+  $('#f-tc').textContent = 'T+' + t.toFixed(2).padStart(5, '0');
+});
+</script>
+</body>
+</html>
