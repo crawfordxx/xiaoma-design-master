@@ -34,21 +34,23 @@ requires: gen
 
 | 能力 | 唯一指定库 | 用法要点 |
 |---|---|---|
-| UI 组件 | **shadcn/ui**（Nova 风格主题） | CLI 添加组件进项目源码，改起来完全可控；按钮/卡片/对话框/表单全从这来 |
+| UI 组件 | **shadcn/ui**（Nova 风格） | 初始化时选 Nova 风格（已有项目看 `components.json` 的 `style`），CLI 添加组件进项目源码，改起来完全可控；按钮/卡片/对话框/表单全从这来 |
 | 图标 | **Lucide** | `<Icon size={18} className="..." />`，全站只此一家图标库 |
 | 动画 | **Motion**（motion.dev） | 滚动动画/进出场/微交互全用它，不引第二个动画库 |
 | 面板布局 | **react-resizable-panels** | 可拖拽调宽的分栏布局（dashboard/编辑器场景） |
 | 拖拽 | **dnd-kit** | 列表排序/看板/自由拖放，键盘可达性内置 |
 | 状态管理 | **Zustand** | 跨组件状态一个 store 搞定，不引 Redux/其他 |
-| 样式 | **Tailwind CSS** | design tokens 以 CSS 变量进 Tailwind config |
+| 样式 | **Tailwind CSS v4** | design tokens 写成 CSS 变量，在 `@theme` 里映射成工具类（v4 没有 `tailwind.config.js`） |
 
 依赖纪律检查（交付前必过）：`package.json` 里动画库只有 motion、图标库只有 lucide、拖拽库只有 dnd-kit、状态库只有 zustand。出现同类第二个 = 违规。
 
 ## Pipeline
 
+下文 `S=<本技能目录>`；需要生成图片/视频时用 `$S/toolkit/gen`（见 Step 6）。
+
 **Step 1 需求定义**：页面类型 / 目标受众 / 核心转化目标（一个）/ 调性关键词（3 个以内）。产出一句话设计 brief。
 
-**Step 2 设计语言**：先定 design tokens 再写任何组件——色板（主色/强调色/中性阶/暗色模式）、字体（标题/正文，最多两款）、间距系统、圆角、阴影层级。写入 Tailwind config + CSS 变量。**从这一步开始所有视觉决策只从 tokens 取值，不写魔法数。**
+**Step 2 设计语言**：先定 design tokens 再写任何组件——色板（主色/强调色/中性阶/暗色模式）、字体（标题/正文，最多两款）、间距系统、圆角、阴影层级。写成 CSS 变量并在 `@theme` 里映射。**中文站字体**：正文用系统字体栈（`"PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif`）；标题要个性时选可商用开源字体（思源黑体/宋体、霞鹜文楷等）并按页面实际用字子集化——整包中文字体动辄几 MB，会拖垮首屏。**从这一步开始所有视觉决策只从 tokens 取值，不写魔法数。**
 
 **Step 3 参考研究**：按当前环节查对应资源（10 个参考源见 [`shared/ui-design.md`](shared/ui-design.md) 的"设计资源速查"）——做导航前看 navbar.gallery，做页脚前看 footer.design，做 CTA 前看 cta.gallery，做布局前看 bentogrids.com，写动画前看 60fps.design 和 motion.dev 文档。**每个大区块动手前先看 2–3 个参考再写。**
 
@@ -73,7 +75,14 @@ requires: gen
 | Creativity | 20% | 有没有记忆点/独家交互/不落俗套的布局 |
 | Content | 10% | 文案质量/信息密度/是否对受众说话 |
 
-流程：跑起来 → 全页截图（桌面+移动）→ 逐维度找问题（具体到"Hero 副标题对比度不足"这种粒度）→ 修 → 重新打分。**任何一维 < 9 分就再来一轮，最多 3 轮**；3 轮后仍有短板，如实标注交付（"移动端 Usability 8 分：xx 原因"）。
+**先过硬指标，不过不打分**（自评分容易虚高，硬指标是客观底线）：
+- 375px 宽无横向滚动，触控目标 ≥44px
+- 正文对比度 ≥4.5:1，大字 ≥3:1
+- 浏览器控制台零报错；依赖纪律检查通过
+- 动画尊重 `prefers-reduced-motion`；首屏大图有宽高、不跳版
+- Lighthouse（移动端）Performance ≥90、Accessibility ≥95
+
+流程：跑起来 → 全页截图（桌面+移动）→ 硬指标 → 逐维度找问题（具体到"Hero 副标题对比度不足"这种粒度）→ 修 → 重新打分。每个维度的分数必须引用截图里的具体证据，给 9 分以上要说出"记忆点是什么"。**任何一维 < 9 分就再来一轮，最多 3 轮**；3 轮后仍有短板，如实标注交付（"移动端 Usability 8 分：xx 原因"）。
 
 ## 执行模式
 

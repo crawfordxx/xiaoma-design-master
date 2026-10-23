@@ -99,11 +99,9 @@
 
 "我想做个视频" → 判定片种 → 按片种规矩写分镜表（镜号/时间码/景别运镜/画面/台词/音效/转场）→ 出图前过导演审核 → 每镜分镜图 → 单文件 HTML 交付。
 
-<p>
-  <img src="docs/readme-assets/director-1.jpg" width="32%" alt="tvc"/>
-  <img src="docs/readme-assets/director-2.jpg" width="32%" alt="short drama"/>
-  <img src="docs/readme-assets/director-3.jpg" width="32%" alt="city tourism"/>
-</p>
+<p><img src="docs/readme-assets/director-1.jpg" width="100%" alt="tvc"/></p>
+<p><img src="docs/readme-assets/director-2.jpg" width="100%" alt="short drama"/></p>
+<p><img src="docs/readme-assets/director-3.jpg" width="100%" alt="city tourism"/></p>
 
 ### xiaoma-designer · 视觉设计与评审
 
@@ -179,7 +177,7 @@
 
 **指定技术栈保证 oneshot 品质**：shadcn/ui（Nova 风格）组件 · Lucide 图标 · Motion 动画 · react-resizable-panels 布局 · dnd-kit 拖拽 · Zustand 状态——同类能力只装一个库，全站一套设计语言。
 
-写任何区块前先查对应参考源（导航→navbar.gallery，CTA→cta.gallery，布局→bentogrids.com，微交互→60fps.design……共 10 个），然后进入 **awwwards 级自检循环**：真实跑起来截图，按 Design 40% / Usability 30% / Creativity 20% / Content 10% 打分，任何一维不到 9 分就修了重评，最多三轮。
+写任何区块前先查对应参考源（导航→navbar.gallery，CTA→cta.gallery，布局→bentogrids.com，微交互→60fps.design……共 10 个），然后进入 **awwwards 级自检循环**：真实跑起来截图，先过硬指标（移动端无横滚 / 对比度 / Lighthouse），再按 Design 40% / Usability 30% / Creativity 20% / Content 10% 打分，任何一维不到 9 分就修了重评，最多三轮。
 
 > 对你的 Agent 说："用 xiaoma-gen-ui 做一个深色高级感的 AI 产品落地页"
 
