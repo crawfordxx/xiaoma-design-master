@@ -24,6 +24,7 @@ sys.path.insert(0, str(TOOLKIT))
 from xiaoma_gen.adapters.base import AdapterError  # noqa: E402
 from xiaoma_gen.adapters.openai_chat import OpenaiChatAdapter  # noqa: E402
 from xiaoma_gen.adapters.openai_images import OpenaiImagesAdapter  # noqa: E402
+from xiaoma_gen.executor import run_generation  # noqa: E402
 from xiaoma_gen.models import ImageRequest, LlmRequest, VideoRequest  # noqa: E402
 from xiaoma_gen.registry import ConfigError, load_registry  # noqa: E402
 
@@ -52,17 +53,39 @@ def load_or_die(path: Path):
         sys.exit(2)
 
 
-def build_adapter(registry, provider: str):
+def build_adapter(registry, provider: str, fatal: bool = True):
     cfg = registry.provider_cfg(provider)
     cls = ADAPTERS.get(cfg.get("protocol", ""))
     if cls is None:
-        print(f"不支持的协议: {cfg.get('protocol')}（provider={provider}）", file=sys.stderr)
-        sys.exit(2)
+        msg = f"不支持的协议: {cfg.get('protocol')}（provider={provider}）"
+        if fatal:
+            print(msg, file=sys.stderr)
+            sys.exit(2)
+        print(f"WARN: {msg}，跳过故障转移候选", file=sys.stderr)
+        return None
     try:
         return cls(provider, cfg)
     except AdapterError as e:
-        print(str(e), file=sys.stderr)
-        sys.exit(2)
+        if fatal:
+            print(str(e), file=sys.stderr)
+            sys.exit(2)
+        print(f"WARN: {provider} 不可用（{e}），跳过故障转移候选", file=sys.stderr)
+        return None
+
+
+def build_adapters_for_cap(registry, cap: str, first_provider: str) -> dict:
+    """首选 provider 缺配置直接报错；其余候选缺配置只警告跳过。"""
+    adapters = {}
+    a = build_adapter(registry, first_provider, fatal=True)
+    if a:
+        adapters[first_provider] = a
+    for pname in registry.providers_of(cap):
+        if pname in adapters:
+            continue
+        a = build_adapter(registry, pname, fatal=False)
+        if a:
+            adapters[pname] = a
+    return adapters
 
 
 def dry_run_line(cap: str, req) -> str:
@@ -88,8 +111,8 @@ def cmd_image(args) -> int:
     if req.dry_run:
         print(dry_run_line("image", req) + f" provider={res.provider}")
         return 0
-    adapter = build_adapter(reg, res.provider)
-    r = adapter.generate_image(req)
+    adapters = build_adapters_for_cap(reg, "image", res.provider)
+    r = run_generation(req, reg, adapters)
     print_result(r)
     return 0 if r.ok else 1
 
@@ -104,8 +127,8 @@ def cmd_video(args) -> int:
     if req.dry_run:
         print(dry_run_line("video", req) + f" provider={res.provider}")
         return 0
-    adapter = build_adapter(reg, res.provider)
-    r = adapter.generate_video(req)
+    adapters = build_adapters_for_cap(reg, "video", res.provider)
+    r = run_generation(req, reg, adapters)
     print_result(r)
     return 0 if r.ok else 1
 
@@ -161,10 +184,12 @@ def cmd_balance(args) -> int:
 
 def print_result(r) -> None:
     if r.ok:
-        for u in r.urls:
-            print(u)
+        for p in (r.local_paths or r.urls):
+            print(p)
     else:
         print(f"ERROR: {r.error}", file=sys.stderr)
+        for u in r.urls:
+            print(u, file=sys.stderr)
 
 
 def build_parser() -> argparse.ArgumentParser:
