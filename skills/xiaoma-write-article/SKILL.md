@@ -34,7 +34,7 @@ requires: gen
 
 **Step 3 写前思考**：读 [`shared/writing-guide.md`](shared/writing-guide.md) 的"写前思考框架"，在思考区内完成 8 项（读者场景/情绪旅程/核心矛盾/原子洞察/最强反驳/电影场景/赌注/信息不对称）。说不出原子洞察就回 Step 1。
 
-**Step 4 写作**：按选中框架写 1500–2500 字。全程执行 writing-guide 的具体性铁律和情绪架构（峰值放 60–70% 处）。写完跑三重自检：深度清单（≥2 个三级"So What"）/ 截图测试（≥1 段截图级）/ 声音校验。
+**Step 4 写作**：按选中框架写 1500–2500 字。全程执行 writing-guide 的具体性铁律和情绪架构（峰值放 60–70% 处）。**具体 ≠ 编造**：第一人称经历、调查数字、采访、引语只能来自用户素材或可核验的公开来源，缺了留 `[待补：…]` 占位，不许编。写完跑三重自检：深度清单（≥2 个三级"So What"）/ 截图测试（≥1 段截图级）/ 声音校验。
 
 **Step 5 去 AI 味 + 标题**：读 [`shared/de-ai-protocol.md`](shared/de-ai-protocol.md)，四级协议全跑（L1 词表全量清扫 → L2 结构 → L3 认知 → L4 终检）。标题出 3 个候选（不同策略）选最具体的。任何一级不过回炉，不带着 AI 味进入下一步。
 
@@ -45,7 +45,7 @@ $S/toolkit/gen image --prompt "..." --ratio 16:9 --tier draft   # 试稿
 $S/toolkit/gen image --prompt "..." --ratio 16:9 --tier final --out workspace/projects/<slug>/images/cover.png
 ```
 
-**Step 7 交付**：定稿存 `workspace/projects/<slug>/final.md`，按 [`shared/runtime-rules.md`](shared/runtime-rules.md) 的结果链接区收尾（文件路径 + 下一步建议 1 条）。
+**Step 7 交付**：定稿存 `workspace/projects/<slug>/final.md`，附待补清单（所有 `[待补]` 占位）和引用出处，按 [`shared/runtime-rules.md`](shared/runtime-rules.md) 的结果链接区收尾（文件路径 + 下一步建议 1 条）。
 
 ## 执行模式
 
@@ -62,3 +62,4 @@ $S/toolkit/gen image --prompt "..." --ratio 16:9 --tier final --out workspace/pr
 - **框架填空题**：六框架执行得完美但内容通用 = 白写，深度清单先过
 - **去 AI 味后置**：写的时候别自我审查，写完 L1–L4 一次跑完
 - **AI 论文腔**：具体性表格里左列的每一个词都是死刑信号
+- **编造具体**：为了"有人味"替作者编经历、编群投票、编采访对象 = 作者发出去就是造假；没素材就占位，宁可交半成品
