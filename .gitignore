@@ -1,0 +1,10 @@
+# Python
+__pycache__/
+*.pyc
+.coverage
+
+# 内部工作文档（设计过程稿，不随仓库发布）
+docs/superpowers/
+
+# 个人运行时数据（素材/项目/产出/历史）
+workspace/
