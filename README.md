@@ -146,18 +146,18 @@
 知识拆解 4–6 模块 → 五大布局（阶梯/对比/因果/辐射/时间轴）→ 图上文案 → 结构化提示词包。生成失败时，提示词包本身就是交付物。
 
 <p><img src="docs/readme-assets/gen-infographic.jpg" width="45%" alt="infographic"/></p>
-<p><sub>"收藏 ≠ 学习" · 三段式布局 + 对比结构</sub></p>
+<p><sub>"收藏≠学会" · 阶梯式布局，图上文字模型直出、逐字校对 · <a href="showcase/xiaoma-gen-infographic/">提示词</a></sub></p>
 
 ### xiaoma-gen-cover · 文章封面
 
-三创意方向（直接冲击 / 氛围 / 信息可视化）各出一稿，平台规格锁定，缩略图安全区检查，留白保证标题可叠。
+三创意方向（直接冲击 / 氛围 / 信息可视化）各出一稿，平台规格锁定，主体必须落在缩略图安全区内，交付带标题的成品——短标题模型直出，位置要求严格时走底图 + 排版叠字。
 
 <p>
   <img src="docs/readme-assets/cover-a.jpg" width="32%" alt="direct"/>
   <img src="docs/readme-assets/cover-b.jpg" width="32%" alt="atmos"/>
   <img src="docs/readme-assets/cover-c.jpg" width="32%" alt="infoviz"/>
 </p>
-<p><sub>同一篇文章的三个创意方向：A 直接冲击 · B 氛围 · C 信息可视化</sub></p>
+<p><sub>同一篇文章的三个创意方向：A 直接冲击 · B 氛围 · C 信息可视化（A、C 为底图 + 排版叠字，<a href="showcase/xiaoma-gen-cover/">看源文件</a>）</sub></p>
 
 ### xiaoma-gen-video · 视频生成编排
 

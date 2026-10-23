@@ -29,7 +29,7 @@
 **B. 底图 + 排版叠字（长文字、密集数据、或 A 校对不过）**
 1. 生图只出底图（`no text`），按版式给文字留好空位
 2. 写一个同尺寸 HTML：底图作背景，文字层绝对定位（字体、字号、颜色在 HTML 里定）
-3. 无头浏览器截图导出 PNG，例如 `npx playwright screenshot --viewport-size "1280, 544" file://$PWD/cover.html cover.png`
+3. 无头浏览器截图导出 PNG，例如 `npx playwright screenshot --channel chrome --viewport-size "1280, 544" file://$PWD/cover.html cover.png`（`--channel chrome` 直接用本机 Chrome；没装 Chrome 就先 `npx playwright install chromium` 再去掉这个参数）
 4. 截图就是交付物；HTML 一并存档，改字不用重新生图
 
 视频画面一律不写字（视频模型逐帧写字必乱），文字放后期字幕。
