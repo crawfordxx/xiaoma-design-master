@@ -23,12 +23,14 @@ sys.path.insert(0, str(TOOLKIT))
 
 from xiaoma_gen.adapters.base import AdapterError  # noqa: E402
 from xiaoma_gen.adapters.openai_chat import OpenaiChatAdapter  # noqa: E402
+from xiaoma_gen.adapters.kkhub_video import KkhubVideoAdapter  # noqa: E402
 from xiaoma_gen.adapters.openai_images import OpenaiImagesAdapter  # noqa: E402
 from xiaoma_gen.executor import run_generation  # noqa: E402
 from xiaoma_gen.models import ImageRequest, LlmRequest, VideoRequest  # noqa: E402
 from xiaoma_gen.registry import ConfigError, load_registry  # noqa: E402
 
-ADAPTERS = {"openai-chat": OpenaiChatAdapter, "openai-images": OpenaiImagesAdapter}  # protocol -> class
+ADAPTERS = {"openai-chat": OpenaiChatAdapter, "openai-images": OpenaiImagesAdapter,
+             "kkhub-video": KkhubVideoAdapter}  # protocol -> class
 
 
 def default_config_path() -> Path:

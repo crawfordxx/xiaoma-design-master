@@ -10,7 +10,7 @@ sys.path.insert(0, str(REPO / "toolkit"))
 from xiaoma_gen.models import GenResult, ImageRequest, LlmRequest, VideoRequest  # noqa: E402
 from xiaoma_gen.registry import ConfigError, Registry, load_registry  # noqa: E402
 
-TOML = REPO / "toolkit" / "providers.toml"
+TOML = REPO / "toolkit" / "providers.example.toml"
 
 
 class LoadAndResolveTests(unittest.TestCase):
@@ -18,29 +18,29 @@ class LoadAndResolveTests(unittest.TestCase):
     def setUpClass(cls):
         cls.reg = load_registry(TOML)
 
-    def test_resolve_video_draft_defaults_to_wlyd_mini(self):
+    def test_resolve_video_draft_defaults(self):
         r = self.reg.resolve("video", "draft", None)
-        self.assertEqual(r.provider, "wlyd")
-        self.assertEqual(r.model, "seed-2-mini")
+        self.assertEqual(r.provider, "my-relay")
+        self.assertEqual(r.model, "my-video-model-fast")
 
-    def test_resolve_video_final_defaults_to_wlyd_flagship(self):
+    def test_resolve_video_final_defaults(self):
         r = self.reg.resolve("video", "final", None)
-        self.assertEqual(r.provider, "wlyd")
-        self.assertEqual(r.model, "seed-2.5")
+        self.assertEqual(r.provider, "my-relay")
+        self.assertEqual(r.model, "my-video-model")
 
     def test_resolve_image_final(self):
         r = self.reg.resolve("image", "final", None)
-        self.assertEqual(r.provider, "wlyd")
-        self.assertEqual(r.model, "tt-image2")
+        self.assertEqual(r.provider, "my-relay")
+        self.assertEqual(r.model, "my-image-model")
 
     def test_resolve_with_explicit_model(self):
-        r = self.reg.resolve("video", None, "seed-2-fast")
-        self.assertEqual(r.provider, "wlyd")
-        self.assertEqual(r.model, "seed-2-fast")
+        r = self.reg.resolve("video", None, "my-video-model-fast")
+        self.assertEqual(r.provider, "my-relay")
+        self.assertEqual(r.model, "my-video-model-fast")
 
     def test_resolution_carries_provider_cfg(self):
         r = self.reg.resolve("video", "final", None)
-        self.assertEqual(r.cfg["base"], "https://agentwan.wdsheng.com")
+        self.assertEqual(r.cfg["base"], "https://your-relay.example.com")
         self.assertEqual(r.cfg["protocol"], "openai-chat")
 
 

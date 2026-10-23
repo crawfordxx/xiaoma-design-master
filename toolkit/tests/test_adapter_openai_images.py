@@ -65,9 +65,13 @@ class OkCases(unittest.TestCase):
         ad.generate_image(ImageRequest(prompt="猫", model="m", ratio="3:4"))
         ad.generate_image(ImageRequest(prompt="猫", model="m", ratio="4:3"))
         ad.generate_image(ImageRequest(prompt="猫", model="m", ratio="1:1"))
+        ad.generate_image(ImageRequest(prompt="猫", model="m", ratio="2.35:1"))
+        ad.generate_image(ImageRequest(prompt="猫", model="m", ratio="4:1"))
         self.assertEqual(ft.calls[0]["body"]["size"], "1024x1536")
         self.assertEqual(ft.calls[1]["body"]["size"], "1536x1024")
         self.assertEqual(ft.calls[2]["body"]["size"], "1024x1024")
+        self.assertEqual(ft.calls[3]["body"]["size"], "1920x816")
+        self.assertEqual(ft.calls[4]["body"]["size"], "1600x400")
 
 
 class ErrorCases(unittest.TestCase):

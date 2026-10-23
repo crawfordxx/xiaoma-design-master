@@ -10,7 +10,7 @@ python3 -m unittest discover -s toolkit/tests -v 2>&1 | tail -3
 
 echo "== 2/4 技能 smoke =="
 # 新生成类技能走 strict-gen（禁模型名/禁直连）；旧技能 basic。
-NEW_GEN_SKILLS="xiaoma-write-article xiaoma-write-xhs xiaoma-de-ai xiaoma-gen-image xiaoma-gen-infographic xiaoma-gen-cover xiaoma-gen-video xiaoma-video-script"
+NEW_GEN_SKILLS="xiaoma-write-article xiaoma-write-xhs xiaoma-de-ai xiaoma-gen-image xiaoma-gen-infographic xiaoma-gen-cover xiaoma-gen-video xiaoma-video-script xiaoma-gen-ui"
 fail=0
 for d in skills/*/; do
   name="$(basename "$d")"
