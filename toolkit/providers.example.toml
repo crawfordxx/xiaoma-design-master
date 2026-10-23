@@ -1,0 +1,64 @@
+# xiaoma-gen Provider 注册表 — 唯一允许出现具体模型名的地方。
+# 这是【示例模板】：复制为 toolkit/providers.toml（已被 gitignore）后填入你自己的 API。
+# 密钥只存环境变量名/文件路径，绝不填值。
+#
+# 支持两种协议:
+#   openai-chat   — 任何 OpenAI 兼容聊天端点(POST /v1/chat/completions)，
+#                   prompt 进 messages，媒体 URL 从回复文本提取（多数中转站、
+#                   聊天协议生图/生视频网关都是这种）
+#   openai-images — 标准 OpenAI 图像接口(POST /v1/images/generations)
+
+# ------------------------------------------------- 示例 1: OpenAI 兼容中转
+[providers.my-relay]
+enable = true
+key_env = "MY_RELAY_API_KEY"          # 环境变量名（按你的服务改）
+key_file = "~/.my-relay-api-key"      # 或密钥文件路径
+base = "https://your-relay.example.com"   # 你的中转站地址
+protocol = "openai-chat"
+
+# 图片模型（名字按你的服务商实际提供填写）
+[providers.my-relay.caps.image.models."my-image-model"]
+tier = "final"
+
+# 视频模型（名字按你的服务商实际提供填写）
+[providers.my-relay.caps.video.models."my-video-model"]
+tier = "final"
+
+[providers.my-relay.caps.video.models."my-video-model-fast"]
+tier = "draft"
+
+# ------------------------------------------------- 示例 2: 标准 OpenAI 图像接口
+[providers.openai]
+enable = false                        # 用不到就保持 false
+key_env = "OPENAI_API_KEY"
+base = "https://api.openai.com/v1"
+protocol = "openai-images"
+
+[providers.openai.caps.image.models."gpt-image-1"]
+tier = "final"
+
+[providers.openai.caps.image.models."gpt-image-1-mini"]
+tier = "draft"
+
+# ------------------------------------------------- 示例 3: LLM（批量文本任务用）
+[providers.my-llm]
+enable = false
+key_env = "OPENAI_API_KEY"
+base = "https://api.openai.com/v1"
+protocol = "openai-chat"
+
+[providers.my-llm.caps.llm.models."gpt-5-mini"]
+tier = "draft"
+
+# ------------------------------------------------- 默认档位（draft=试稿省钱档, final=正式出片档）
+[defaults.image]
+draft = "openai:gpt-image-1-mini"
+final = "my-relay:my-image-model"
+
+[defaults.video]
+draft = "my-relay:my-video-model-fast"
+final = "my-relay:my-video-model"
+
+[defaults.llm]
+draft = "my-llm:gpt-5-mini"
+final = "my-llm:gpt-5-mini"
