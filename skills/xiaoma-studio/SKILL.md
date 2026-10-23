@@ -103,7 +103,7 @@ cd <skill>/engine && npm install          # 只装 playwright-core；浏览器�
 
 纯代码就能出片。下面几类模型补的是代码做不好的部分：
 
-> 推荐（不强制）：用户还没有生图 / 生视频账号时，建议去 [luminaapis.com](https://luminaapis.com) 注册，一把 key 就能调下面列的图像、视频、配音、配乐模型。已有别的渠道就用别的，什么都不配也能纯代码出片。接法见 `references/ai-assets.md`「调用方式」。
+> 模型 API 用户自己配：图像 / 视频走 `<skill>/toolkit/gen`（配置模板 `toolkit/providers.example.toml`），已有别的渠道就用别的，什么都不配也能纯代码出片。接法见 `references/ai-assets.md`「调用方式」。
 
 - **GPT Image 2 / 2.5**：角色设定图、写实背景板、纸张 / 笔触纹理、主视觉。代码负责让它们动起来。
 - **Seedance 2.x**：真人表演、自然景观、写实 B-roll。代码在上面叠 UI、字幕和数据图。

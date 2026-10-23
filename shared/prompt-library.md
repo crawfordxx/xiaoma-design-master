@@ -444,21 +444,21 @@ Transform the reference photograph into a sophisticated minimalist editorial art
 ```
 
 #### Synthwave Sports Car at Sunset
-*by Rendar AI* · [source](https://x.com/rendar_ai/status/2112881126607888462#reversed-0)
+*by Rendar AI* · [source](https://x.com/rendar_ai/status/2112881126607888462)
 
 ```
 A vertical 9:16 synthwave-style digital illustration of a sleek, low-profile sports car resembling a Lamborghini Countach, parked on a wet asphalt surface that reflects neon light. The car is angled slightly toward the viewer from the front-left three-quarter view, with glowing pink and cyan underglow lighting along its chassis and headlights emitting warm amber beams. Behind the car stretches an infinite grid road made of luminous blue lines receding into the horizon, flanked by jagged mountain silhouettes bathed in magenta and violet hues. Dominating the sky is a massive setting sun rendered as concentric horizontal bands of orange, yellow, and deep red, partially obscured by wispy clouds tinged with purple. The overall atmosphere is dreamlike, retro-futuristic, and saturated with electric pinks, purples, blues, and oranges — evoking 1980s arcade aesthetics and vaporwave vibes. No text or logos are visible.
 ```
 
 #### Quiet vs Abandoned Train Station Comparison
-*by Human.exe* · [source](https://x.com/Human_exer/status/2111111073168269554#reversed-0)
+*by Human.exe* · [source](https://x.com/Human_exer/status/2111111073168269554)
 
 ```
 A split-screen comparison of two train station scenes at dusk, separated by a thin vertical line. Left panel: A quiet, well-maintained train station named "RIVERDALE" with warm yellow lighting under the platform canopy, a wooden bench, a round clock on the wall, clean concrete platform with yellow tactile paving edge, curved railway tracks leading into the distance, signal lights glowing red, and a vibrant sunset sky with orange and purple hues over distant hills. Right panel: An abandoned, dilapidated train station named "RAVENSBROOK" with peeling paint, broken windows, overgrown weeds and grass between cracked concrete platforms, rusted railway tracks, weathered wooden support beams, dark and eerie atmosphere, similar sunset sky but more muted and cloudy. Bottom labels: "QUIET" in white text on dark background beneath left image, "ABANDONED" in white text on dark background beneath right image.
 ```
 
 #### Anime Character Sheet: Crying Girl
-*by ヌケがら🔥* · [source](https://x.com/nukegala83/status/2112505860450894056#reversed-0)
+*by ヌケがら🔥* · [source](https://x.com/nukegala83/status/2112505860450894056)
 
 ```
 A high-resolution anime character design sheet for a 3-year-old girl, rendered in a soft pastel aesthetic. The layout is divided into sections: Top Left: A large close-up of the crying girl with brown bob hair and red eyes, wearing a pink floral dress, reaching out her hands. Label '3歳' (3 years old) and '災害シーン用キャラクターシート' (Character Sheet for Disaster Scenes). Top Right: Four smaller expression panels labeled '泣く' (Crying), '怯える' (Frightened), '驚く' (Surprised), and '普段の笑顔' (Usual Smile). Bottom Left: A full-body turnaround showing three views labeled '正面' (Front), '側面' (Side), and '背面' (Back). She wears a tiered ruffled dress with a cherry blossom pattern, white socks, and pink sneakers. Bottom Right: Detail close-ups labeled '瞳ディテール' (Eye detail), '口ディテール' (Mouth detail), '髪飾り' (Hair accessory - flower clip), '服ディテール' (Clothing detail - bow), '靴ディテール' (Shoe detail), and '生地の柄' (Fabric pattern).
@@ -489,7 +489,7 @@ A cinematic double exposure portrait of a {argument name="subject" default="youn
 ```
 
 #### Giant MPD Robots Carrying Heavy Load
-*by カーブミラー* · [source](https://x.com/kabumira862571/status/2112914614136737994#reversed-0)
+*by カーブミラー* · [source](https://x.com/kabumira862571/status/2112914614136737994)
 
 ```
 A photorealistic, wide-angle shot of two massive bipedal humanoid robots standing on a wet concrete surface at a Japanese port. The robots are painted in white and dark grey armor plating with red emergency lights on their shoulders and heads. Each robot has '警視庁' (Metropolitan Police Department) and 'MPD' written in black text on their chest plates and shoulder guards. They are jointly holding a large, heavy industrial metal container or piece of machinery between them. In the background, there is a suspension bridge (resembling Tokyo Rainbow Bridge), city skyscrapers, and a blue sky with scattered clouds. On the ground level, numerous construction workers wearing yellow safety vests and hard hats are visible, along with police officers in dark uniforms directing traffic. A black police truck with similar markings is parked to the left.
@@ -508,77 +508,77 @@ Using my uploaded photo, transform me into a kooky, Doc Emmett Brown-inspired ec
 ```
 
 #### Rusted Clockwork Knight Character Sheet
-*by Amira Zairi* · [source](https://x.com/azed_ai/status/2111411419652804780#reversed-0)
+*by Amira Zairi* · [source](https://x.com/azed_ai/status/2111411419652804780)
 
 ```
 A high-fidelity character design sheet featuring a weary, battle-scarred knight in rusted plate armor with clockwork and gear motifs integrated into the shoulder pauldrons and knee guards. The central figure is a young man with messy silver-white hair, pale skin, and a prominent scar across his left eye, standing with hands resting on the pommel of a longsword planted tip-down on the ground. He wears a tattered crimson cloak over dark leather and chainmail, adorned with a gold Templar cross medallion. To the right, arrange a vertical column of detail shots: a rear view showing the full length of the red cape with a white embroidered cross; a close-up of the face; a macro shot of the mechanical gears on the shoulder; a split panel showing the sword blade texture and a skull-shaped visor mask; and a bottom row of three small squares displaying the cape embroidery, the medallion, and a final gear detail. Use a clean white background to emphasize the textures of the corroded metal and worn fabric.
 ```
 
 #### Japanese Village Festival Paper-Cut Scene
-*by Shoji Kai* · [source](https://x.com/Shoji_ai/status/2112853908284707072#reversed-0)
+*by Shoji Kai* · [source](https://x.com/Shoji_ai/status/2112853908284707072)
 
 ```
 Create a highly detailed, wide-angle digital illustration in a layered paper-cut art style depicting a bustling Japanese village festival at twilight. The scene is framed by dark silhouettes of trees and foliage in the immediate foreground. In the background, purple mountains rise under a golden sky with a large full moon. The midground features a lively town square filled with small figures celebrating. Key landmarks include: a clock tower on the right, a windmill on the distant hill, a pagoda on the left mountain, and a central tea house with a striped awning and a sign reading "Shoji". A river flows across the bottom foreground with boats carrying people and lanterns. Hidden within the scene are four cats circled in yellow: one on the roof of the house on the far left, one on a pine tree branch to its right, one near the well next to the tea house, and one on the arch bridge on the far right. The lighting is warm and inviting, coming from numerous glowing lanterns and windows.
 ```
 
 #### Vintage Anime Character Design Sheet
-*by のてくて＠たこ* · [source](https://x.com/ku_nel_notekute/status/2111344174553510208#reversed-0)
+*by のてくて＠たこ* · [source](https://x.com/ku_nel_notekute/status/2111344174553510208)
 
 ```
 Create a high-resolution anime character design sheet titled "Classy Days" in the top left corner, featuring a cute girl with short silver hair and pink highlights wearing a vintage Lolita outfit. The layout must include: 1) A large close-up portrait on the left showing her smiling expression, lace collar, cameo brooch, and dark brown jacket. 2) A full-body standing pose in the upper right holding a small brown handbag. 3) Two smaller chibi-style illustrations at the bottom (one back view, one front view). 4) A vertical column of detail boxes on the far right labeled: HAIR RIBBON, CAMEO EARRINGS, BLOUSE & BROOCH, JACKET & VEST, LACE SOCKS & SHOES, BAG. 5) Text blocks reading "Classic Sweet Daily with You", "A little more myself today... Comfort looks good on you.", and "Same me, different day. A gentle style for everyday happiness." 6) A color palette swatch in the bottom left corner. Use a soft, pastel aesthetic with cream backgrounds and delicate lace borders.
 ```
 
 #### Slytherin Dueling Outfit Character Sheet
-*by 李岳* · [source](https://x.com/liyue_ai/status/2111829045520605351#reversed-0)
+*by 李岳* · [source](https://x.com/liyue_ai/status/2111829045520605351)
 
 ```
 A high-resolution character design sheet featuring a young woman with long, wavy platinum blonde hair and striking blue eyes. The image is divided into two sections: on the left, a large close-up portrait of her face showing soft makeup and a neutral expression; on the right, three full-body views (front, side profile, and back) of her wearing an elaborate Slytherin-inspired dueling outfit. The outfit consists of a structured black leather jacket with silver filigree embroidery on the shoulders and cuffs, a crisp white collared shirt, a dark emerald green silk cravat secured with a jeweled silver snake brooch, a fitted black vest with silver buttons, slim black trousers, and knee-high black leather boots with block heels. The coat features a long, asymmetrical tailcoat hem in deep green velvet with intricate gold scrollwork patterns along the edges. She wears black leather gloves. The background is a clean, solid light gray studio setting.
 ```
 
 #### Anime Girl Knitting in Rustic Cabin
-*by Harf_Done* · [source](https://x.com/half_done_yet/status/2112152762515595292#reversed-0)
+*by Harf_Done* · [source](https://x.com/half_done_yet/status/2112152762515595292)
 
 ```
 A high-quality anime illustration of a young woman knitting in a rustic, cozy interior. She has long brown hair styled in a single side braid and wears round wire-rimmed glasses. Her expression is calm and focused as she looks down at her work. She is dressed in traditional folk attire: a white ribbed long-sleeve blouse with a lace-trimmed neckline, worn under a dark blue bodice with front lacing and a matching skirt. She sits on a wooden chair, holding knitting needles and working on a multi-colored patterned sweater featuring horizontal stripes in red, yellow, blue, and white. To her left, a wicker basket filled with balls of yarn sits on the floor. The background features a large window on the right looking out onto a snowy mountain village scene with a church tower. On the windowsill sits a ceramic pitcher with dried flowers. To the left, there are shelves with copper pots and hanging herbs, creating a warm, lived-in atmosphere.
 ```
 
 #### Portrait of Eileithyia Goddess
-*by カーブミラー* · [source](https://x.com/kabumira862571/status/2110722878194983368#reversed-0)
+*by カーブミラー* · [source](https://x.com/kabumira862571/status/2110722878194983368)
 
 ```
 A hyper-realistic, cinematic portrait of {argument name="goddess name" default="EILEITHYIA"}, the ancient Greek goddess of childbirth. She is a beautiful young woman with long, wavy brown hair adorned with a delicate floral crown of white and pink blossoms intertwined with gold filigree. Her eyes are closed in a serene expression as she tenderly cradles a sleeping infant wrapped in soft, cream-colored swaddling cloth. She wears an ethereal gown of sheer fabric featuring intricate gold embroidery and beaded jewelry that drapes elegantly over her shoulders. The background consists of blurred classical marble columns and lush greenery bathed in warm, golden-hour sunlight. Overlay text on the left side includes the large serif title "EILEITHYIA", followed by Japanese characters "エイレイテュイア", the subtitle "GODDESS OF CHILDBIRTH", and a vertical block of Japanese descriptive text explaining her role as a protector of mother and child.
 ```
 
 #### Chevrolet Truck Split-Screen Poster
-*by 小小东* · [source](https://x.com/xiaoxiaodong/status/2111052033352724940#reversed-0)
+*by 小小东* · [source](https://x.com/xiaoxiaodong/status/2111052033352724940)
 
 ```
 Create a vertical split-screen poster design. The top half features a realistic photograph of the rear three-quarter view of an old, weathered white Chevrolet pickup truck parked on a gravel road with trees in the background; the lighting is moody and slightly desaturated. The bottom half shows the same truck from a similar angle but against a bright blue sky with fluffy white clouds, representing a hopeful future. Large, bold white Chinese text overlays the center-bottom section reading '一辆车' (One Truck) on the first line, '装下还没走完的' (Carrying what hasn't been traveled yet) on the second line, and '日子' (Days/Life) on the third line. To the right of the last character, include smaller italicized English text: 'A Truck for What's Next'. At the very bottom left, add small white text: '有些路，还留给明天。' (Some roads are left for tomorrow). At the bottom right, add spaced-out uppercase English text: 'FOR WHAT'S NEXT'.
 ```
 
 #### Anime Girl Celebrating Chrysanthemum Festival
-*by WaifuGacha（ガチャ）* · [source](https://x.com/WaifuGacha/status/2112139923885371712#reversed-0)
+*by WaifuGacha（ガチャ）* · [source](https://x.com/WaifuGacha/status/2112139923885371712)
 
 ```
 A high-quality anime illustration of a young woman celebrating the Chrysanthemum Festival (Kiku no Sekku). She has dark brown hair tied in a ponytail, adorned with yellow and white chrysanthemum flower hairpins. Her eyes are large, purple, and expressive, looking directly at the viewer with a gentle smile. She is wearing a traditional kimono featuring a pattern of large golden and purple chrysanthemums on a light background. She holds a small ceramic cup filled with tea or sake garnished with floating chrysanthemum petals in both hands near her face. The setting is outdoors at twilight, with a warm lantern glowing on the left side. In the foreground, there is a blue vase with gold floral patterns and a bowl of dried chrysanthemum flowers. The background features vibrant red autumn maple leaves against a deep blue night sky with a crescent moon and stars, overlooking a body of water reflecting the lights.
 ```
 
 #### Woman Emerging Through Torn Paper
-*by Arina Ai* · [source](https://x.com/Arina_hoqe/status/2112409176135925881#reversed-0)
+*by Arina Ai* · [source](https://x.com/Arina_hoqe/status/2112409176135925881)
 
 ```
 Create an ultra-realistic, high-end fashion portrait of a beautiful young woman smiling warmly at the camera, emerging through a large, irregularly torn opening in a white paper wall. She has long, voluminous, naturally wavy dark-brown hair with subtle caramel highlights and a black velvet bow tied on one side. Her outfit consists of a cream-colored ribbed knit cardigan with pearl buttons over a matching square-neck top, paired with black trousers featuring a gold butterfly belt buckle. She wears delicate pearl drop earrings and a thin gold necklace with a small butterfly pendant. A black quilted leather handbag with a gold chain strap hangs from her shoulder. Her hands are visible gripping the edges of the torn paper to hold it open. The background behind her is a solid neutral taupe color. Soft, diffused studio lighting illuminates her face evenly.
 ```
 
 #### Anime Girl in Rainy Uniform
-*by Harf_Done* · [source](https://x.com/half_done_yet/status/2112152514380619991#reversed-0)
+*by Harf_Done* · [source](https://x.com/half_done_yet/status/2112152514380619991)
 
 ```
 A vertical anime illustration of a cute high school girl standing in the rain, looking back over her shoulder with a bright smile. She has long dark hair styled in two braids that hang down her back, and she wears round wire-rimmed glasses. Her outfit is a traditional navy blue sailor-style school uniform (seifuku) with white stripes on the collar and cuffs, paired with a matching pleated skirt and black tights. She holds a clear transparent umbrella over her head and carries a dark blue school bag slung over her shoulder. The background features a wet paved street reflecting the light, blurred silhouettes of other students walking away under umbrellas, and a stone gate pillar on the right side with a vertical sign reading '高等学校' (High School). The lighting is soft and diffused, typical of a rainy day, creating a nostalgic and atmospheric mood.
 ```
 
 #### Japanese Police Officer Trapped in Robot Mouth
-*by カーブミラー* · [source](https://x.com/kabumira862571/status/2111408886788067637#reversed-0)
+*by カーブミラー* · [source](https://x.com/kabumira862571/status/2111408886788067637)
 
 ```
 A hyper-realistic, cinematic close-up of a Japanese police officer trapped inside the gaping, mechanical maw of a colossal robot. The view is framed by rows of sharp, dirty white metal teeth and heavy industrial jaw hinges with red glowing lights at the top and bottom corners. Inside the mouth, the officer is buried under a chaotic pile of debris including broken concrete chunks, twisted rebar, shattered traffic lights showing red, and blue Japanese road signs reading "Nihonbashi" (top right) and "Ueno" (bottom left). The officer wears a dark navy uniform with an "MPD" chest patch and a white helmet with a blue stripe and gold emblem. He has a panicked expression, looking upward to the left, with dirt on his face and hands raised defensively. The lighting is dramatic and gritty, emphasizing the texture of the mud, metal, and fabric.

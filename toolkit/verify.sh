@@ -28,9 +28,10 @@ python3 toolkit/gen.py image --prompt "冒烟" --dry-run --config toolkit/provid
 python3 toolkit/gen.py video --prompt "冒烟" --dry-run --config toolkit/providers.example.toml
 
 echo "== 4/4 公开内容清洁检查 =="
-if grep -rniE 'youmind|逆向|reverse[ -]engineer' \
+if grep -rniE 'youmind|逆向|reverse[ -]engineer|#reversed|luminaapis|kkhub|kkidc' \
     --include='*.md' --include='*.py' --include='*.toml' --include='*.sh' \
-    README.md CONTRIBUTING.md AGENT-INSTALL.md skills/ shared/ toolkit/ 2>/dev/null \
+    README.md CONTRIBUTING.md AGENT-INSTALL.md skills/ shared/ toolkit/ showcase/ 2>/dev/null \
+    | grep -v 'toolkit/providers.toml' \
     | grep -v 'providers.example.toml' | grep -v 'verify.sh'; then
   echo "清洁检查失败：公开内容包含敏感词" >&2
   exit 1

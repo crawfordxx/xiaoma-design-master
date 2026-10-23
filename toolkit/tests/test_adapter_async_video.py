@@ -1,4 +1,4 @@
-"""KkhubVideoAdapter（异步任务协议：提交 + 轮询）的单元测试。"""
+"""AsyncVideoAdapter（异步任务协议：提交 + 轮询）的单元测试。"""
 import json
 import os
 import sys
@@ -9,13 +9,13 @@ from unittest import mock
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO / "toolkit"))
 
-from xiaoma_gen.adapters.kkhub_video import KkhubVideoAdapter  # noqa: E402
+from xiaoma_gen.adapters.async_video import AsyncVideoAdapter  # noqa: E402
 from xiaoma_gen.models import ImageRequest, VideoRequest  # noqa: E402
 
 CFG = {
-    "key_env": "KKHUB_VIDEO_API_KEY",
-    "base": "https://ai-api.kkidc.com",
-    "protocol": "kkhub-video",
+    "key_env": "VIDEO_API_KEY",
+    "base": "https://video-gateway.example.com",
+    "protocol": "async-video",
 }
 
 
@@ -55,8 +55,8 @@ def poll(status, video_url="https://cdn.example.com/v.mp4", fail_reason=""):
 
 def make_adapter(transport):
     getter = lambda url, headers, timeout: transport(url, headers, None, timeout, method="GET")  # noqa: E731
-    with mock.patch.dict(os.environ, {"KKHUB_VIDEO_API_KEY": "sk-kk"}):
-        return KkhubVideoAdapter("kkhub-video", CFG, transport=transport,
+    with mock.patch.dict(os.environ, {"VIDEO_API_KEY": "sk-kk"}):
+        return AsyncVideoAdapter("async-video", CFG, transport=transport,
                                  getter=getter, poll_interval=0)
 
 

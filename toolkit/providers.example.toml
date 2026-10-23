@@ -7,6 +7,8 @@
 #                   prompt 进 messages，媒体 URL 从回复文本提取（多数中转站、
 #                   聊天协议生图/生视频网关都是这种）
 #   openai-images — 标准 OpenAI 图像接口(POST /v1/images/generations)
+#   async-video   — 异步任务视频接口（POST /v1/video/generations 提交 → GET 轮询状态，
+#                   时长/比例等参数放 metadata，参考图只收公网 URL）
 
 # ------------------------------------------------- 示例 1: OpenAI 兼容中转
 [providers.my-relay]

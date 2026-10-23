@@ -210,10 +210,10 @@ def test_image_config_defaults_and_env():
     c = ib.image_config({})
     assert (c['backend'], c['base'], c['model'], c['quality'], c['sizes']) == \
         ('openai', 'https://api.openai.com', 'gpt-image-1', 'low', 'standard')
-    c = ib.image_config({'IMAGE_API_BASE': 'https://ai-api.kkidc.com/', 'IMAGE_API_KEY': 'k',
+    c = ib.image_config({'IMAGE_API_BASE': 'https://img-gateway.example.com/', 'IMAGE_API_KEY': 'k',
                              'IMAGE_MODEL': 'gpt-image-2', 'IMAGE_SIZES': 'exact', 'IMAGE_PRICE': '0.3'})
     assert (c['base'], c['key'], c['model'], c['sizes'], c['price']) == \
-        ('https://ai-api.kkidc.com', 'k', 'gpt-image-2', 'exact', 0.3)
+        ('https://img-gateway.example.com', 'k', 'gpt-image-2', 'exact', 0.3)
     assert ib.image_config({'OPENAI_API_KEY': 'o'})['key'] == 'o'
 
 

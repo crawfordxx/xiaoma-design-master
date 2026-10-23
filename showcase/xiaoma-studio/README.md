@@ -83,7 +83,7 @@ node /path/to/xiaoma-studio/engine/webcheck.mjs http://localhost:5173/    # 多�
 
 纯代码就能出片。需要写实画面或人声时：
 
-> 推荐在 [luminaapis.com](https://luminaapis.com) 注册一个账号：一把 API key 就能调下面这些图像、视频、配音、配乐模型（GPT Image、Nano Banana、Midjourney、Seedance、Veo、可灵等），不用分别开通。不强制，用官方 API 或其他网关同样可以。
+> 模型 API 用你自己的：在 `toolkit/providers.toml` 里配置图像、视频模型（模板见 `toolkit/providers.example.toml`），官方 API 或任何兼容网关都行。
 
 - **GPT Image 2 / 2.5**：角色设定图、背景板、纹理、主视觉
 - **Seedance 2.x**：真人 / 写实镜头、B-roll

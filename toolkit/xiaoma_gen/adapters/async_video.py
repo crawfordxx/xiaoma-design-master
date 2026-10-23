@@ -1,4 +1,4 @@
-"""KKHub 视频适配器（kkhub-video 协议：异步任务提交 + 轮询）。
+"""异步任务视频适配器（async-video 协议：异步任务提交 + 轮询）。
 
 提交: POST <base>/v1/video/generations  {model, prompt, image?, metadata:{duration, ratio, generate_audio, watermark}}
 轮询: GET  <base>/v1/video/generations/{task_id} → data.status: NOT_START/SUBMITTED/QUEUED/IN_PROGRESS → SUCCESS/FAILURE
@@ -16,7 +16,7 @@ _SUBMIT_TIMEOUT = 60
 _POLL_TOTAL = 600  # 视频生成几分钟属正常
 
 
-class KkhubVideoAdapter(Adapter):
+class AsyncVideoAdapter(Adapter):
     def __init__(self, name: str, cfg: dict, transport=None, getter=None,
                  poll_interval: float = 10.0):
         super().__init__(name, cfg, transport=transport, getter=getter)
@@ -45,7 +45,7 @@ class KkhubVideoAdapter(Adapter):
                 if not ref.startswith(("http://", "https://")):
                     return GenResult(
                         ok=False,
-                        error="kkhub 视频接口的参考图只收公网 URL（本地图请先上传取 URL）")
+                        error="该视频接口的参考图只收公网 URL（本地图请先上传取 URL）")
             body["image"] = req.refs[0]  # 首帧图
         meta: dict = {"generate_audio": True, "watermark": False}
         if req.duration:
@@ -95,4 +95,4 @@ class KkhubVideoAdapter(Adapter):
         return GenResult(ok=False, error=f"轮询超时（{_POLL_TOTAL}s），task_id={task_id}")
 
     def generate_image(self, req: ImageRequest) -> GenResult:
-        return GenResult(ok=False, error="kkhub-video 协议只支持视频；图像请配置 openai-images 协议的 provider")
+        return GenResult(ok=False, error="async-video 协议只支持视频；图像请配置 openai-images 协议的 provider")

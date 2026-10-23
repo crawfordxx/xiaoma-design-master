@@ -26,7 +26,7 @@ xiaoma-design-master/
 
 ## 新增一个生成服务商
 
-1. 在 `toolkit/xiaoma_gen/adapters/` 写协议适配器（参照 `openai_chat.py` / `openai_images.py` / `kkhub_video.py`），TDD：先写 mock 测试
+1. 在 `toolkit/xiaoma_gen/adapters/` 写协议适配器（参照 `openai_chat.py` / `openai_images.py` / `async_video.py`），TDD：先写 mock 测试
 2. 在 `toolkit/gen.py` 的 `ADAPTERS` 注册协议名
 3. 用户侧只需在 `toolkit/providers.toml`（gitignore，不入库）加一段配置——**仓库零密钥**
 4. 模板见 `toolkit/providers.example.toml`
