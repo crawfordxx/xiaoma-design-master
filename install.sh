@@ -104,7 +104,12 @@ do_install() {
       [ -d "$tdir" ] || continue
       local dest="$tdir/$skill"
       if [ -L "$dest" ]; then
-        rm "$dest"                       # 本仓库旧链接 → 重建（幂等）
+        case "$(readlink "$dest" 2>/dev/null || true)" in
+          "$SKILLS_DIR"/*) rm "$dest" ;;  # 本仓库旧链接 → 重建（幂等）
+          *)
+            echo "SKIP: $dest 是指向别处的链接（$(readlink "$dest")），未覆盖；确认不要了就删掉它再重装" >&2
+            continue ;;
+        esac
       elif [ -e "$dest" ]; then
         echo "SKIP: $dest 已存在且不是本仓库的链接，未覆盖" >&2
         continue

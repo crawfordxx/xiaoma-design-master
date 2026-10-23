@@ -50,7 +50,7 @@ requires: gen
 
 **Step 2 设计语言**：先定 design tokens 再写任何组件——色板（主色/强调色/中性阶/暗色模式）、字体（标题/正文，最多两款）、间距系统、圆角、阴影层级。写入 Tailwind config + CSS 变量。**从这一步开始所有视觉决策只从 tokens 取值，不写魔法数。**
 
-**Step 3 参考研究**：按当前环节查对应资源（10 个参考源见 [`../../shared/ui-design.md`](../../shared/ui-design.md) 的"设计资源速查"）——做导航前看 navbar.gallery，做页脚前看 footer.design，做 CTA 前看 cta.gallery，做布局前看 bentogrids.com，写动画前看 60fps.design 和 motion.dev 文档。**每个大区块动手前先看 2–3 个参考再写。**
+**Step 3 参考研究**：按当前环节查对应资源（10 个参考源见 [`shared/ui-design.md`](shared/ui-design.md) 的"设计资源速查"）——做导航前看 navbar.gallery，做页脚前看 footer.design，做 CTA 前看 cta.gallery，做布局前看 bentogrids.com，写动画前看 60fps.design 和 motion.dev 文档。**每个大区块动手前先看 2–3 个参考再写。**
 
 **Step 4 组件搭建**：shadcn/ui CLI 加组件 → 用 tokens 定制样式 → Lucide 图标。区块顺序：导航 → Hero → 内容区（Bento 网格优先考虑）→ CTA → 页脚。Bento 网格（参考 bentogrids.com）是内容区默认布局思路：大小不一的卡片拼出信息层级和视觉节奏。
 
@@ -61,7 +61,7 @@ requires: gen
 - 3D 场景：需要时用 **three.js**（产品 3D 展示/粒子背景），与 Motion 的 DOM 动画分层不混用
 - **动画纪律**：每个动画要有目的（引导注意/反馈/空间连续），无目的的炫技动画删掉；60fps 是底线
 
-**Step 6 媒体资产**：按 [`../../shared/ui-design.md`](../../shared/ui-design.md) 的媒体工具链路由生成图片/人物/场景/视频，不要现场换工具。
+**Step 6 媒体资产**：按 [`shared/ui-design.md`](shared/ui-design.md) 的媒体工具链路由生成图片/人物/场景/视频，不要现场换工具。
 
 **Step 7 品质自检循环（awwwards 标准，不过不放行）**：
 

@@ -25,15 +25,17 @@ requires: gen
 
 ## Pipeline
 
+下文 `S=<本技能目录>`（直接用安装路径，不必解 symlink）；`$S/toolkit/gen` 是生成能力的唯一入口。
+
 **Step 1 意图确认**：比例（没说用途就问一句）、用途（封面/内文/社媒/头像）、风格偏好（没说默认跟随内容调性）。批量需求（>3 张）先报预估再动。
 
-**Step 1.5 人物逻辑（画面里有人且用户未提供照片时）**：读 [`../../shared/character-design.md`](../../shared/character-design.md)。从需求提取四元组（身份/年龄/地域/气质）→ 按十要素结构生成角色卡（骨相/五官/皮肤/神态各一句，至少 2 处不完美细节）→ 角色卡给用户过目 → draft 档生成定妆照 → 确认后存档 `workspace/projects/<slug>/characters/<名字>.png`，后续画面复用（作参考图或文本锚定，见 character-design 的角色复用节）。
+**Step 1.5 人物逻辑（画面里有人且用户未提供照片时）**：读 [`shared/character-design.md`](shared/character-design.md)。从需求提取四元组（身份/年龄/地域/气质）→ 按十要素结构生成角色卡（骨相/五官/皮肤/神态各一句，至少 2 处不完美细节）→ 角色卡给用户过目 → draft 档生成定妆照 → 确认后存档 `workspace/projects/<slug>/characters/<名字>.png`，后续画面复用（作参考图或文本锚定，见 character-design 的角色复用节）。
 
-**Step 2 提示词构建**：按 [`../../shared/visual-prompts.md`](../../shared/visual-prompts.md) 五要素：比例 + no-text 指令 + ≥3 风格词 + 色彩对齐 + 具象场景。有人物时把角色卡的骨相+五官+皮肤段原样编入提示词（文本锚定），或用定妆照作 `--ref`。参考图模式写清"保什么改什么"。把构建好的提示词给用户过目。
+**Step 2 提示词构建**：按 [`shared/visual-prompts.md`](shared/visual-prompts.md) 五要素：比例 + no-text 指令 + ≥3 风格词 + 色彩对齐 + 具象场景。有人物时把角色卡的骨相+五官+皮肤段原样编入提示词（文本锚定），或用定妆照作 `--ref`。参考图模式写清"保什么改什么"。把构建好的提示词给用户过目。
 
 **Step 3 draft 试稿**：
 ```bash
-../../toolkit/gen image --prompt "<五要素提示词>" --ratio 16:9 --tier draft
+$S/toolkit/gen image --prompt "<五要素提示词>" --ratio 16:9 --tier draft
 ```
 单方案 1 张；风格不确定时出 2–3 个方向的 draft。
 
@@ -41,10 +43,10 @@ requires: gen
 
 **Step 5 final 出片**：参数锁定后：
 ```bash
-../../toolkit/gen image --prompt "<锁定提示词>" --ratio 16:9 --tier final --out workspace/projects/<slug>/images/<name>.png
+$S/toolkit/gen image --prompt "<锁定提示词>" --ratio 16:9 --tier final --out workspace/projects/<slug>/images/<name>.png
 ```
 
-**Step 6 交付**：本地路径 + meta 位置 + 下一步建议（按 [`../../shared/runtime-rules.md`](../../shared/runtime-rules.md)）。
+**Step 6 交付**：本地路径 + meta 位置 + 下一步建议（按 [`shared/runtime-rules.md`](shared/runtime-rules.md)）。
 
 ## 执行模式
 

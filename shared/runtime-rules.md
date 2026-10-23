@@ -94,8 +94,8 @@ workspace/
 
 ## 版本与引用
 
-- 技能引用 shared/ 用相对路径 `../../shared/xxx.md`
-- 生成调用只写 `../../toolkit/gen <cap> --tier <档>`，绝不出现模型名
+- 技能目录内放相对 symlink `shared -> ../../shared`、`toolkit -> ../../toolkit`，正文只写 `shared/xxx.md`；SKILL.md 里不许出现 `../`（技能以 symlink 安装，`../` 会被规整到 Agent 技能目录之外而失效，smoke 会拦）
+- 生成调用只写 `$S/toolkit/gen <cap> --tier <档>`（`S`=本技能目录），绝不出现模型名
 - 每个技能自己的 Gotchas（命名反模式）放在 SKILL.md 末尾，发现新坑随时补
 
 ## 技能作者清单（新增技能时自查）

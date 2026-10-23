@@ -8,10 +8,10 @@
 
 | 需求 | 工具 | 调用方式 |
 |---|---|---|
-| 网页配图（hero 背景/产品图/装饰图） | **gpt-image-2** | `../../toolkit/gen image --prompt "<提示词>" --ratio 16:9 --tier draft` → 确认后 `--tier final` |
+| 网页配图（hero 背景/产品图/装饰图） | **gpt-image-2** | `$S/toolkit/gen image --prompt "<提示词>" --ratio 16:9 --tier draft` → 确认后 `--tier final` |
 | **人物设计**（需要真人在页面里：头像/团队/用户故事） | **midjourney** | 按 [`character-design.md`](character-design.md) 出角色卡，走 midjourney 通道生成；无通道时降级 gpt-image-2 并告知差异 |
 | **场景设计**（概念场景/氛围大图） | **midjourney** | 同上；MJ 的氛围感和艺术性优先，构图确定后文字层后期加 |
-| 网页视频（hero 背景视频/产品演示） | **seedance** | `../../toolkit/gen video --prompt "<导演式提示词>" --duration 10 --tier draft` → 确认后 final |
+| 网页视频（hero 背景视频/产品演示） | **seedance** | `$S/toolkit/gen video --prompt "<导演式提示词>" --duration 10 --tier draft` → 确认后 final |
 | 网页动画 | **React Motion** | 不用视频模型——DOM 动画用 motion.dev（滚动/进出场/微交互），见 gen-ui Step 5 |
 | 3D 场景 | **three.js** | 产品 3D/粒子背景用 three.js 写，不用视频模型替代 |
 

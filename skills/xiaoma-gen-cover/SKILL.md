@@ -25,6 +25,8 @@ requires: gen
 
 ## Pipeline
 
+下文 `S=<本技能目录>`（直接用安装路径，不必解 symlink）；`$S/toolkit/gen` 是生成能力的唯一入口。
+
 **Step 1 文章分析**：提炼核心概念（一句话）、情绪基调（理性/温暖/锐利/史诗）、目标读者。封面 = 概念的视觉隐喻 + 情绪的色调。
 
 **Step 2 平台规格锁定**：
@@ -32,7 +34,7 @@ requires: gen
 - 小红书：3:4（1080×1440），大字标题卡思路（背景生图+排版叠字）
 - 通用/社媒：16:9
 
-**Step 3 三创意方向**：按 [`../../shared/visual-prompts.md`](../../shared/visual-prompts.md) 的 A/B/C 模板各出一稿提示词：
+**Step 3 三创意方向**：按 [`shared/visual-prompts.md`](shared/visual-prompts.md) 的 A/B/C 模板各出一稿提示词：
 - **A 直接冲击**：核心概念的视觉隐喻（适合数据/方法/干货）
 - **B 氛围**：情绪场景+电影光（适合故事/观点/情感）
 - **C 信息可视化**：数据/结构的图形化（适合对比/清单/趋势）
@@ -41,7 +43,7 @@ requires: gen
 
 **Step 4 draft 三方向**：
 ```bash
-../../toolkit/gen image --prompt "<方向A>" --ratio 2.35:1 --tier draft
+$S/toolkit/gen image --prompt "<方向A>" --ratio 2.35:1 --tier draft
 # B、C 同理（如需视觉对比）
 ```
 
@@ -49,7 +51,7 @@ requires: gen
 
 **Step 6 final + 交付**：
 ```bash
-../../toolkit/gen image --prompt "<锁定提示词>" --ratio 2.35:1 --tier final --out workspace/projects/<slug>/images/cover.png
+$S/toolkit/gen image --prompt "<锁定提示词>" --ratio 2.35:1 --tier final --out workspace/projects/<slug>/images/cover.png
 ```
 交付：封面图 + 三个方向的提示词存档（下次同系列可复用）+ 结果链接区。
 

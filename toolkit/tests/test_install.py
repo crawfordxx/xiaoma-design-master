@@ -60,6 +60,26 @@ class InstallTests(unittest.TestCase):
         self.assertTrue((conflict / "keep.txt").exists())  # 不覆盖
         self.assertFalse(conflict.is_symlink())
 
+    def test_foreign_symlink_is_skipped_not_removed(self):
+        other = self.home / "old-repo" / "xiaoma-ppt"
+        other.mkdir(parents=True)
+        foreign = self.pi_dir / "xiaoma-ppt"
+        foreign.symlink_to(other)  # 用户自己的同名链接，指向别处
+        r = run_install(self.home)
+        self.assertEqual(r.returncode, 0, msg=r.stdout + r.stderr)
+        self.assertIn("SKIP", r.stdout + r.stderr)
+        self.assertEqual(foreign.resolve(), other.resolve())  # 原链接不动
+
+    def test_installed_skill_refs_resolve_lexically(self):
+        """装好后按字面规整路径（不先解 symlink）读 shared/ 与 toolkit/，必须存在。"""
+        run_install(self.home, "--target", "claude")
+        for link in self.claude_dir.iterdir():
+            text = (link / "SKILL.md").read_text(encoding="utf-8")
+            for ref in ("shared", "toolkit"):
+                if f"{ref}/" in text:
+                    p = os.path.normpath(os.path.join(str(link), ref))
+                    self.assertTrue(os.path.isdir(p), msg=f"{link.name}: {p}")
+
     def test_target_pi_only(self):
         r = run_install(self.home, "--target", "pi")
         self.assertEqual(r.returncode, 0, msg=r.stdout + r.stderr)

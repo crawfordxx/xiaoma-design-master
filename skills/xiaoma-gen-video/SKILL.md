@@ -26,13 +26,15 @@ requires: gen
 
 ## Pipeline
 
-**Step 1 输入标准化**：输入是提示词包 → 按 [`../../shared/video-prompt-guide.md`](../../shared/video-prompt-guide.md) 自查清单过一遍（场景总述/Timeline/四维/主体锚定/负约束），缺什么补什么再给用户确认。输入是想法 → 先按指南写完整提示词（这一步免费，别急着烧钱）。**画面里有人物且用户未提供照片时**：读 [`../../shared/character-design.md`](../../shared/character-design.md)，先出角色卡（十要素）→ draft 档生成定妆照 → 确认后用定妆照作 `--ref` 首帧/参考图，并把角色卡骨相+五官+皮肤段编进每镜提示词做文本锚定（双保险防漂移）。
+下文 `S=<本技能目录>`（直接用安装路径，不必解 symlink）；`$S/toolkit/gen` 是生成能力的唯一入口。
+
+**Step 1 输入标准化**：输入是提示词包 → 按 [`shared/video-prompt-guide.md`](shared/video-prompt-guide.md) 自查清单过一遍（场景总述/Timeline/四维/主体锚定/负约束），缺什么补什么再给用户确认。输入是想法 → 先按指南写完整提示词（这一步免费，别急着烧钱）。**画面里有人物且用户未提供照片时**：读 [`shared/character-design.md`](shared/character-design.md)，先出角色卡（十要素）→ draft 档生成定妆照 → 确认后用定妆照作 `--ref` 首帧/参考图，并把角色卡骨相+五官+皮肤段编进每镜提示词做文本锚定（双保险防漂移）。
 
 **Step 2 成本确认**：报预估（镜数 × 档位单价估算），批量 >3 镜必须确认。
 
 **Step 3 draft 试参数**：
 ```bash
-../../toolkit/gen video --prompt "<完整提示词>" --duration 10 --ratio 9:16 --tier draft
+$S/toolkit/gen video --prompt "<完整提示词>" --duration 10 --ratio 9:16 --tier draft
 ```
 看四件事：构图对不对、主体是不是要求的那个、运动方向对不对、时长节奏对不对。
 
@@ -40,7 +42,7 @@ requires: gen
 
 **Step 5 确认升 final**：draft 满意 → 用户确认（必停点）：
 ```bash
-../../toolkit/gen video --prompt "<锁定提示词>" --duration 10 --ratio 9:16 --tier final --out workspace/projects/<slug>/videos/shot-01.mp4
+$S/toolkit/gen video --prompt "<锁定提示词>" --duration 10 --ratio 9:16 --tier final --out workspace/projects/<slug>/videos/shot-01.mp4
 ```
 
 **Step 6 质检 + 交付**：逐镜检查（主体一致/运动逻辑/无乱码文字/时长）。单镜不合格 → **只重出该镜**，不整片重来。交付：视频文件 + meta + 提示词包存档 + 结果链接区。

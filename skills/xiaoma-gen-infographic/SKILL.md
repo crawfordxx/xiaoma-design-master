@@ -25,6 +25,8 @@ requires: gen
 
 ## Pipeline
 
+下文 `S=<本技能目录>`（直接用安装路径，不必解 symlink）；`$S/toolkit/gen` 是生成能力的唯一入口。
+
 **Step 1 知识模块拆解**：主题模式下先联网/知识库调研，拆出 4–6 个知识模块（多了塞不下，少了显空洞）。素材模式下只提炼不添加。每模块 = 小标题（≤8 字）+ 一句核心信息 + 支撑细节。
 
 **Step 2 布局框架选择**：按内容逻辑选五大布局之一：
@@ -47,7 +49,7 @@ requires: gen
 
 **Step 5 生成**：draft 档试布局和风格 → 确认 → final 档正式版：
 ```bash
-../../toolkit/gen image --prompt "<结构化提示词>" --ratio 3:4 --tier draft
+$S/toolkit/gen image --prompt "<结构化提示词>" --ratio 3:4 --tier draft
 ```
 
 **Step 6 交付**：图 + 提示词包 + 文案文件（排版用）+ 结果链接区。

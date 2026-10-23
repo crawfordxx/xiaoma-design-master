@@ -26,14 +26,15 @@ triggers: [写演示, demo]
 
 # 演示技能
 
-正文内容，见 [方法论](../../shared/guide.md)。
-生成时调用 `../../toolkit/gen image --tier draft`。
+正文内容，见 [方法论](shared/guide.md)。
+生成时调用 `$S/toolkit/gen image --tier draft`。
 """
 
 
 def make_skill(root: Path, name: str, skill_md: str | None,
                with_shared: bool = True) -> Path:
-    """构造一个临时技能目录；with_shared 时同时建可解析的 ../../shared/guide.md。"""
+    """构造一个临时技能目录；with_shared 时同时建仓库级 shared/guide.md
+    和技能内的相对 symlink `shared -> ../../shared`（与真实仓库结构一致）。"""
     skill_dir = root / "skills" / name
     skill_dir.mkdir(parents=True)
     if skill_md is not None:
@@ -42,6 +43,7 @@ def make_skill(root: Path, name: str, skill_md: str | None,
         shared = root / "shared"
         shared.mkdir(exist_ok=True)
         (shared / "guide.md").write_text("# guide\n", encoding="utf-8")
+        (skill_dir / "shared").symlink_to("../../shared")
     return skill_dir
 
 
@@ -66,11 +68,48 @@ class SmokeBasicTests(unittest.TestCase):
         self.assertIn("SKILL.md", r.stdout + r.stderr)
 
     def test_broken_relative_link_fails(self):
-        md = VALID_FRONTMATTER + "\n坏链接 [x](../../shared/missing.md)\n"
+        md = VALID_FRONTMATTER + "\n坏链接 [x](shared/missing.md)\n"
         d = make_skill(self.root, "xiaoma-demo", md)
         r = run_smoke(str(d))
         self.assertEqual(r.returncode, 1)
         self.assertIn("missing.md", r.stdout + r.stderr)
+
+
+class SmokeInstalledPathTests(unittest.TestCase):
+    """技能以 symlink 装进 ~/.claude/skills/ 后，路径按字面规整（Read 工具的行为）也必须可解析。"""
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self._tmp.name)
+
+    def tearDown(self):
+        self._tmp.cleanup()
+
+    def _install_link(self, skill_dir: Path) -> Path:
+        agent_skills = self.root / "home" / ".claude" / "skills"
+        agent_skills.mkdir(parents=True)
+        link = agent_skills / skill_dir.name
+        link.symlink_to(skill_dir)
+        return link
+
+    def test_link_escaping_skill_dir_fails(self):
+        md = VALID_FRONTMATTER + "\n旧写法 [x](../../shared/guide.md)\n"
+        d = make_skill(self.root, "xiaoma-demo", md)
+        r = run_smoke(str(d))
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("../../shared/guide.md", r.stdout + r.stderr)
+
+    def test_parent_dir_command_path_fails(self):
+        md = VALID_FRONTMATTER + "\n执行 `../../toolkit/gen image`\n"
+        d = make_skill(self.root, "xiaoma-demo", md)
+        r = run_smoke(str(d))
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("../", r.stdout + r.stderr)
+
+    def test_valid_skill_passes_through_install_symlink(self):
+        d = make_skill(self.root, "xiaoma-demo", VALID_FRONTMATTER)
+        r = run_smoke(str(self._install_link(d)), "--strict-gen")
+        self.assertEqual(r.returncode, 0, msg=r.stdout + r.stderr)
 
 
 class SmokeFrontmatterTests(unittest.TestCase):

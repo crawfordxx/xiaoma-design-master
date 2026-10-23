@@ -7,6 +7,7 @@ cd "$REPO"
 
 echo "== 1/4 单元测试 =="
 python3 -m unittest discover -s toolkit/tests -v 2>&1 | tail -3
+python3 -m unittest discover -s tools/tests 2>&1 | tail -1
 
 echo "== 2/4 技能 smoke =="
 # 新生成类技能走 strict-gen（禁模型名/禁直连）；旧技能 basic。

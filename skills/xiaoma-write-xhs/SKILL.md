@@ -25,7 +25,9 @@ requires: gen
 
 ## Pipeline
 
-**Step 1 平台规则**：读 [`../../shared/platform-dna/xhs.md`](../../shared/platform-dna/xhs.md)。三层证据模型——硬约束（3:4、≤18 图、≤20 字标题）是死线。
+下文 `S=<本技能目录>`（直接用安装路径，不必解 symlink）；`$S/toolkit/gen` 是生成能力的唯一入口。
+
+**Step 1 平台规则**：读 [`shared/platform-dna/xhs.md`](shared/platform-dna/xhs.md)。三层证据模型——硬约束（3:4、≤18 图、≤20 字标题）是死线。
 
 **Step 2 模式选择**：搬运式（原文保留、零改写、适合干货长文）或提炼式（一图一观点、适合种草）。用户没说就按内容类型默认：信息密度高→搬运，情绪/审美向→提炼。
 
@@ -33,15 +35,15 @@ requires: gen
 
 **Step 4 首图（大字标题卡）**：标题 ≤20 字，出 3 个候选（不同公式：数字+人群 / 反常识 / 身份认领）。首图 = 纯色/纹理背景（生图）+ 设计排版的大字——**文字永远后期排版，绝不让生图模型写中文**：
 ```bash
-../../toolkit/gen image --prompt "minimal textured background, warm cream paper texture, soft grain, no text no letters no words, 3:4" --tier draft
+$S/toolkit/gen image --prompt "minimal textured background, warm cream paper texture, soft grain, no text no letters no words, 3:4" --tier draft
 ```
 确认后 final 档出背景，文字用 HTML/排版工具叠加。
 
-**Step 5 内页图**：提炼式每张配视觉图（按 [`../../shared/visual-prompts.md`](../../shared/visual-prompts.md) 五要素，整套风格四锁）；搬运式每 3 张文字卡插 1 张视觉图。生成统一 draft → 确认 → final。
+**Step 5 内页图**：提炼式每张配视觉图（按 [`shared/visual-prompts.md`](shared/visual-prompts.md) 五要素，整套风格四锁）；搬运式每 3 张文字卡插 1 张视觉图。生成统一 draft → 确认 → final。
 
 **Step 6 正文 + 标签**：≤800 字口语化导语（emoji 分隔、短句、结尾互动引导）。标签 8–12 个：2 行业 + 3 热门 + 3 长尾。
 
-**Step 7 发布就绪包**：交付 `workspace/projects/<slug>/xhs-package/`：图序说明（01-cover … 12-end）、正文文案、标签列表、标题 3 选 1、免责声明（引用数据时）。按 [`../../shared/runtime-rules.md`](../../shared/runtime-rules.md) 结果链接区收尾。
+**Step 7 发布就绪包**：交付 `workspace/projects/<slug>/xhs-package/`：图序说明（01-cover … 12-end）、正文文案、标签列表、标题 3 选 1、免责声明（引用数据时）。按 [`shared/runtime-rules.md`](shared/runtime-rules.md) 结果链接区收尾。
 
 ## 执行模式
 

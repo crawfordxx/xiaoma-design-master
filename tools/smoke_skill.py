@@ -7,7 +7,10 @@
 basic 级（所有技能）:
     - SKILL.md 必须存在（ERROR）
     - frontmatter name 必须等于目录名（ERROR）
-    - 相对 markdown 链接目标必须存在（ERROR）
+    - 相对 markdown 链接目标必须存在（ERROR），且按字面规整后不能跳出技能目录
+      （技能以 symlink 安装，`../` 会被 Read 工具规整到 ~/.claude/ 下而失效）
+    - SKILL.md 正文不得出现 `../` 路径（ERROR）；仓库级资源走技能内 symlink
+      `shared/`、`toolkit/`
     - version/description/triggers 缺失 → WARN（不失败）
 
 --strict-gen 级（新生成类技能，额外）:
@@ -18,6 +21,7 @@ basic 级（所有技能）:
 """
 from __future__ import annotations
 
+import os
 import re
 import sys
 from pathlib import Path
@@ -33,6 +37,7 @@ STRICT_BANNED = [
 REQUIRED_KEYS = ["name", "version", "description", "triggers"]
 
 LINK_RE = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
+PARENT_REF_RE = re.compile(r"(?<![\w/:.])\.\./")
 
 
 def parse_frontmatter(text: str) -> dict[str, str]:
@@ -59,10 +64,19 @@ def check_links(skill_dir: Path, text: str) -> list[str]:
         path_part = target.split("#", 1)[0]
         if not path_part:
             continue
-        resolved = (skill_dir / path_part).resolve()
-        if not resolved.exists():
+        # 字面规整（不先解 symlink），模拟装进 ~/.claude/skills/ 后 Read 工具的解析
+        resolved = os.path.normpath(os.path.join(str(skill_dir), path_part))
+        if not resolved.startswith(str(skill_dir) + os.sep):
+            errors.append(f"链接跳出技能目录: {target}（改用技能内 shared/ toolkit/ 链接）")
+        elif not os.path.exists(resolved):
             errors.append(f"链接目标不存在: {target} -> {resolved}")
     return errors
+
+
+def check_parent_refs(text: str) -> list[str]:
+    """正文里的 `../` 路径（命令、代码块）装成 symlink 后同样会失效。"""
+    n = len(PARENT_REF_RE.findall(text))
+    return [f"正文出现 ../ 路径（{n} 处），改用技能内 shared/ toolkit/"] if n else []
 
 
 def check_banned(text: str) -> list[str]:
@@ -103,6 +117,7 @@ def smoke(skill_dir: Path, strict_gen: bool) -> int:
 
     # 链接完整性（两级都硬失败）
     errors.extend(check_links(skill_dir, text))
+    errors.extend(check_parent_refs(text))
 
     # strict-gen 禁词
     if strict_gen:
@@ -125,7 +140,8 @@ def main(argv: list[str]) -> int:
     if len(args) != 1:
         print(__doc__)
         return 2
-    return smoke(Path(args[0]).resolve(), strict_gen)
+    # abspath 而非 resolve：保留安装 symlink 路径，按真实安装形态检查
+    return smoke(Path(os.path.abspath(args[0])), strict_gen)
 
 
 if __name__ == "__main__":
