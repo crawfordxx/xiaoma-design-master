@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080">
+<title>口播脚本卡 · 收藏夹</title>
+<style>
+  :root {
+    --paper: #f4efe6;
+    --paper-2: #ebe4d6;
+    --ink: #1b1a17;
+    --ink-2: #4a463e;
+    --ink-3: #8a8375;
+    --line: #d6cdbb;
+    --red: #c8341f;
+    --red-soft: #f3d9cf;
+    --mono: "SF Mono", "JetBrains Mono", Menlo, monospace;
+    --sans: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
+    --serif: "Songti SC", "Noto Serif SC", "STSong", serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); width: 1080px; }
+  .sheet { padding: 72px 72px 64px; }
+
+  /* 页眉 */
+  .head { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid var(--ink); padding-bottom: 28px; }
+  .kicker { font-family: var(--mono); font-size: 18px; letter-spacing: .18em; color: var(--ink-3); }
+  h1 { font-family: var(--serif); font-size: 58px; line-height: 1.18; font-weight: 900; margin-top: 14px; letter-spacing: -.01em; }
+  .meta { text-align: right; font-family: var(--mono); font-size: 18px; line-height: 1.9; color: var(--ink-2); }
+  .meta b { color: var(--ink); font-weight: 700; }
+  .legend { display: flex; gap: 28px; margin-top: 22px; font-size: 18px; color: var(--ink-2); }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+
+  /* 钩子三选一 */
+  .hooks { margin-top: 40px; }
+  .label { font-family: var(--mono); font-size: 17px; letter-spacing: .16em; color: var(--ink-3); margin-bottom: 16px; }
+  .hook { display: grid; grid-template-columns: 92px 1fr 120px; align-items: center; gap: 18px; padding: 18px 22px; border: 1.5px solid var(--line); border-radius: 14px; margin-bottom: 12px; font-size: 24px; line-height: 1.5; color: var(--ink-2); }
+  .hook .type { font-size: 17px; color: var(--ink-3); }
+  .hook .pick { justify-self: end; font-family: var(--mono); font-size: 16px; color: var(--ink-3); }
+  .hook.on { border: 2.5px solid var(--red); background: #fffaf3; color: var(--ink); font-weight: 600; }
+  .hook.on .type { color: var(--red); font-weight: 700; }
+  .hook.on .pick { color: #fff; background: var(--red); padding: 6px 12px; border-radius: 999px; font-weight: 700; }
+
+  /* 时间轴 */
+  .timeline { margin-top: 44px; border-top: 1.5px solid var(--ink); }
+  .seg { display: grid; grid-template-columns: 128px 1fr 300px; gap: 32px; padding: 30px 0; border-bottom: 1.5px dashed var(--line); }
+  .seg:last-child { border-bottom: 1.5px solid var(--ink); }
+  .time { font-family: var(--mono); }
+  .time .tc { font-size: 30px; font-weight: 700; letter-spacing: -.02em; }
+  .time .tag { display: inline-block; margin-top: 10px; font-family: var(--sans); font-size: 18px; font-weight: 700; padding: 4px 12px; border-radius: 8px; background: var(--ink); color: var(--paper); }
+  .seg.hook-seg .time .tag { background: var(--red); }
+  .time .shot { margin-top: 10px; font-size: 16px; color: var(--ink-3); }
+  .script { font-size: 29px; line-height: 1.72; color: var(--ink); letter-spacing: .01em; }
+  .script em { font-style: normal; color: var(--red); font-weight: 800; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 7px; }
+  .script .p { color: var(--red); font-weight: 400; margin: 0 4px; }
+  .seg.hook-seg .script { font-size: 34px; font-weight: 700; }
+  .side { background: var(--paper-2); border-radius: 14px; padding: 18px 20px; font-size: 18px; line-height: 1.6; color: var(--ink-2); align-self: start; }
+  .side dt { font-family: var(--mono); font-size: 14px; letter-spacing: .14em; color: var(--ink-3); margin-top: 10px; }
+  .side dt:first-child { margin-top: 0; }
+  .side dd { margin-top: 2px; }
+  .side .cap { color: var(--ink); font-weight: 700; }
+
+  /* 页脚 */
+  .foot { display: flex; justify-content: space-between; margin-top: 26px; font-size: 17px; color: var(--ink-3); }
+  .foot .brand { font-family: var(--mono); letter-spacing: .12em; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="head">
+    <div>
+      <div class="kicker">ORAL SCRIPT · 口播提词卡</div>
+      <h1>为什么你收藏了 500 篇教程，<br>还是什么都没学会</h1>
+    </div>
+    <div class="meta">
+      <div>竖屏短视频</div>
+      <div><b>60s</b> · 6 镜</div>
+      <div>正面口播 + 插入</div>
+    </div>
+  </header>
+  <div class="legend">
+    <span><em style="font-style:normal;color:var(--red);font-weight:800;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px">重读</em>念重一点</span>
+    <span><b style="color:var(--red)">／</b>停半拍</span>
+    <span>537 是占位数字，录制前换成你自己的</span>
+  </div>
+
+  <section class="hooks">
+    <div class="label">HOOK · 开场 3 秒，三选一</div>
+    <div class="hook on"><div class="type">悬念式</div><div>「我收藏夹里有 537 篇教程，今天我要把它们全部删掉。」</div><div class="pick">✓ 选用</div></div>
+    <div class="hook"><div class="type">反常识式</div><div>「收藏≠学习。点收藏那一下，你已经把『学会的爽』预支完了。」</div><div class="pick">备选</div></div>
+    <div class="hook"><div class="type">结果前置</div><div>「看完这 60 秒，你的收藏夹会从仓库变成筛子。」</div><div class="pick">备选</div></div>
+  </section>
+
+  <section class="timeline">
+
+    <div class="seg hook-seg">
+      <div class="time"><div class="tc">00–03</div><div class="tag">钩子</div><div class="shot">镜 01</div></div>
+      <div class="script">我收藏夹里有 <em>537</em> 篇教程，<span class="p">／</span>今天，我要把它们<em>全部删掉</em>。</div>
+      <dl class="side"><dt>画面</dt><dd>特写手机收藏夹，数字 537，手指悬停</dd><dt>字幕</dt><dd class="cap">537 篇教程，今天全删</dd><dt>声音</dt><dd>无声，安静抓人</dd></dl>
+    </div>
+
+    <div class="seg">
+      <div class="time"><div class="tc">03–12</div><div class="tag">冲突</div><div class="shot">镜 02</div></div>
+      <div class="script">不是因为我学会了。<span class="p">／</span>是因为我终于承认一件事：我<em>从来没打开过</em>它们。你们谁的手机里没有一个叫「稍后看」的文件夹？那里面躺着的，全是你「有空了」的<em>谎言</em>。</div>
+      <dl class="side"><dt>画面</dt><dd>正面口播，中景</dd><dt>字幕</dt><dd class="cap">稍后看 = 有空了的谎言</dd><dt>声音</dt><dd>极轻底乐进</dd></dl>
+    </div>
+
+    <div class="seg">
+      <div class="time"><div class="tc">12–25</div><div class="tag">原理</div><div class="shot">镜 03</div></div>
+      <div class="script">有个事特有意思：点收藏那一瞬间，大脑给你的奖励，跟真正学会东西的奖励，走的是<em>同一条回路</em>。<span class="p">／</span>也就是说——收藏完，你就已经「<em>爽完了</em>」。学习？那是以后的事。而「以后」，从来没来过。</div>
+      <dl class="side"><dt>画面</dt><dd>口播 + 插入动画：收藏 / 学会两条灯亮同一条路</dd><dt>字幕</dt><dd class="cap">收藏完，你已经爽完了</dd><dt>声音</dt><dd>动画处一声「叮」</dd></dl>
+    </div>
+
+    <div class="seg">
+      <div class="time"><div class="tc">25–40</div><div class="tag">方法</div><div class="shot">镜 04</div></div>
+      <div class="script">真正学会东西的人，干了一件反直觉的事：把收藏夹当<em>垃圾桶</em>。存进去等于没了。想学？当场问自己一句话：<span class="p">／</span>「我能用自己的话，把这个<em>讲给同事听</em>吗？」讲不了，花十分钟消化到能讲。或者，承认你现在根本不需要它，关掉。</div>
+      <dl class="side"><dt>画面</dt><dd>口播 + 录屏演示「当场提问法」</dd><dt>字幕</dt><dd class="cap">能讲给同事听吗？</dd><dt>声音</dt><dd>底乐渐强</dd></dl>
+    </div>
+
+    <div class="seg">
+      <div class="time"><div class="tc">40–52</div><div class="tag">动作</div><div class="shot">镜 05</div></div>
+      <div class="script">今天给你两个动作。第一，给收藏夹<em>办葬礼</em>：三十分钟，一条条过，「三个月后还有用吗」答不上来，<span class="p">／</span><em>删</em>。第二，学东西以「<em>能输出</em>」为完成线——写一百字发朋友，比看一百分钟有用。</div>
+      <dl class="side"><dt>画面</dt><dd>快剪：手指滑动删除 + 计数器跳动</dd><dt>字幕</dt><dd class="cap">三个月没用 = 删</dd><dt>声音</dt><dd>删除音效连续，节奏最快</dd></dl>
+    </div>
+
+    <div class="seg">
+      <div class="time"><div class="tc">52–60</div><div class="tag">收尾</div><div class="shot">镜 06</div></div>
+      <div class="script">我删到第 40 条的时候停了。不是心疼，是腱鞘炎犯了。<span class="p">／</span>剩下的我没删，移进一个新文件夹，叫「<em>2026 年 10 月之前的我</em>」。你的收藏夹，<em>叫什么</em>？</div>
+      <dl class="side"><dt>画面</dt><dd>特写新建文件夹命名「2026 年 10 月之前的我」，抬头看镜头</dd><dt>字幕</dt><dd class="cap">你的收藏夹，叫什么？</dd><dt>声音</dt><dd>音乐骤停</dd></dl>
+    </div>
+
+  </section>
+
+  <footer class="foot">
+    <span>全文约 362 字 · 60 秒约 6.0 字/秒，偏快（口播常见 4–5 字/秒），录制时可删一两句</span>
+    <span class="brand">xiaoma-video-script</span>
+  </footer>
+</div>
+</body>
+</html>

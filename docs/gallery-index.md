@@ -16,3 +16,5 @@
 | showcase/xiaoma-gen-infographic/ | 知识信息图 |
 | showcase/xiaoma-gen-cover/ | 三方向封面 |
 | showcase/xiaoma-gen-video/ | 10 秒样片 mp4 |
+| showcase/xiaoma-video-script/ | 口播脚本案例 + 提词卡图片（script-01.png / .html） |
+| showcase/xiaoma-gen-ui/ | 落地页示例：截图、三轮自检记录与可运行源码（examples/moxi-landing） |

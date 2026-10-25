@@ -172,10 +172,11 @@
 
 ### xiaoma-video-script · 短视频脚本
 
-3 秒钩子三选一 → 口播逐字稿（读出声不别扭）→ 分镜表（镜号/时长/画面/台词/BGM）。
+3 秒钩子三选一 → 口播逐字稿（读出声不别扭）→ 分镜表（镜号/时长/画面/台词/BGM）。逐字稿和分镜可以排成一张提词卡：选中的钩子高亮，每段左边时间码、中间逐字稿（红色下划线 = 重读，「／」= 停半拍），右边这一段的画面、字幕和音效，拿着就能录。
 
-> 钩子示例："我收藏夹里有 537 篇教程，今天，我要把它们全部删掉。"（数字录制前换成你自己的）
-> [完整脚本 + 分镜表 →](showcase/xiaoma-video-script/example-01.md)
+<p><img src="docs/readme-assets/video-script.jpg" width="60%" alt="口播提词卡"/></p>
+
+> 537 是占位数字，录制前换成你自己的。[完整脚本 + 分镜表 →](showcase/xiaoma-video-script/example-01.md)
 
 ### xiaoma-gen-ui · 网站 UI 设计
 
@@ -183,7 +184,12 @@
 
 写任何区块前先查对应参考源（导航→navbar.gallery，CTA→cta.gallery，布局→bentogrids.com，微交互→60fps.design……共 10 个），然后进入 **awwwards 级自检循环**：真实跑起来截图，先过硬指标（移动端无横滚 / 对比度 / Lighthouse），再按 Design 40% / Usability 30% / Creativity 20% / Content 10% 打分，任何一维不到 9 分就修了重评，最多三轮。
 
-> 对你的 Agent 说："用 xiaoma-gen-ui 做一个深色高级感的 AI 产品落地页"
+> 对你的 Agent 说："用 xiaoma-gen-ui 做一个深色高级感的 AI 产品落地页"——下面就是这句话跑出来的结果（虚构产品「墨隙」，三轮自检后 Lighthouse 移动端 Performance 98 / Accessibility 100）：
+
+<p><img src="docs/readme-assets/gen-ui-1.jpg" width="100%" alt="墨隙落地页首屏"/></p>
+<p><img src="docs/readme-assets/gen-ui-2.jpg" width="100%" alt="墨隙功能网格"/></p>
+
+> [设计 tokens、三轮自检记录、移动端截图与源码 →](showcase/xiaoma-gen-ui/README.md)
 
 ---
 
