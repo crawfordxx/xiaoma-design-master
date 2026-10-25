@@ -5,12 +5,12 @@
 <h1 align="center">xiaoma-design-master</h1>
 
 <p align="center">
-  <b>小马设计全家桶 —— 14 个 AI 创作技能，一条命令装进你的 Agent。</b><br/>
+  <b>小马设计全家桶 —— 16 个 AI 创作技能，一条命令装进你的 Agent。</b><br/>
   <i>From idea to award-worthy: writing, images, slides, video, 3D, and web UI — one skill suite for your AI agent.</i>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/skills-14-ff6b35" alt="skills"/>
+  <img src="https://img.shields.io/badge/skills-16-ff6b35" alt="skills"/>
   <img src="https://img.shields.io/badge/works_with-Claude%20Code%20·%20pi%20·%20any%20agent-475569" alt="agents"/>
   <img src="https://img.shields.io/badge/license-MIT-22c55e" alt="license"/>
   <img src="https://img.shields.io/badge/made_by-小马-f59e0b" alt="author"/>
@@ -26,6 +26,8 @@
 | **xiaoma-opus3d** | three.js 纯代码搭建可嵌入网页的交互式 3D 场景 | 🏙️ 3D | 🏆 成熟 |
 | **xiaoma-ppt** | 把任意文档套进你自己的 PPT 模板，出可编辑 pptx | 📊 PPT | 🏆 成熟 |
 | **xiaoma-director** | 17 片种编导分镜表 + 分镜图 + 单文件 HTML 交付 | 🎬 视频 | 🏆 成熟 |
+| **xiaoma-short-drama** | 8 片种短剧 / 漫剧：全剧单元与付费点 → 剧本 → 分镜 → 出片 → 剪辑 → 三评委自评 | 🎭 视频 | 🌱 v0.4 |
+| **xiaoma-editor** | 逐镜片段拼成片：入出点、三层混音、字幕字卡、成片体检报告 | ✂️ 视频 | 🌱 v0.1 |
 | **xiaoma-designer** | 海报/封面/KV 设计与评审，为生图模型写高质量提示词 | 🎨 设计 | 🏆 成熟 |
 | **xiaoma-write-article** | 选题评分→框架→写作→去 AI 味→配图的深度长文生产线 | ✍️ 写作 | 🌱 v0.1 |
 | **xiaoma-write-xhs** | 话题或长文 → 3:4 轮播小红书帖，交付发布就绪包 | 📕 写作 | 🌱 v0.1 |
@@ -43,6 +45,8 @@
 |---|---|
 | "我要做个宣传片/动效视频（代码渲染）" | xiaoma-studio |
 | "把这段视频拆成分镜 / 帮我出分镜表" | xiaoma-director |
+| "做个 AI 短剧 / 漫剧，写剧本和分镜" | xiaoma-short-drama |
+| "把这些片段剪成片，配乐加字幕" | xiaoma-editor |
 | "用 AI 生成一段视频" | xiaoma-gen-video |
 | "写个短视频口播脚本" | xiaoma-video-script |
 | "把这个古镇做成 3D 网页模型" | xiaoma-opus3d |
@@ -183,10 +187,16 @@
 
 ---
 
+## 📚 创作知识总览
+
+各技能背后的创作知识（171 条短剧样本、30 条代码动效样本的拆解规律，17 片种编导卡，剪辑、复刻、产线、写作、设计方法论）汇成一个单文件网页：克隆后打开 [`docs/knowledge/index.html`](docs/knowledge/index.html)。改了任何 reference 后运行 `python3 tools/build_portal.py` 重新生成。
+
+---
+
 ## 🤝 贡献
 
 欢迎提交新技能和改进！每个技能是一个独立目录（`SKILL.md` + 参考资料），本仓库提供结构自检工具。详见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
 ## License
 
-MIT © 2026 小马
+MIT © 2026 小马。部分内容改写自第三方开源项目，见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。

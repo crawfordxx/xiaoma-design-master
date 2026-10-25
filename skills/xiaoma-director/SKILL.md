@@ -153,4 +153,7 @@ HTML 是单文件，分镜图内嵌，可以直接发人或打印（A4 横向）
 - `references/frame-prompts.md`：分镜图提示词写法、画风库、一致性
 - `references/director-review.md`：导演审片标准（节奏机检规则、拖沓与过紧信号、按剧情功能定时长、意见格式与结论）
 - `references/review-checklist.md`：交付前自检
+- `shared/viral-breakdown.md`：达人口播带货、TVC、产品宣传片要参照爆款或出多版测试时读：五层拆解、20 秒时间轴模板、内容矩阵
+- `shared/clone-method.md`：用户给了参考片要复刻时读：Keep / Swap / Drop 改写纪律、单变量变体
+- `shared/production-pipeline.md`：批量或多集出片时读：产线六步、资产一致性、质检闭环，以及切片、数字人口播等产线形态
 - `scripts/validate.py` · `scripts/review.py` · `scripts/frames.py` · `scripts/render.py`
