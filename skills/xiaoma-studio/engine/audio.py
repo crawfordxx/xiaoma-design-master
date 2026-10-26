@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
 """xiaoma-studio 音频工具，只依赖 numpy + ffmpeg。
 
-  python3 audio.py synth cues.json out.wav     按提示表合成配乐 + 卡点音效，响度归一到 -14 LUFS
+  python3 audio.py synth cues.json out.wav     按提示表合成立体声配乐 + 卡点音效，音乐给音效让位，两遍响度归一到 -14 LUFS、真峰值 ≤ -1.5 dBTP
   python3 audio.py analyze track.mp3 > beats.json   给现成音乐测 BPM、拍点、强弱段落
 
 cues.json 示例：
 {
   "bpm": 120, "duration": 15, "root": 45,
   "chords": [[0,3,7],[-4,0,3],[3,7,10],[-2,2,5]],   每小节一个和弦（相对 root 的半音）
-  "layers": ["pad","bass","kick","hat","pluck"],      可选 pad/bass/kick/hat/pluck/clap
+  "layers": ["pad","bass","kick","hat","pluck"],      可选 pad/bass/kick/hat/pluck/marimba/clap
   "drop": 4.0, "breakdown": [10.0, 12.0],             drop 之前只有 pad；breakdown 区间去掉鼓
-  "sfx": [{"t":0.0,"type":"whoosh"}, {"t":2.0,"type":"hit"}, {"t":3.5,"type":"pop"}]
+  "sfx": [{"t":0.0,"type":"whoosh"}, {"t":2.0,"type":"hit"}, {"t":3.5,"type":"pop","pan":0.4,"gain":0.8}],
+  "duck": 3                                           音效处音乐让出的 dB（默认 3，0 = 不让）
 }
-sfx 类型：whoosh / hit / pop / tick / riser / swell / glitch / chime / thud
+sfx 类型：whoosh / hit / pop / tick / riser / swell / glitch / chime / thud /
+         boing（弹簧）/ slide（滑哨，"dir":"up"|"down"）/ scratch（搓碟）/ stamp（盖章）/ click（UI 点击）/ drip（水滴）
+每条音效可带 pan（-1 左 … 1 右）和 gain。
 """
 import json
 import subprocess
@@ -101,8 +104,16 @@ def pluck(f, dur=0.25):
     return (np.sin(2 * np.pi * f * t) + 0.3 * np.sin(4 * np.pi * f * t)) * np.exp(-t * 14) * 0.3
 
 
+def marimba(f, dur=0.6):
+    """二算子 FM：调制比 4、调制指数随时间衰减，木质敲击感比纯正弦亮。"""
+    n = int(dur * SR)
+    t = np.arange(n) / SR
+    index = 2.2 * np.exp(-t * 30)
+    return np.sin(2 * np.pi * f * t + index * np.sin(2 * np.pi * 4 * f * t)) * np.exp(-t * 7) * 0.32
+
+
 # ---------- 音效 ----------
-def sfx(kind, seed=0):
+def sfx(kind, seed=0, opts=None):
     t = lambda d: np.arange(int(d * SR)) / SR  # noqa: E731
     if kind == 'whoosh':
         x = t(0.6)
@@ -135,15 +146,61 @@ def sfx(kind, seed=0):
     if kind == 'chime':
         x = t(1.2)
         return sum(np.sin(2 * np.pi * f * x) * np.exp(-x * k) for f, k in ((1318, 3), (1976, 4), (2637, 6))) / 3 * 0.4
+    if kind == 'boing':
+        x = t(0.5)
+        f = 180 + 140 * np.sin(2 * np.pi * 9 * x) * np.exp(-x * 6) + 120 * np.exp(-x * 10)
+        return np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-x * 5) * 0.5
+    if kind == 'slide':
+        x = t(0.55)
+        up = (opts or {}).get('dir', 'up') == 'up'
+        f = 500 * 2 ** ((x / 0.55 if up else 1 - x / 0.55) * 1.6) * (1 + 0.012 * np.sin(2 * np.pi * 6 * x))
+        return np.sin(2 * np.pi * np.cumsum(f) / SR) * np.sin(np.pi * x / 0.55) ** 0.6 * 0.4
+    if kind == 'scratch':
+        x = t(0.35)
+        speed = np.sin(2 * np.pi * 2.9 * x)                    # 唱片前后推：频带随速度上下扫
+        return lowpass(noise(len(x), seed), 400 + 3500 * np.abs(speed)) * np.abs(speed) ** 0.7 * 0.8
+    if kind == 'stamp':
+        x = t(0.4)
+        return kick(0.4) * 0.9 + lowpass(noise(len(x), seed), 2500) * np.exp(-x * 45) * 0.5
+    if kind == 'click':
+        x = t(0.025)
+        return (np.sin(2 * np.pi * 2600 * x) + lowpass(noise(len(x), seed), 6000) * 0.5) * np.exp(-x * 260) * 0.4
+    if kind == 'drip':
+        x = t(0.18)
+        f = 700 + 1100 * (x / 0.18) ** 0.5                      # 水滴是上滑的「噗咚」
+        return np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-x * 28) * 0.45
     raise ValueError(f'未知音效类型 {kind}')
 
 
-def place(buf, clip, at):
+def place(buf, clip, at, pan=0.0):
+    """buf 是 (n, 2) 立体声时，单声道 clip 按等功率声像放到左右声道；buf 是一维时直接叠加（xiaoma-editor 这样用）。"""
     i = int(at * SR)
     if i >= len(buf) or i + len(clip) <= 0:
         return
     j = min(len(buf), i + len(clip))
-    buf[max(i, 0):j] += clip[max(0, -i): j - i]
+    seg = clip[max(0, -i): j - i]
+    if buf.ndim == 1:
+        buf[max(i, 0):j] += seg
+        return
+    a = (pan + 1) * np.pi / 4
+    buf[max(i, 0):j, 0] += seg * np.cos(a)
+    buf[max(i, 0):j, 1] += seg * np.sin(a)
+
+
+def duck_env(n, times, db):
+    """音效时刻前 20 ms 开始压、保持 120 ms、250 ms 放回，压下 db 分贝。"""
+    env = np.ones(n)
+    if db <= 0:
+        return env
+    g = 10 ** (-db / 20)
+    a, h, r = int(0.02 * SR), int(0.12 * SR), int(0.25 * SR)
+    shape = np.concatenate([np.linspace(1, g, a), np.full(h, g), np.linspace(g, 1, r)])
+    for t0 in times:
+        i = int(t0 * SR) - a
+        lo, hi = max(i, 0), min(n, i + len(shape))
+        if hi > lo:
+            env[lo:hi] = np.minimum(env[lo:hi], shape[lo - i: hi - i])
+    return env
 
 
 def synth(cues):
@@ -154,13 +211,15 @@ def synth(cues):
     layers = set(cues.get('layers', ['pad', 'bass', 'kick', 'hat']))
     drop = cues.get('drop', 0)
     brk = cues.get('breakdown', [dur + 1, dur + 1])
-    music = np.zeros(int((dur + 1) * SR))
+    music = np.zeros((int((dur + 1) * SR), 2))
     bar = beat * 4
     for b in range(int(np.ceil(dur / bar))):
         start = b * bar
         ch = chords[b % len(chords)]
         if 'pad' in layers:
-            place(music, pad([midi_hz(root + 12 + c) for c in ch], bar + 0.5), start)
+            freqs = [midi_hz(root + 12 + c) for c in ch]
+            place(music, pad(freqs, bar + 0.5), start, -0.45)            # 左右两层错开相位，铺得更宽
+            place(music, pad([f * 1.002 for f in freqs], bar + 0.5), start, 0.45)
         drums = start >= drop and not (brk[0] <= start < brk[1])
         for k in range(4):
             tb = start + k * beat
@@ -171,28 +230,31 @@ def synth(cues):
                 if 'kick' in layers:
                     place(music, kick(), tb)
                 if 'hat' in layers:
-                    place(music, hat(b * 4 + k), tb + beat / 2)
+                    place(music, hat(b * 4 + k), tb + beat / 2, 0.3)
                 if 'clap' in layers and k in (1, 3):
-                    place(music, clap(b * 4 + k), tb)
+                    place(music, clap(b * 4 + k), tb, -0.1)
                 if 'bass' in layers:
                     place(music, bass(midi_hz(root + ch[0]), beat * 0.9), tb)
-            if 'pluck' in layers and (drums or in_brk):
-                for s in range(2):
-                    note = root + 24 + ch[(k * 2 + s) % len(ch)]
-                    place(music, pluck(midi_hz(note)), tb + s * beat / 2)
+            for inst in ('pluck', 'marimba'):
+                if inst in layers and (drums or in_brk):
+                    for s in range(2):
+                        note = root + 24 + ch[(k * 2 + s) % len(ch)]
+                        voice = pluck if inst == 'pluck' else marimba
+                        place(music, voice(midi_hz(note)), tb + s * beat / 2, 0.35 if s else -0.35)
     fx = np.zeros_like(music)
     for i, c in enumerate(cues.get('sfx', [])):
-        place(fx, sfx(c['type'], i) * c.get('gain', 1.0), c['t'])
-    mix = music * 0.8 + fx
+        place(fx, sfx(c['type'], i, c) * c.get('gain', 1.0), c['t'], c.get('pan', 0.0))
+    duck = duck_env(len(music), [c['t'] for c in cues.get('sfx', [])], cues.get('duck', 3))
+    mix = music * 0.8 * duck[:, None] + fx
     mix = mix[: int(dur * SR)]
     fade = int(0.05 * SR)
-    mix[-fade:] *= np.linspace(1, 0, fade)
+    mix[-fade:] *= np.linspace(1, 0, fade)[:, None]
     return mix
 
 
-def write_wav(path, mono):
-    peak = np.max(np.abs(mono)) or 1
-    st = np.stack([mono, mono], 1) / peak * 0.9
+def write_wav(path, stereo):
+    peak = np.max(np.abs(stereo)) or 1
+    st = stereo / peak * 0.9
     with wave.open(path, 'wb') as w:
         w.setnchannels(2)
         w.setsampwidth(2)
@@ -200,9 +262,17 @@ def write_wav(path, mono):
         w.writeframes((st * 32767).astype('<i2').tobytes())
 
 
-def loudnorm(path, target=-14):
+def loudnorm(path, target=-14, tp=-1.5):
+    """两遍 loudnorm：先测，再按实测值线性增益（不改动态）；母带留 0.5 dB 余量给平台转码。"""
+    r = subprocess.run(['ffmpeg', '-hide_banner', '-nostats', '-i', path, '-af', f'loudnorm=I={target}:TP={tp}:LRA=11:print_format=json',
+                        '-f', 'null', '-'], capture_output=True, text=True, check=True)
+    m = json.loads(r.stderr[r.stderr.rindex('{'):r.stderr.rindex('}') + 1])
+    af = (f"loudnorm=I={target}:TP={tp}:LRA=11:measured_I={m['input_i']}:measured_TP={m['input_tp']}:"
+          f"measured_LRA={m['input_lra']}:measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true,"
+          # 4 倍过采样后限幅，压住采样点之间的真峰值
+          f"aresample={SR * 4},alimiter=limit={10 ** ((tp - 0.4) / 20):.3f}:attack=1:release=60:level=disabled,aresample={SR}")
     tmp = path + '.tmp.wav'
-    subprocess.run(['ffmpeg', '-hide_banner', '-loglevel', 'error', '-y', '-i', path, '-af', f'loudnorm=I={target}:TP=-1.0:LRA=11', '-ar', str(SR), tmp], check=True)
+    subprocess.run(['ffmpeg', '-hide_banner', '-loglevel', 'error', '-y', '-i', path, '-af', af, '-ar', str(SR), '-ac', '2', tmp], check=True)
     subprocess.run(['mv', tmp, path], check=True)
 
 
@@ -253,6 +323,6 @@ if __name__ == '__main__':
         out = sys.argv[3] if len(sys.argv) > 3 else 'out/audio.wav'
         write_wav(out, synth(cues))
         loudnorm(out, cues.get('lufs', -14))
-        print(f'写入 {out}（{cues["duration"]}s，{cues["bpm"]} BPM，{len(cues.get("sfx", []))} 个音效，-14 LUFS）')
+        print(f'写入 {out}（{cues["duration"]}s，{cues["bpm"]} BPM，{len(cues.get("sfx", []))} 个音效，立体声，{cues.get("lufs", -14)} LUFS）')
     else:
         print(json.dumps(analyze(sys.argv[2]), ensure_ascii=False, indent=1))

@@ -5,13 +5,14 @@
 //   node render.mjs comp.html --sheet out/sheet.jpg          每拍一帧的拼图（先看它，再出整片）
 //   node render.mjs comp.html --stills 0.5,2,4.25 --dir out  指定时刻的静帧
 //   node render.mjs deck.html --slides out/slides --pdf out/deck.pdf   幻灯片逐页 PNG / PDF
-//   选项：--fps 60  --from 0 --to 8  --subframes 4（运动模糊） --audio a.wav  --crf 16  --scale 0.5  --chrome <path>
+//   选项：--fps 60  --from 0 --to 8  --subframes 8 --shutter 180（运动模糊） --audio a.wav  --crf 16  --scale 0.5  --chrome <path>
 import { spawn } from 'node:child_process';
-import { existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
-import { tmpdir, homedir } from 'node:os';
+import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { chromium } from 'playwright-core';
+import { findChrome } from './chrome.mjs';
 
 const argv = process.argv.slice(2);
 const input = argv.find((a) => !a.startsWith('--') && !argv[argv.indexOf(a) - 1]?.startsWith('--'));
@@ -24,26 +25,6 @@ if (!input) {
   process.exit(1);
 }
 
-function findChrome() {
-  const fromEnv = opt('chrome', process.env.CHROME_PATH);
-  if (fromEnv) return fromEnv;
-  const cache = process.env.PLAYWRIGHT_BROWSERS_PATH || join(homedir(), process.platform === 'darwin' ? 'Library/Caches/ms-playwright' : '.cache/ms-playwright');
-  const candidates = [];
-  if (existsSync(cache)) {
-    for (const d of readdirSync(cache).sort().reverse()) {
-      if (d.startsWith('chromium_headless_shell-')) {
-        candidates.push(join(cache, d, 'chrome-headless-shell-mac-arm64/chrome-headless-shell'), join(cache, d, 'chrome-headless-shell-mac-x64/chrome-headless-shell'), join(cache, d, 'chrome-headless-shell-linux64/chrome-headless-shell'));
-      }
-      if (d.startsWith('chromium-')) {
-        candidates.push(join(cache, d, 'chrome-mac-arm64/Chromium.app/Contents/MacOS/Chromium'), join(cache, d, 'chrome-mac/Chromium.app/Contents/MacOS/Chromium'), join(cache, d, 'chrome-linux/chrome'), join(cache, d, 'chrome-linux64/chrome'));
-      }
-    }
-  }
-  candidates.push('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser', 'C:/Program Files/Google/Chrome/Application/chrome.exe');
-  const hit = candidates.find((p) => existsSync(p));
-  if (!hit) throw new Error('找不到 Chromium/Chrome。设置 CHROME_PATH，或运行 npx playwright install chromium');
-  return hit;
-}
 
 function ffmpeg(args, { stdin = false } = {}) {
   const p = spawn('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', ...args], { stdio: [stdin ? 'pipe' : 'ignore', 'inherit', 'inherit'] });
@@ -52,7 +33,7 @@ function ffmpeg(args, { stdin = false } = {}) {
 }
 
 async function open(scale) {
-  const browser = await chromium.launch({ executablePath: findChrome(), args: ['--allow-file-access-from-files', '--autoplay-policy=no-user-gesture-required', '--hide-scrollbars'] });
+  const browser = await chromium.launch({ executablePath: findChrome(opt('chrome')), args: ['--allow-file-access-from-files', '--autoplay-policy=no-user-gesture-required', '--hide-scrollbars'] });
   const page = await browser.newPage({ viewport: { width: 640, height: 360 }, deviceScaleFactor: scale });
   page.on('pageerror', (e) => console.error('[页面错误]', e.message));
   page.on('console', (m) => m.type() === 'error' && console.error('[console]', m.text()));
@@ -75,6 +56,7 @@ async function renderVideo() {
   const { browser, page, meta } = await open(scale);
   const fps = +opt('fps', meta.fps);
   const sub = Math.max(1, +opt('subframes', 1));
+  const shutter = Math.min(360, Math.max(0, +opt('shutter', 180))) / 360;   // 快门角：180° = 曝光半帧
   const from = +opt('from', 0);
   const to = +opt('to', meta.duration);
   const out = resolve(opt('out', 'out/video.mp4'));
@@ -83,19 +65,23 @@ async function renderVideo() {
   const crf = opt('crf', '16');
   const frames = Math.round((to - from) * fps);
 
-  const vf = sub > 1 ? [`tmix=frames=${sub}`, `framestep=${sub}`, `fps=${fps}`] : [];
+  // 每帧的 sub 个子帧连续送进去：tmix 在每组最后一个子帧处正好平均完这一组，再只保留这些帧。
+  const vf = sub > 1 ? [`tmix=frames=${sub}`, `select=eq(mod(n\\,${sub})\\,${sub - 1})`, `setpts=N/(${fps}*TB)`] : [];
   const args = ['-f', 'image2pipe', '-framerate', String(fps * sub), '-i', '-'];
   if (audio) args.push('-ss', String(from), '-i', resolve(audio));
   if (vf.length) args.push('-vf', vf.join(','));
   args.push('-c:v', 'libx264', '-preset', 'medium', '-crf', crf, '-pix_fmt', 'yuv420p', '-r', String(fps), '-movflags', '+faststart');
-  if (audio) args.push('-c:a', 'aac', '-b:a', '192k', '-shortest');
+  // 截图是 sRGB，标成 BT.709，各平台播放器才不会按 BT.601 解释而偏色
+  args.push('-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv', '-x264-params', 'colorprim=bt709:transfer=bt709:colormatrix=bt709');
+  if (audio) args.push('-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2', '-shortest');
   args.push(out);
   const { proc, done } = ffmpeg(args, { stdin: true });
 
   const started = Date.now();
   for (let i = 0; i < frames; i++) {
     for (let s = 0; s < sub; s++) {
-      const t = from + (i + s / sub) / fps;
+      // 子帧以帧时刻为中心，跨度 = 快门角对应的那一段，第 0 帧也有拖影
+      const t = Math.max(0, from + (i + ((s + 0.5) / sub - 0.5) * shutter) / fps);
       const buf = await seekShot(page, t);
       if (!proc.stdin.write(buf)) await new Promise((r) => proc.stdin.once('drain', r));
     }
@@ -104,7 +90,7 @@ async function renderVideo() {
   proc.stdin.end();
   await done;
   await browser.close();
-  console.log(`\n完成 ${out}  (${frames} 帧, ${fps}fps${sub > 1 ? `, ${sub} 子帧运动模糊` : ''})`);
+  console.log(`\n完成 ${out}  (${frames} 帧, ${fps}fps${sub > 1 ? `, ${sub} 子帧运动模糊、快门 ${Math.round(shutter * 360)}°` : ''})`);
 }
 
 /** 时刻列表：--every beat（默认，每拍一帧）或 --every 0.5（秒）。 */
@@ -173,7 +159,7 @@ async function renderDeck() {
   const html = `<!doctype html><style>@page{size:${meta.width}px ${meta.height}px;margin:0}body{margin:0}img{display:block;width:${meta.width}px;height:${meta.height}px;page-break-after:always}</style>` + files.map((f) => `<img src="${pathToFileURL(f).href}">`).join('');
   const page0 = join(dir, '_deck.html');
   writeFileSync(page0, html);
-  const browser = await chromium.launch({ executablePath: findChrome(), args: ['--allow-file-access-from-files'] });
+  const browser = await chromium.launch({ executablePath: findChrome(opt('chrome')), args: ['--allow-file-access-from-files'] });
   const page = await browser.newPage();
   await page.goto(pathToFileURL(page0).href, { waitUntil: 'load' });
   mkdirSync(dirname(resolve(pdf)), { recursive: true });

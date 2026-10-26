@@ -16,7 +16,9 @@
 python3 engine/audio.py synth cues.json out/audio.wav
 ```
 
-`cues.json` 需要定义：BPM、时长、根音、和弦进行、乐器层（pad / bass / kick / hat / clap / pluck）、drop（鼓从哪里进）、breakdown（安静段）、音效列表。完整示例见 `examples/*/cues.json`。
+`cues.json` 需要定义：BPM、时长、根音、和弦进行、乐器层（pad / bass / kick / hat / clap / pluck / marimba）、drop（鼓从哪里进）、breakdown（安静段）、音效列表。完整示例见 `examples/*/cues.json`。
+
+输出是立体声：pad 左右两层错开、hat 偏右、拨弦和马林巴左右交替，鼓和贝斯在中间。每条音效可以带 `pan`（−1 左 … 1 右）和 `gain`。`duck`（默认 3）是音效响起时音乐让出的分贝数：音效前 20 ms 开始压、保持 120 ms、250 ms 放回。`marimba` 是二算子 FM 马林巴，比 `pluck` 的纯正弦亮，等轴、科技类片子用它。
 
 音效类型和用法：
 
@@ -31,11 +33,18 @@ python3 engine/audio.py synth cues.json out/audio.wav
 | `swell` | 揭晓答案 |
 | `chime` | 标题出现、结论 |
 | `glitch` | 赛博 / 故障风的切换 |
+| `boing` | 弹簧弹出、综艺花字 pop |
+| `slide` | 滑哨，`"dir": "up"` 或 `"down"`：尴尬、溜走、反转 |
+| `scratch` | 搓碟：剧情急刹、「？？？」 |
+| `stamp` | 盖章、印章砸下 |
+| `click` | UI 点击、标签切换、光标 |
+| `drip` | 水滴、液体、提示音 |
 
 规矩：
 - 音效对齐画面里的事件，事件对齐拍点。泛洪的 `whoosh` 放在 `beat(n) - 0.32`，`hit` 放在 `beat(n)`。
 - 先写画面，再从分镜里抄出事件时刻生成 cues，不要反过来。
-- 输出自动响度归一到 **−14 LUFS**（各平台的标准），真峰值要 ≤ −1 dBTP，交付前用 `qa.py` 确认。
+- 母带两遍处理：先测响度，再按实测值线性归一到 **−14 LUFS**（不改动态），最后 4 倍过采样限幅，真峰值约 −1.5 dBTP（平台转码会再抬一点，留 0.5 dB 余量）。交付前用 `qa.py` 确认。
+- 合成音色偏电子。片子要求真实乐器质感（钢琴、弦乐、木琴），用下面「真实乐器采样配乐」那条路，或用户给的音乐。
 
 ## 用现成音乐
 

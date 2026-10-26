@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""成片体检：规格、时长、响度、真峰值、单帧跳变（pop）、静止段（dead air）。
+"""成片体检：规格、音轨（48 kHz 立体声）、时长、响度、真峰值、单帧跳变（pop）、静止段（dead air）。
 
   python3 qa.py out/video.mp4 [--static 2.0] [--duration 10]
 
@@ -17,7 +17,7 @@ import numpy as np
 
 
 def probe(path):
-    out = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'stream=codec_type,codec_name,width,height,r_frame_rate,pix_fmt:format=duration', '-of', 'json', path], capture_output=True, text=True, check=True).stdout
+    out = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'stream=codec_type,codec_name,width,height,r_frame_rate,pix_fmt,color_space,sample_rate,channels:format=duration', '-of', 'json', path], capture_output=True, text=True, check=True).stdout
     return json.loads(out)
 
 
@@ -50,6 +50,12 @@ def main():
     v = next(s for s in info['streams'] if s['codec_type'] == 'video')
     a = next((s for s in info['streams'] if s['codec_type'] == 'audio'), None)
     print(f"规格  {v['width']}x{v['height']}  {v['r_frame_rate']}fps  {v['codec_name']}/{v['pix_fmt']}  {float(info['format']['duration']):.2f}s  音轨:{a['codec_name'] if a else '无'}")
+    if a:
+        sr, ch = int(a.get('sample_rate', 0)), int(a.get('channels', 0))
+        flag = '' if sr == 48000 and ch == 2 else '  ← 规格要 48 kHz 立体声'
+        print(f'音轨  {sr} Hz  {ch} 声道{flag}')
+    if v.get('color_space') in (None, 'unknown'):
+        print('色彩  未标注 → 播放器可能按 BT.601 解释，颜色偏移；用新版 render.mjs 重出（已默认标 BT.709）')
     d, changed, fps = frame_diffs(path)
     if target is not None:
         dur = float(info['format']['duration'])

@@ -1,36 +1,23 @@
 #!/usr/bin/env node
 // 不用看图也能做的自检（给不能读图的模型，也给能读图的模型做第二道保险）。
-//   node lint.mjs comp.html [--samples 24]
+//   node lint.mjs comp.html [--samples 40] [--chrome <path>]
 // 1. 确定性：同一批时刻先顺序渲染、再打乱顺序渲染，像素不同 = 有帧间状态（残留层、只在某个镜头里清理的元素）。
 // 2. 对比度：每个可见文字元素与其背后底色的对比度 < 3:1（WCAG 大字标准）即报，抓「亮底白字」。
 // 3. 重叠：两个可见文字块相交面积超过较小者的 25% 即报，抓「上一个镜头的标题没退场」。
+//    同一个块级元素里的行内文字（大数字 + 单位）不算；canvas 里的字要在渲染时用 MS.textBox() 登记才查得到。
 // 装饰性元信息（.hud / .meta / [data-decor] 内的字）不查对比度与重叠。
-import { existsSync, readdirSync } from 'node:fs';
-import { homedir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { chromium } from 'playwright-core';
+import { findChrome } from './chrome.mjs';
 
 const argv = process.argv.slice(2);
 const input = argv.find((a) => !a.startsWith('--'));
 const opt = (n, d) => { const i = argv.indexOf('--' + n); return i < 0 ? d : argv[i + 1]; };
-if (!input) { console.error('用法: node lint.mjs <composition.html> [--samples 24]'); process.exit(1); }
+if (!input) { console.error('用法: node lint.mjs <composition.html> [--samples 40] [--chrome <path>]'); process.exit(1); }
 
-function findChrome() {
-  if (process.env.CHROME_PATH) return process.env.CHROME_PATH;
-  const cache = join(homedir(), process.platform === 'darwin' ? 'Library/Caches/ms-playwright' : '.cache/ms-playwright');
-  const c = [];
-  if (existsSync(cache)) for (const d of readdirSync(cache).sort().reverse()) {
-    if (d.startsWith('chromium_headless_shell-')) c.push(join(cache, d, 'chrome-headless-shell-mac-arm64/chrome-headless-shell'), join(cache, d, 'chrome-headless-shell-mac-x64/chrome-headless-shell'), join(cache, d, 'chrome-headless-shell-linux64/chrome-headless-shell'));
-    if (d.startsWith('chromium-')) c.push(join(cache, d, 'chrome-mac-arm64/Chromium.app/Contents/MacOS/Chromium'), join(cache, d, 'chrome-linux/chrome'));
-  }
-  c.push('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/usr/bin/google-chrome', '/usr/bin/chromium');
-  const hit = c.find((p) => existsSync(p));
-  if (!hit) throw new Error('找不到 Chromium/Chrome，设置 CHROME_PATH');
-  return hit;
-}
 
-const browser = await chromium.launch({ executablePath: findChrome(), args: ['--allow-file-access-from-files'] });
+const browser = await chromium.launch({ executablePath: findChrome(opt('chrome')), args: ['--allow-file-access-from-files'] });
 const page = await browser.newPage({ viewport: { width: 640, height: 360 } });
 page.on('pageerror', (e) => console.error('[页面错误]', e.message));
 await page.goto(pathToFileURL(resolve(input)).href + '?render=1', { waitUntil: 'load' });
@@ -38,7 +25,7 @@ await page.waitForFunction(() => window.__ms?.meta?.duration > 0, null, { timeou
 const meta = await page.evaluate(() => window.__ms.meta);
 await page.setViewportSize({ width: meta.width, height: meta.height });
 
-const N = +opt('samples', 24);
+const N = +opt('samples', 40);
 const marks = await page.evaluate(() => window.__ms.marks || null);
 const times = marks || Array.from({ length: N }, (_, i) => +(((i + 0.5) / N) * meta.duration).toFixed(3));
 const shot = async (t) => { await page.evaluate((x) => window.__ms.seek(x), t); return page.screenshot({ type: 'png' }); };
@@ -77,6 +64,14 @@ for (const t of times) {
     const parse = (s) => { const m = s.match(/[\d.]+/g); return m ? m.map(Number) : [0, 0, 0, 0]; };
     const effOpacity = (el) => { let o = 1; for (let e = el; e && e !== document.documentElement; e = e.parentElement) { const s = getComputedStyle(e); if (s.display === 'none' || s.visibility === 'hidden') return 0; o *= +s.opacity; } return o; };
     const items = [];
+    // 每段文字归到最近的块级祖先：同一块里的行内 span（行高 < 1 的大数字和单位）字框天然会叠，不算重叠
+    const blocks = new Map();
+    const blockOf = (el) => {
+      let e = el;
+      while (e.parentElement && /^(inline|inline-block|contents)$/.test(getComputedStyle(e).display)) e = e.parentElement;
+      if (!blocks.has(e)) blocks.set(e, 'b' + blocks.size);
+      return blocks.get(e);
+    };
     const walker = document.createTreeWalker(document.getElementById('stage') || document.body, NodeFilter.SHOW_TEXT);
     while (walker.nextNode()) {
       const n = walker.currentNode, txt = n.textContent.trim();
@@ -93,8 +88,10 @@ for (const t of times) {
       const box = { left: Math.max(rb.left, eb.left), top: Math.max(rb.top, eb.top), right: Math.min(rb.right, eb.right), bottom: Math.min(rb.bottom, eb.bottom) };
       box.width = box.right - box.left; box.height = box.bottom - box.top;
       if (box.width < 4 || box.height < 4 || box.right < 0 || box.bottom < 0 || box.left > innerWidth || box.top > innerHeight) continue;
-      items.push({ txt: txt.slice(0, 16), fg, size: parseFloat(s.fontSize), box: [box.left, box.top, box.right, box.bottom], el: el.closest('[id]')?.id || el.className || el.tagName });
+      items.push({ txt: txt.slice(0, 16), fg, size: parseFloat(s.fontSize), box: [box.left, box.top, box.right, box.bottom], el: blockOf(el) });
     }
+    // canvas 里登记过的字：只参与重叠检查（像素上分不出字和底，对比度不查）
+    for (const [i, c] of (window.__ms.text || []).entries()) items.push({ txt: c.label, fg: null, size: 0, box: c.box, el: 'canvas' + i });
     return items;
   });
   if (!r.length) continue;
@@ -102,6 +99,8 @@ for (const t of times) {
   const bgShot = (await page.screenshot({ type: 'png' })).toString('base64');
   await tag.evaluate((n) => n.remove());
   const res = await page.evaluate(async ([png, items]) => {
+    const skip = items.filter((it) => !it.fg);
+    items = items.filter((it) => it.fg);
     const img = await new Promise((ok) => { const i = new Image(); i.onload = () => ok(i); i.src = 'data:image/png;base64,' + png; });
     const c = new OffscreenCanvas(img.width, img.height), g = c.getContext('2d'); g.drawImage(img, 0, 0);
     const k = img.width / innerWidth;
@@ -114,7 +113,7 @@ for (const t of times) {
       for (let i = 0; i < d.length; i += 16) { sum += lum([d[i], d[i + 1], d[i + 2]]); n++; }
       const Lb = sum / n, Lf = lum(it.fg);
       return { ...it, contrast: (Math.max(Lb, Lf) + 0.05) / (Math.min(Lb, Lf) + 0.05) };
-    });
+    }).concat(skip.map((it) => ({ ...it, contrast: Infinity })));
   }, [bgShot, r]);
   for (const it of res) {
     const need = it.size >= 24 ? 3 : 2;            // 大字 3:1；小号元信息放宽到 2:1
@@ -130,6 +129,6 @@ for (const t of times) {
 }
 console.log(lowC.size ? `✗ 对比度：${lowC.size} 处文字对比度 < 3:1 → ${[...lowC.values()].slice(0, 10).join('；')}` : '✓ 对比度：可见文字均 ≥ 3:1');
 console.log(overlaps.size ? `✗ 重叠：${overlaps.size} 对文字互相压住 → ${[...overlaps.values()].slice(0, 10).join('；')}` : '✓ 重叠：没有互相压住的文字');
-console.log('说明：canvas 里画的字不在检查范围内；渐变填色的字会跳过；对比度取文字框内背景像素的平均亮度。');
+console.log('说明：canvas 里的字只有用 MS.textBox() 登记过的才查重叠，不查对比度；渐变填色的字会跳过；对比度取文字框内背景像素的平均亮度。');
 await browser.close();
 process.exit(bad.length || lowC.size || overlaps.size ? 2 : 0);

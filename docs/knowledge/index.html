@@ -9492,6 +9492,7 @@ hook = 4</code></pre>
 <ol>
 <li>选一张卡，整片只用这一种风格。卡上的「认得出」和「关键技法」是评委对照打分的依据，<strong>不能删，也不能弱化</strong>。</li>
 <li>故事、品牌名、文案和配色可以全换成自己的，但必须保持这种风格最经典、一眼认得出的样子。品牌名一律虚构。</li>
+<li><strong>配色和字体按卡自己定义</strong>：<code>engine/themes.css</code> 的主题是给 10 个题材原型用的，和风格卡不一一对应。用风格卡时在项目里按卡上的色值写一组 CSS 变量。</li>
 <li><strong>风格卡优先于 SKILL.md 的禁用清单</strong>。Synthwave 要透视网格地板和霓虹辉光，HUD 要四角括号和科技小字，VHS 要 RGB 分离。这些是标志特征，选了这张卡就照做；没选这张卡时，禁用清单照常生效。</li>
 <li>做完走 <code>jury.md</code> 的独立评审，评委拿到的风格说明就是这张卡。</li>
 <li>想要一份能直接发给模型的完整提示词：<code>mg-prompts/</code> 里每张卡都有对应的一份（如 <code>mg-prompts/02-isometric.md</code>），含通用工作流、规矩、自评和交付要求，原片终评 7.6–8.2 分。换掉 <code>Creative seed</code> 就能做自己的片。</li>
@@ -9523,7 +9524,7 @@ hook = 4</code></pre>
 <ul>
 <li>真等轴相机：正交投影，仰角 35.264°、方位角 45°</li>
 <li>2D 造等轴面：纵向缩到 86.6% → 斜切 ±30° → 旋转 ∓30°，三个面分别做再拼合</li>
-<li>假 3D 靠图层排序：Z 序 = 画面 y 坐标，沿网格移动保持 2:1 像素斜率</li>
+<li>假 3D 靠图层排序：Z 序 = 画面 y 坐标；物体只沿两条网格轴移动，斜率和投影保持一致（真等轴是 30°；像素画常用的 2:1 斜率是 26.57° 的二等角，两种别混用，用真 3D 正交相机时按 30° 做）</li>
 <li>楼房生长：底面先落位，立面 scaleY 从 0 拉起带过冲，顶面晚 2–3 帧盖上</li>
 <li>运镜只平移不旋转，前中后景视差速度 1 : 0.8 : 0.6</li>
 <li><strong>技术路线</strong>：Three.js 正交相机 + 柔和阴影 + AO 后处理；或 SVG 按上面的公式造面</li>
@@ -9916,7 +9917,25 @@ const expoIn = (lt, k = 0.15, fps = 30) =&gt; 1 - Math.pow(1 - k, lt * fps);</co
 <ul>
 <li>全片底层加一个 1%–3% 的缓推（<code>scale(1 + 0.03 <em> p)</code>）或缓慢漂移（<code>MS.noise(t </em> 0.3) * 20</code>）。</li>
 <li>每拍一个 1.5% 的「冲击缩放」：<code>scale(1 + 0.015 * MS.pulse(t, 0.12))</code>。只在 reel / MV 里用。</li>
-<li>运动模糊：渲染时加 <code>--subframes 2</code>（60fps）或 <code>--subframes 4</code>（30fps），快速移动会自然拖影。</li>
+<li>运动模糊：渲染时加 <code>--subframes</code>（默认 180° 快门），快速移动会自然拖影。一般 30fps 用 8、60fps 用 4；快速推拉和对数缩放用 12–16，子帧不够会出台阶状重影。不要再叠后期方向模糊，评委会认成通用的「快甩」预设。</li>
+</ul>
+<h3>大画布相机（贴纸科普、信息长图、地图类）</h3>
+<p>一张超大画布，所有元素按世界坐标摆好，相机在上面平移缩放，一镜串起所有信息点。最常见的错误是对中心和缩放各自做线性插值：放大 10 倍以上时，缩放的前半程几乎不动、后半程猛冲，推镜目标还会中途跑出画面。用 <code>MS.camera</code>：</p>
+<pre><code>const keys = [
+  [0.0, { x: 960,  y: 540, zoom: 1 }],      // 全景
+  [2.4, { x: 1180, y: 610, zoom: 4.7 }],    // 推进淡水块
+  [4.6, { x: 1192, y: 655, zoom: 40 }],     // 推进到湖泊河流
+  [6.6, { x: 960,  y: 540, zoom: 1 }],      // 一口气拉回全景：高潮
+];
+MS.render((t) =&gt; {
+  const cam = MS.camera(t, keys);           // 默认 inOutCubic；第三个参数可换缓动
+  MS.css(MS.$(&#x27;#world&#x27;), { transform: MS.cameraCss(cam), transformOrigin: &#x27;0 0&#x27; });
+});</code></pre>
+<ul>
+<li>缩放按对数插值，每帧乘同一个比例，推拉速度在观感上是匀的。</li>
+<li>两个关键帧之间，放大那一端的中心在屏幕上走直线：推进时目标一路平稳地移到画面中央，拉远时一直待在原处，不会被甩出去。</li>
+<li>停留段让相机继续 2%–3% 的缓推，不要死停；关键帧之间重叠 4–6 帧（上一段减速时下一段的元素已经开始入场）。</li>
+<li>投影、描边宽度这类不该随缩放变的东西放在屏幕空间（相机层外面），否则拉远时会细到看不见。</li>
 </ul>
 </section>
 <section class="doc" id="s-storyboard">
@@ -9981,7 +10000,7 @@ const expoIn = (lt, k = 0.15, fps = 30) =&gt; 1 - Math.pow(1 - k, lt * fps);</co
 <li>[ ] 0.5 秒内有物件在动，开头空画面或黑场不超过 0.3 秒，不是标题淡入</li>
 <li>[ ] 有且只有一个让人记住的高潮，落在全片 60–75% 处</li>
 <li>[ ] 结尾画面定住 0.8–1.2 秒，并保留微动，不是死帧</li>
-<li>[ ] 写动效之前先出 6–10 张关键时刻静帧（<code>--stills</code>），每张都按海报标准看过：构图、层级、留白、字距行距、中文标点、约 5% 安全边距</li>
+<li>[ ] 写动效之前先出 6–10 张关键时刻静帧（<code>--stills</code>），每张都按海报标准看过：构图、层级、留白、字距行距、中文标点、约 5% 安全边距。做法：每个镜头函数先只写它的「定格姿势」（元素直接摆在最终位置，不管 t），<code>--stills</code> 出图审到满意，再在这个姿势上加入场、退场和运动</li>
 <li>[ ] 每个镜头都有一个「事件」：首帧到末帧之间有东西变了</li>
 <li>[ ] 每个读点都有时间被找到、被看懂；没有两个重要读点重叠</li>
 <li>[ ] 每 2–4 秒有新东西（<code>qa.py</code> 静止段 = 0）</li>
@@ -10050,7 +10069,8 @@ const expoIn = (lt, k = 0.15, fps = 30) =&gt; 1 - Math.pow(1 - k, lt * fps);</co
 <p>旁白会决定节奏：有旁白时，镜头时长跟着台词走，而不是跟着拍子走。</p>
 <h3>代码合成（零依赖、零版权风险）</h3>
 <pre><code>python3 engine/audio.py synth cues.json out/audio.wav</code></pre>
-<p><code>cues.json</code> 需要定义：BPM、时长、根音、和弦进行、乐器层（pad / bass / kick / hat / clap / pluck）、drop（鼓从哪里进）、breakdown（安静段）、音效列表。完整示例见 <code>examples/*/cues.json</code>。</p>
+<p><code>cues.json</code> 需要定义：BPM、时长、根音、和弦进行、乐器层（pad / bass / kick / hat / clap / pluck / marimba）、drop（鼓从哪里进）、breakdown（安静段）、音效列表。完整示例见 <code>examples/*/cues.json</code>。</p>
+<p>输出是立体声：pad 左右两层错开、hat 偏右、拨弦和马林巴左右交替，鼓和贝斯在中间。每条音效可以带 <code>pan</code>（−1 左 … 1 右）和 <code>gain</code>。<code>duck</code>（默认 3）是音效响起时音乐让出的分贝数：音效前 20 ms 开始压、保持 120 ms、250 ms 放回。<code>marimba</code> 是二算子 FM 马林巴，比 <code>pluck</code> 的纯正弦亮，等轴、科技类片子用它。</p>
 <p>音效类型和用法：</p>
 <div class='tbl-wrap'><table><thead><tr>
 <th>类型</th>
@@ -10065,12 +10085,19 @@ const expoIn = (lt, k = 0.15, fps = 30) =&gt; 1 - Math.pow(1 - k, lt * fps);</co
 <tr><td><code>swell</code></td><td>揭晓答案</td></tr>
 <tr><td><code>chime</code></td><td>标题出现、结论</td></tr>
 <tr><td><code>glitch</code></td><td>赛博 / 故障风的切换</td></tr>
+<tr><td><code>boing</code></td><td>弹簧弹出、综艺花字 pop</td></tr>
+<tr><td><code>slide</code></td><td>滑哨，<code>"dir": "up"</code> 或 <code>"down"</code>：尴尬、溜走、反转</td></tr>
+<tr><td><code>scratch</code></td><td>搓碟：剧情急刹、「？？？」</td></tr>
+<tr><td><code>stamp</code></td><td>盖章、印章砸下</td></tr>
+<tr><td><code>click</code></td><td>UI 点击、标签切换、光标</td></tr>
+<tr><td><code>drip</code></td><td>水滴、液体、提示音</td></tr>
 </tbody></table></div>
 <p>规矩：</p>
 <ul>
 <li>音效对齐画面里的事件，事件对齐拍点。泛洪的 <code>whoosh</code> 放在 <code>beat(n) - 0.32</code>，<code>hit</code> 放在 <code>beat(n)</code>。</li>
 <li>先写画面，再从分镜里抄出事件时刻生成 cues，不要反过来。</li>
-<li>输出自动响度归一到 <strong>−14 LUFS</strong>（各平台的标准），真峰值要 ≤ −1 dBTP，交付前用 <code>qa.py</code> 确认。</li>
+<li>母带两遍处理：先测响度，再按实测值线性归一到 <strong>−14 LUFS</strong>（不改动态），最后 4 倍过采样限幅，真峰值约 −1.5 dBTP（平台转码会再抬一点，留 0.5 dB 余量）。交付前用 <code>qa.py</code> 确认。</li>
+<li>合成音色偏电子。片子要求真实乐器质感（钢琴、弦乐、木琴），用下面「真实乐器采样配乐」那条路，或用户给的音乐。</li>
 </ul>
 <h3>用现成音乐</h3>
 <pre><code>python3 engine/audio.py analyze song.mp3 &gt; beats.json   # bpm / offset / beats[] / sections[quiet|mid|loud]</code></pre>
@@ -10174,6 +10201,15 @@ css(plate, { transform: `scale(${1.08 - 0.06 * MS.prog(t, a, b, MS.ease.linear)}
 <li>key 只放环境变量或密钥文件，不要写进合成文件或提交进仓库。</li>
 <li>没配置也不停：跟用户提一次怎么配，然后纯代码继续出片。配音、配乐 toolkit 暂不覆盖，用用户自己的 TTS / 音乐服务，或 <code>audio.py</code> 合成。</li>
 </ul>
+<h4>生成失败或没有余额时</h4>
+<p>出图前先跑一次 <code>gen models</code> 看配置，付费渠道能查余额就先查（<code>gen balance</code>）。报余额不足、额度用完（如 403 <code>insufficient_user_quota</code>）时，失败的任务一般不扣费，不要反复重试，按下面的顺序退：</p>
+<ol>
+<li><strong>换一个已配置的渠道</strong>：<code>providers.toml</code> 里有别的图像渠道就用 <code>--model 渠道:模型</code> 指定。</li>
+<li><strong>公有领域 / CC0 照片</strong>：NASA、NOAA、USFWS 等美国政府机构的图，Wikimedia Commons 标为 Public Domain / CC0 的图，可以修改、可以商用。抠图做贴纸用 <code>rembg</code>。</li>
+<li><strong>免费图库实拍</strong>：Pexels、Unsplash 允许修改后用在成片里、可以商用，但<strong>不允许把原图或原视频单独再分发</strong>。原始素材不要提交进公开仓库（放进 <code>.gitignore</code>），只交付成片。同一场拍摄里常有同一主体的多段素材，适合做一个小故事。</li>
+<li><strong>代码画风格化场景</strong>：照片都不合适时，用 SVG / Canvas 画扁平或手绘风格的场景，风格卡大多能这样做。</li>
+</ol>
+<p>不管用了哪种，来源、授权和链接都写进 CREDITS.md，不能写「来源不明」。</p>
 <h4>其他方式</h4>
 <p>用你环境里现成的工具调用即可：各家官方 API、OpenAI 兼容网关，或者 agent 已经装好的生图 / 生视频 skill。</p>
 <p>不管走哪条路，都把生成的文件放进合成目录的 <code>assets/</code> 下，用相对路径引用。合成用到的所有素材都要在 STORYBOARD.md 里登记：用途、prompt、文件名。</p>

@@ -69,9 +69,10 @@ def main():
             problems.append(f"字重被冻结：{os.path.relpath(p, base)} 是静态 {font['OS/2'].usWeightClass} 字重，却被声明给 {'/'.join(weights)}（{decl[0]['family']}）")
         if chars:
             cmap = font.getBestCmap()
+            ranges = decl[0]['ranges'] or [(0, 0x10FFFF)]   # 没写 unicode-range = 这个文件负责所有字
             for ch in chars:
                 cp = ord(ch)
-                if any(a <= cp <= c for a, c in decl[0]['ranges']) and cp not in cmap:
+                if any(a <= cp <= c for a, c in ranges) and cp not in cmap:
                     problems.append(f"缺字：「{ch}」应在 {os.path.relpath(p, base)}，文件里没有")
     print(f'{len(items)} 条 @font-face，{len(by_file)} 个本地文件')
     for x in problems:

@@ -121,8 +121,14 @@
     if (!el) return;
     for (const k in styles) el.style[k] = styles[k];
   }
-  /** 按 t 显隐：不在区间内直接 display:none，省掉多余绘制。 */
-  const show = (el, visible) => css(el, { display: visible ? '' : 'none' });
+  /** 按 t 显隐：不在区间内直接 display:none，省掉多余绘制。
+   *  显示时先清掉行内 display；如果样式表本来就把它藏起来（.lbl{display:none}），改用 data-display 或 block。 */
+  function show(el, visible) {
+    if (!el) return;
+    if (!visible) { el.style.display = 'none'; return; }
+    el.style.display = el.dataset.display || '';
+    if (getComputedStyle(el).display === 'none') el.style.display = 'block';
+  }
 
   // ---------- 文字 ----------
   /** 把元素拆成逐字/逐词 span（只拆一次，结果缓存在元素上）。中文默认逐字。 */
@@ -161,12 +167,15 @@
     });
   }
 
-  /** 打字机：返回 t 时刻应显示的子串。cps = 每秒字数。 */
-  const typewriter = (str, t, start, cps = 18) => [...str].slice(0, Math.max(0, Math.floor((t - start) * cps))).join('');
+  /** 把 t 对齐到所在的整帧。文字内容（数字、打字机）用它取值，运动模糊的子帧之间就不会出现两层叠字。 */
+  const frameT = (t) => Math.round(t * cfg.fps) / cfg.fps;
 
-  /** 数字滚动，带千分位。 */
+  /** 打字机：返回 t 时刻应显示的子串。cps = 每秒字数。按整帧取值。 */
+  const typewriter = (str, t, start, cps = 18) => [...str].slice(0, Math.max(0, Math.floor((frameT(t) - start) * cps))).join('');
+
+  /** 数字滚动，带千分位。按整帧取值（同一帧的子帧显示同一个数）。 */
   function counter(t, start, end, from, to, { decimals = 0, e = ease.outExpo, sep = ',' } = {}) {
-    const v = lerp(from, to, prog(t, start, end, e));
+    const v = lerp(from, to, prog(frameT(t), start, end, e));
     const [i, d] = v.toFixed(decimals).split('.');
     return i.replace(/\B(?=(\d{3})+(?!\d))/g, sep) + (d ? '.' + d : '');
   }
@@ -209,6 +218,34 @@
     ctx.stroke();
   }
 
+  // ---------- 相机（大画布上的平移缩放） ----------
+  /** keys: [[t, {x, y, zoom}], ...]，x/y 是画面中心对准的世界坐标。返回 t 时刻的 {x, y, zoom}。
+   *  两个关键帧之间：缩放按对数插值（每帧乘同一个比例，推拉速度均匀），
+   *  并让放大那一端的中心在屏幕上沿直线移动，推镜目标不会中途跑出画面。 */
+  function camera(t, keys, e = ease.inOutCubic) {
+    if (t <= keys[0][0]) return { ...keys[0][1] };
+    for (let i = 1; i < keys.length; i++) {
+      const [t1, b] = keys[i];
+      if (t > t1) continue;
+      const [t0, a] = keys[i - 1];
+      const p = e(invLerp(t0, t1, t));
+      const zoom = Math.exp(lerp(Math.log(a.zoom), Math.log(b.zoom), p));
+      const f = a.zoom >= b.zoom ? a : b;                       // 焦点：放大那一端的中心
+      const sx = lerp((f.x - a.x) * a.zoom, (f.x - b.x) * b.zoom, p);
+      const sy = lerp((f.y - a.y) * a.zoom, (f.y - b.y) * b.zoom, p);
+      return { x: f.x - sx / zoom, y: f.y - sy / zoom, zoom };
+    }
+    return { ...keys[keys.length - 1][1] };
+  }
+  /** 把相机写成 CSS transform，套在装着整张画布的元素上（transform-origin: 0 0）。 */
+  const cameraCss = (cam) => `translate(${cfg.width / 2}px, ${cfg.height / 2}px) scale(${cam.zoom}) translate(${-cam.x}px, ${-cam.y}px)`;
+
+  // ---------- 给 lint 登记 canvas 里的文字 ----------
+  let frameText = [];
+  /** canvas 里画的字 lint 看不见。每画一段字调用一次，lint 就能查它和别的字有没有互相压住。
+   *  坐标是画面像素（不是 canvas 内部的缩放坐标）。 */
+  const textBox = (label, x, y, w, h) => frameText.push({ label: String(label).slice(0, 16), box: [x, y, x + w, y + h] });
+
   // ---------- 素材就绪 ----------
   /** 注册一个需要在首帧前完成的 Promise（字体、图片、数据）。 */
   const ready = (promise) => pending.push(promise);
@@ -224,7 +261,11 @@
 
   async function settle() {
     await Promise.all(pending);
-    if (document.fonts) await document.fonts.ready;
+    if (document.fonts) {
+      // 只在 canvas 里用到的字体不会被浏览器自动加载，这里把声明过的字体全部主动加载一遍
+      await Promise.all([...document.fonts].map((f) => f.load().catch(() => {})));
+      await document.fonts.ready;
+    }
     await Promise.all($$('img').map((img) => (img.complete ? img.decode().catch(() => {}) : new Promise((r) => (img.onload = img.onerror = r)))));
   }
 
@@ -234,9 +275,11 @@
     if (!settled) settled = settle();
     await settled;
     const tt = clamp(t, 0, cfg.duration);
+    frameText = [];
     const r = renderFn(tt);
     if (r && typeof r.then === 'function') await r;
     document.documentElement.style.setProperty('--ms-frame', String(Math.round(tt * cfg.fps)));
+    window.__ms.text = frameText;
   }
 
   function setup(opts) {
@@ -322,7 +365,7 @@
     rng, hash, noise,
     beat, beatOf, beatLen, pulse, shots,
     $, $$, css, show,
-    split, reveal, typewriter, counter,
-    canvas, drawPath, videoAt,
+    split, reveal, typewriter, counter, frameT,
+    canvas, drawPath, videoAt, camera, cameraCss, textBox,
   };
 })();

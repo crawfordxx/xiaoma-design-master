@@ -10,10 +10,10 @@
 //   5. 坏图：<img> 加载完 naturalWidth 为 0。
 //   6. 控制台报错。
 // 截图：每个宽度、每个顶层版块（main > section、带 id 的 section）各一张，外加 report.html 一页看全。
-import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
-import { homedir } from 'node:os';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { chromium } from 'playwright-core';
+import { findChrome } from './chrome.mjs';
 
 const argv = process.argv.slice(2);
 const url = argv.find((a) => !a.startsWith('--') && !/^\d/.test(a));
@@ -25,19 +25,6 @@ const wait = Number(opt('wait', 4000));
 const out = resolve(opt('out', 'out/webcheck'));
 mkdirSync(out, { recursive: true });
 
-function findChrome() {
-  if (process.env.CHROME_PATH) return process.env.CHROME_PATH;
-  const cache = join(homedir(), process.platform === 'darwin' ? 'Library/Caches/ms-playwright' : '.cache/ms-playwright');
-  const c = [];
-  if (existsSync(cache)) for (const d of readdirSync(cache).sort().reverse()) {
-    if (d.startsWith('chromium-')) c.push(join(cache, d, 'chrome-mac-arm64/Chromium.app/Contents/MacOS/Chromium'), join(cache, d, 'chrome-mac/Chromium.app/Contents/MacOS/Chromium'), join(cache, d, 'chrome-linux/chrome'));
-    if (d.startsWith('chromium_headless_shell-')) c.push(join(cache, d, 'chrome-headless-shell-mac-arm64/chrome-headless-shell'), join(cache, d, 'chrome-headless-shell-linux64/chrome-headless-shell'));
-  }
-  c.push('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/usr/bin/google-chrome', '/usr/bin/chromium');
-  const hit = c.find((p) => existsSync(p));
-  if (!hit) throw new Error('找不到 Chromium/Chrome，设置 CHROME_PATH');
-  return hit;
-}
 
 // 在页面里跑：找出所有问题（不依赖截图）
 function inspect() {
@@ -63,7 +50,7 @@ function inspect() {
   return issues;
 }
 
-const browser = await chromium.launch({ executablePath: findChrome(), args: ['--hide-scrollbars', '--autoplay-policy=no-user-gesture-required'] });
+const browser = await chromium.launch({ executablePath: findChrome(opt('chrome')), args: ['--hide-scrollbars', '--autoplay-policy=no-user-gesture-required'] });
 const report = [];
 let problems = 0;
 for (const w of widths) {

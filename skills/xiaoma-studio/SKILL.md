@@ -38,7 +38,7 @@ cd <skill>/engine && npm install          # 只装 playwright-core；浏览器�
 6. **声音**：默认纯音乐 + 卡点音效。用 `engine/audio.py synth cues.json` 从零合成；用户给了音乐就先 `audio.py analyze` 拿到 BPM 和拍点，再把镜头对到拍上。需要旁白时看 `references/audio.md`（TTS 选型、逐字时间戳、闪避混音）。
 7. **出片 + 体检**：
    ```bash
-   node engine/render.mjs comp.html --out out/video.mp4 --audio out/audio.wav [--fps 60 --subframes 2]
+   node engine/render.mjs comp.html --out out/video.mp4 --audio out/audio.wav [--subframes 8]   # 运动模糊，快速推拉用 12–16
    python3 engine/qa.py out/video.mp4 --duration <秒>   # 规格 / 时长 / 响度 / 真峰值 / 单帧跳变 / 静止段
    node engine/lint.mjs comp.html          # 交付前必须全绿
    ```
@@ -80,6 +80,7 @@ cd <skill>/engine && npm install          # 只装 playwright-core；浏览器�
 
 - 画面只由 `MS.render(t => …)` 决定，同一个 t 永远画出同一帧。渲染器会乱序 seek，看拼图时尤其如此。
 - 禁止 CSS transition / animation、setTimeout、在渲染里用 requestAnimationFrame、`Math.random()`、帧间状态。随机用 `MS.rng(seed)` / `MS.hash(i)`，弹簧用闭式解 `MS.spring()`。
+- 每帧换内容的文字（计数、标签）按整帧取值（`MS.counter` / `MS.typewriter` 已经这样做，自己写的用 `MS.frameT(t)`），否则运动模糊会把新旧两个字叠在一起。canvas 里画的字用 `MS.textBox()` 登记，lint 才查得到。
 - **跨镜头存在的层（canvas、全局元素）每帧都要设值或清空**，不能只在某个镜头里画。否则跳着 seek 时会残留别的镜头的画面。
 - **转场层画在内容之上**（泛洪、擦除），新场景的元素在转场铺满之后才入场；否则 `qa.py` 会报单帧跳变。
 - 外部视频素材先 `ffmpeg -g 1` 转成全帧内编码，再用 `MS.videoAt(video, t)` 精确 seek。
