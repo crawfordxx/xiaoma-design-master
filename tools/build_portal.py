@@ -77,9 +77,11 @@ GROUPS = [
     ("代码动效视频(30 条高赞样本)", [
         ("s-research", "研究底稿:30 条样本表", STUDIO / "research.md", True),
         ("s-aesthetics", "审美规则", STUDIO / "aesthetics.md", False),
+        ("s-mgstyles", "经典动效风格卡(15 种)", STUDIO / "mg-styles.md", False),
         ("s-artdir", "配图与视频的审美逻辑", STUDIO / "art-direction.md", False),
         ("s-motion", "动效语法", STUDIO / "motion.md", False),
         ("s-storyboard", "分镜与节奏", STUDIO / "storyboard.md", False),
+        ("s-jury", "独立评委评审", STUDIO / "jury.md", False),
         ("s-audio", "声音:配乐、音效、旁白", STUDIO / "audio.md", False),
         ("s-aiassets", "搭配生成模型出素材", STUDIO / "ai-assets.md", False),
         ("s-prompts", "可直接抄的提示词", STUDIO / "prompts.md", False),

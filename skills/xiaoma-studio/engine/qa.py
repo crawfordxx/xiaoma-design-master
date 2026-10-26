@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""成片体检：规格、响度、单帧跳变（pop）、静止段（dead air）。
+"""成片体检：规格、时长、响度、真峰值、单帧跳变（pop）、静止段（dead air）。
 
-  python3 qa.py out/video.mp4 [--static 2.0]
+  python3 qa.py out/video.mp4 [--static 2.0] [--duration 10]
+
+--duration：给了目标时长就检查成片是否正好这么长（误差不超过 1 帧）。
 
 pop：某帧与前后差异是邻居中位数的 3 倍以上，通常是元素提前/延后一帧出现。
 静止段：连续超过 N 秒几乎没变化，违反「每 2-4 秒必须有新东西」。
@@ -20,9 +22,13 @@ def probe(path):
 
 
 def loudness(path):
+    """返回 (整体响度 LUFS, 真峰值 dBTP)，读不出来的项为 None。"""
     r = subprocess.run(['ffmpeg', '-hide_banner', '-nostats', '-i', path, '-vn', '-af', 'loudnorm=print_format=json', '-f', 'null', '-'], capture_output=True, text=True)
-    m = re.search(r'"input_i"\s*:\s*"(-?[\d.]+)"', r.stderr)
-    return float(m.group(1)) if m else None
+
+    def pick(key):
+        m = re.search(rf'"{key}"\s*:\s*"(-?[\d.]+)"', r.stderr)
+        return float(m.group(1)) if m else None
+    return pick('input_i'), pick('input_tp')
 
 
 def frame_diffs(path, w=160):
@@ -39,15 +45,22 @@ def frame_diffs(path, w=160):
 def main():
     path = sys.argv[1]
     static_s = float(sys.argv[sys.argv.index('--static') + 1]) if '--static' in sys.argv else 2.0
+    target = float(sys.argv[sys.argv.index('--duration') + 1]) if '--duration' in sys.argv else None
     info = probe(path)
     v = next(s for s in info['streams'] if s['codec_type'] == 'video')
     a = next((s for s in info['streams'] if s['codec_type'] == 'audio'), None)
     print(f"规格  {v['width']}x{v['height']}  {v['r_frame_rate']}fps  {v['codec_name']}/{v['pix_fmt']}  {float(info['format']['duration']):.2f}s  音轨:{a['codec_name'] if a else '无'}")
+    d, changed, fps = frame_diffs(path)
+    if target is not None:
+        dur = float(info['format']['duration'])
+        flag = '' if abs(dur - target) <= 1 / fps + 1e-3 else f'  ← 目标 {target:.3f}s，差了 {dur - target:+.3f}s'
+        print(f'时长  {dur:.3f}s{flag}')
     if a:
-        lufs = loudness(path)
+        lufs, tp = loudness(path)
         flag = '' if lufs is not None and -16 <= lufs <= -12 else '  ← 建议 -14 LUFS'
         print(f'响度  {lufs} LUFS{flag}')
-    d, changed, fps = frame_diffs(path)
+        flag = '' if tp is not None and tp <= -1 else '  ← 真峰值要 ≤ -1 dBTP，否则平台转码后会削波'
+        print(f'真峰值 {tp} dBTP{flag}')
     pops = []
     for i in range(2, len(d) - 2):
         nb = np.median([d[i - 2], d[i - 1], d[i + 1], d[i + 2]])

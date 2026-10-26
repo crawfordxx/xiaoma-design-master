@@ -35,7 +35,7 @@ python3 engine/audio.py synth cues.json out/audio.wav
 规矩：
 - 音效对齐画面里的事件，事件对齐拍点。泛洪的 `whoosh` 放在 `beat(n) - 0.32`，`hit` 放在 `beat(n)`。
 - 先写画面，再从分镜里抄出事件时刻生成 cues，不要反过来。
-- 输出自动响度归一到 **−14 LUFS**（各平台的标准）。
+- 输出自动响度归一到 **−14 LUFS**（各平台的标准），真峰值要 ≤ −1 dBTP，交付前用 `qa.py` 确认。
 
 ## 用现成音乐
 
@@ -45,6 +45,15 @@ python3 engine/audio.py analyze song.mp3 > beats.json   # bpm / offset / beats[]
 把 `bpm`、`offset` 填进 `MS.setup({ bpm, beatOffset })`。最大的变化落在 drop（第一个 loud 段落的开头），最空的画面放在 quiet 段。
 
 免费可商用的音乐和音效：Mixkit、Pixabay Music、YouTube 音频库。twoclipping 的做法是每个事件都下载一个真实音效，放在测得的峰值上。真实采样的质感比合成更好，有条件就用。
+
+## 可选：真实乐器采样配乐（外接）
+
+`audio.py` 是纯合成，零依赖，但音色偏电子。要钢琴、弦乐、木管、马林巴这类真实乐器的质感，可以外接开源的 mgaudio 工具包。它在 [mg-styles-15](https://github.com/Vincentwei1021/mg-styles-15) 仓库的 `lib/audio/` 里，MIT 许可，附带 103 个 CC0 乐器采样（VCSL）。15 张风格卡的原片配乐都是用它做的。
+
+- **不随本仓库分发**：采样约 55 MB，还要装 numba 和 pedalboard。用的时候自己克隆，按它的 `requirements.txt` 装依赖。
+- **怎么接**：在它的仓库根目录 `import mgaudio`，挑一个和风格对应的 recipe，传入高潮时间（drop）、结尾时间、BPM 和调，再在分镜的事件时刻加音效，导出 48 kHz WAV（已做到 −14 LUFS、真峰值约 −1.1 dBTP）。具体 API 看它的 `lib/audio/README.md`。
+- **时间点照旧**：音效时刻从本 skill 的 `cues.json` 抄过去，导出的 WAV 用 `render.mjs --audio` 合成，`qa.py` 照常验收。
+- **做法可以学**：音效按「同步点」放置（撞击对齐起音，whoosh 对齐掠过的峰值，riser 对齐结束的那一下），只需要传画面事件的时刻，不用自己算提前量；每个音效先归一到相同的感知响度，再用 gain 表达意图（−6 偏轻，+2 主打击）；音乐在每个音效周围让出 3 dB。即使不用它，`audio.py` 也照这个思路排音效。
 
 ## 旁白 TTS 选型
 
