@@ -24,6 +24,10 @@ await page.goto(pathToFileURL(resolve(input)).href + '?render=1', { waitUntil: '
 await page.waitForFunction(() => window.__ms?.meta?.duration > 0, null, { timeout: 30000 });
 const meta = await page.evaluate(() => window.__ms.meta);
 await page.setViewportSize({ width: meta.width, height: meta.height });
+// 改视口后的第一张截图可能拿到旧尺寸的合成帧：先 seek 一次、等两帧、截一张丢掉
+await page.evaluate(() => window.__ms.seek(0));
+await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+await page.screenshot({ type: 'png' });
 
 const N = +opt('samples', 40);
 const marks = await page.evaluate(() => window.__ms.marks || null);

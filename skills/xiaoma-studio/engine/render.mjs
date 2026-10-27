@@ -43,6 +43,9 @@ async function open(scale) {
   const meta = await page.evaluate(() => window.__ms.meta);
   await page.setViewportSize({ width: meta.width, height: meta.height });
   await page.evaluate(() => window.__ms.seek(0));
+  // 改视口后的第一张截图可能拿到旧尺寸下的合成帧（底部一截是顶部内容）：等两帧再截一张丢掉
+  await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+  await page.screenshot({ type: 'png' });
   return { browser, page, meta };
 }
 

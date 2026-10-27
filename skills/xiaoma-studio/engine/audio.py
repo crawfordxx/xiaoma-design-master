@@ -262,12 +262,15 @@ def write_wav(path, stereo):
         w.writeframes((st * 32767).astype('<i2').tobytes())
 
 
-def loudnorm(path, target=-14, tp=-1.5):
-    """两遍 loudnorm：先测，再按实测值线性增益（不改动态）；母带留 0.5 dB 余量给平台转码。"""
+def loudnorm(path, target=-14, tp=-2.5):
+    """两遍 loudnorm：先测，再按实测值线性增益（不改动态），最后过采样限幅。
+    WAV 的真峰值压到约 -2.5 dBTP：AAC 编码后瞬态和高频边带的真峰值会再高 1-3 dB，成片才能落在 -1 dBTP 以内。"""
     r = subprocess.run(['ffmpeg', '-hide_banner', '-nostats', '-i', path, '-af', f'loudnorm=I={target}:TP={tp}:LRA=11:print_format=json',
                         '-f', 'null', '-'], capture_output=True, text=True, check=True)
     m = json.loads(r.stderr[r.stderr.rindex('{'):r.stderr.rindex('}') + 1])
-    af = (f"loudnorm=I={target}:TP={tp}:LRA=11:measured_I={m['input_i']}:measured_TP={m['input_tp']}:"
+    # 第二遍 TP 放到 0：线性模式下增益会让峰值超过 TP 时，loudnorm 会悄悄退回动态压缩（LRA 被压到 2-3 LU），
+    # 峰值交给后面的过采样限幅器管
+    af = (f"loudnorm=I={target}:TP=0:LRA=20:measured_I={m['input_i']}:measured_TP={m['input_tp']}:"
           f"measured_LRA={m['input_lra']}:measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true,"
           # 4 倍过采样后限幅，压住采样点之间的真峰值
           f"aresample={SR * 4},alimiter=limit={10 ** ((tp - 0.4) / 20):.3f}:attack=1:release=60:level=disabled,aresample={SR}")
