@@ -1,6 +1,6 @@
 ---
 name: xiaoma-designer
-description: Use when creating or reviewing visual designs - 海报、宣传图、封面图、KV、Banner、插画 brief、公众号配图、书籍/播客封面、活动物料，或需要评审打分、改进现有设计、为文生图模型撰写高质量设计提示词时。适用于任何主题的视觉表达任务。
+description: Use when creating or reviewing visual designs - 海报、宣传图、封面图、KV、Banner、插画 brief、公众号配图、书籍/播客封面、Logo/品牌标识/店标、活动物料，或需要评审打分、改进现有设计、为文生图模型撰写高质量设计提示词时。适用于任何主题的视觉表达任务。
 ---
 
 # xiaoma-designer
@@ -50,6 +50,7 @@ description: Use when creating or reviewing visual designs - 海报、宣传图�
 - 想要高级感 → 先限色板（≤5 色），再选一个流派风格
 - 想避开 AI 味 → 明确流派 + 媒介质感词（丝网颗粒/纸纹/笔触），禁"高清唯美梦幻大气"
 - 中文生图文字必须逐字写进提示词并要求零错字，出图后逐字校对
+- 做 Logo：先判断品类/气质/用途，再按七段结构写提示词，交付前必做 32px 与单色测试（读 `references/logo.md`）
 - 同类题材都往东，你往西（差异化先于美化）
 
 ## Common Mistakes
@@ -69,4 +70,5 @@ description: Use when creating or reviewing visual designs - 海报、宣传图�
 - `references/design-rules.md` — 五元素规范与决策表
 - `references/style-dictionary.md` — 艺术风格词典（流派→特征→情绪→提示词）
 - `references/review-rubric.md` — 评分表、高频扣分点、A/B 迭代法
-- `examples/README.md` — 10 个场景案例索引（先查这里再找同类）
+- `references/logo.md` — Logo/品牌标识：七段提示词结构、四类风格写法、小尺寸验证、使用边界
+- `examples/README.md` — 11 个场景案例索引（先查这里再找同类）

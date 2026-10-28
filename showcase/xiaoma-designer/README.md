@@ -21,7 +21,7 @@
 ## 特性
 
 - 🧠 **可解释**：每张图的颜色、字体、版式、风格都有决策依据，可复用可迭代
-- 📚 **10 个场景案例（全部真实出图验证）**：文旅、活动、品牌、新品、公益、餐饮、播客、书籍、App 插画、节气借势，各带占位符提示词模板与成图评审
+- 📚 **11 个场景案例（全部真实出图验证）**：文旅、活动、品牌、新品、公益、餐饮、播客、书籍、App 插画、节气借势、品牌 Logo，各带占位符提示词模板与成图评审
 - 🔌 **生图模型无关**：不绑定任何生图服务——产出设计决策 + 结构化提示词 + 评审闭环，对接你自行接入的任何图像生成能力（本地或 API 均可）；需要精确版式时可让 Agent 另出 HTML/SVG
 - 🌏 **中文友好**：中文排版的字重/对齐/竖排/文化色彩差异均有专门规则
 
@@ -43,6 +43,9 @@
     <td align="center"><img src="examples/book-cover.png" width="100%"><br><a href="examples/07-book-cover.md"><sub><b>07 书籍封面</b> · 超现实</sub></a></td>
     <td align="center"><img src="examples/app-illustration.png" width="100%"><br><a href="examples/08-app-illustration.md"><sub><b>08 App 插画</b> · 扁平</sub></a></td>
     <td align="center"><img src="examples/seasonal-festival.png" width="100%"><br><a href="examples/09-seasonal-festival.md"><sub><b>09 节气借势</b> · 水墨</sub></a></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="examples/logo-brand.png" width="100%"><br><a href="examples/10-logo-brand.md"><sub><b>10 品牌 Logo</b> · 手绘平涂</sub></a></td>
   </tr>
 </table>
 
@@ -75,9 +78,10 @@ xiaoma-designer/
 │   ├── strategy.md               # 策略层方法论
 │   ├── design-rules.md           # 规范层：五元素决策表
 │   ├── style-dictionary.md       # 表现层：艺术风格词典
-│   └── review-rubric.md          # 评分表、高频扣分点、A/B 迭代法
+│   ├── review-rubric.md          # 评分表、高频扣分点、A/B 迭代法
+│   └── logo.md                   # Logo/品牌标识：七段提示词结构、小尺寸验证
 ├── examples/
-│   ├── README.md                 # 10 场景案例索引 + 图鉴
+│   ├── README.md                 # 11 场景案例索引 + 图鉴
 │   ├── 00-qingdao-tourism.md     # ┐
 │   ├── 01-event-music-festival.md│  │
 │   ├── 02-brand-campaign.md      #  │  每个案例：
@@ -87,8 +91,9 @@ xiaoma-designer/
 │   ├── 06-podcast-cover.md       #  │
 │   ├── 07-book-cover.md          #  │
 │   ├── 08-app-illustration.md    #  │
-│   ├── 09-seasonal-festival.md   # ┘
-│   └── *.png                     # 10 张真实出图
+│   ├── 09-seasonal-festival.md   #  │
+│   ├── 10-logo-brand.md          # ┘
+│   └── *.png                     # 真实出图（另含 Logo 验收对比图）
 └── LICENSE                       # MIT
 ```
 

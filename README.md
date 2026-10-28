@@ -28,7 +28,7 @@
 | **xiaoma-director** | 17 片种编导分镜表 + 分镜图 + 单文件 HTML 交付 | 🎬 视频 | 🏆 成熟 |
 | **xiaoma-short-drama** | 8 片种短剧 / 漫剧：全剧单元与付费点 → 剧本 → 分镜 → 出片 → 剪辑 → 三评委自评 | 🎭 视频 | 🌱 v0.4 |
 | **xiaoma-editor** | 逐镜片段拼成片：入出点、三层混音、字幕字卡、成片体检报告 | ✂️ 视频 | 🌱 v0.1 |
-| **xiaoma-designer** | 海报/封面/KV 设计与评审，为生图模型写高质量提示词 | 🎨 设计 | 🏆 成熟 |
+| **xiaoma-designer** | 海报/封面/KV/Logo 设计与评审，为生图模型写高质量提示词 | 🎨 设计 | 🏆 成熟 |
 | **xiaoma-write-article** | 选题评分→框架→写作→去 AI 味→配图的深度长文生产线 | ✍️ 写作 | 🌱 v0.1 |
 | **xiaoma-write-xhs** | 话题或长文 → 3:4 轮播小红书帖，交付发布就绪包 | 📕 写作 | 🌱 v0.1 |
 | **xiaoma-de-ai** | 任意文本四级去 AI 味，附逐级对照报告 | ✨ 写作 | 🌱 v0.1 |
@@ -109,12 +109,13 @@
 
 ### xiaoma-designer · 视觉设计与评审
 
-设计 = 编码，观看 = 解码。海报、封面、KV、活动物料，或给现有设计打分改进——三层关评判标准，任何主题适用。
+设计 = 编码，观看 = 解码。海报、封面、KV、Logo、活动物料，或给现有设计打分改进——三层关评判标准，任何主题适用。
 
 <p>
-  <img src="docs/readme-assets/designer-1.jpg" width="32%" alt="brand"/>
-  <img src="docs/readme-assets/designer-2.jpg" width="32%" alt="festival"/>
-  <img src="docs/readme-assets/designer-3.jpg" width="32%" alt="book cover"/>
+  <img src="docs/readme-assets/designer-1.jpg" width="24%" alt="brand"/>
+  <img src="docs/readme-assets/designer-2.jpg" width="24%" alt="festival"/>
+  <img src="docs/readme-assets/designer-3.jpg" width="24%" alt="book cover"/>
+  <img src="docs/readme-assets/designer-4.jpg" width="24%" alt="logo"/>
 </p>
 
 ### xiaoma-write-article · 深度长文生产线
