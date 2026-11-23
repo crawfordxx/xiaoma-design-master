@@ -48,10 +48,10 @@
 | 要定的 | 用哪个 | 在哪 |
 |---|---|---|
 | **一张图**长什么样（海报 / 封面 / 插画 / 生图提示词） | 本文件（艺术流派词典） | `style-dictionary.md` |
-| **一个界面**长什么样（网站 / App / 落地页 / 后台） | UI 风格库 | `shared/ui-design-styles/README.md`（6 套实测 tokens） |
+| **一个界面**长什么样（网站 / App / 落地页 / 后台） | UI 风格库 | `shared/ui-design-styles/README.md`（18 个结构原型 × 6 套调色板） |
 | **一个界面怎么动**（Agent 对话 / 仪表盘 / 编辑器） | 交互模式库 | `shared/ui-interactions/README.md` |
 
-做 UI 时：先走风格库定 tokens，再用本文件的"媒体质感词"给要生成的图定调。两套可以叠加：dark-studio 风格的网站 + 本文件的"极简主义"流派做配图。
+做 UI 时：先走风格库定 tokens，再用本文件的"媒体质感词"给要生成的图定调。两套可以叠加：void-poster-mute 结构的网站 + 本文件的"极简主义"流派做配图。
 
 ## 像与表现
 
