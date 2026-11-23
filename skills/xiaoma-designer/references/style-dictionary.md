@@ -43,6 +43,16 @@
 丝网印刷颗粒 / 纸张纹理 / 版画肌理 / 胶片颗粒 / 水彩晕染边缘 / 粗糙铅笔线 / 孔版印刷
 → screen-print grain, paper texture, film grain, risograph
 
+## 两套词典，别用错
+
+| 要定的 | 用哪个 | 在哪 |
+|---|---|---|
+| **一张图**长什么样（海报 / 封面 / 插画 / 生图提示词） | 本文件（艺术流派词典） | `style-dictionary.md` |
+| **一个界面**长什么样（网站 / App / 落地页 / 后台） | UI 风格库 | `shared/ui-design-styles/README.md`（6 套实测 tokens） |
+| **一个界面怎么动**（Agent 对话 / 仪表盘 / 编辑器） | 交互模式库 | `shared/ui-interactions/README.md` |
+
+做 UI 时：先走风格库定 tokens，再用本文件的"媒体质感词"给要生成的图定调。两套可以叠加：dark-studio 风格的网站 + 本文件的"极简主义"流派做配图。
+
 ## 像与表现
 
 - AI 生图的默认倾向是"像"（讨好眼睛的平均脸），必须用流派 + 质感词把它拽向"表现"
