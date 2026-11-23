@@ -7,21 +7,24 @@
 
 ## 一、先定风格，再动手
 
-做网站 / PPT / App，**Step 2 之前**必须走一遍 [`ui-design-styles/README.md`](ui-design-styles/README.md) 的决策树，锁定一个主风格。
+做网站 / PPT / App，**Step 2 之前**必须走一遍 [`ui-design-styles/README.md`](ui-design-styles/README.md) 的决策树：底色 × 排版 × 表面 → 锁一个结构原型 → 挑一套调色板。
 
-| 风格 | 一句话 | 典型产品 |
+18 个结构原型在 [`ui-design-styles/cards/`](ui-design-styles/cards/)，按 **底色 × 排版 × 表面** 命名：
+
+| 底色 | 排版 | 表面 |
 |---|---|---|
-| [`dark-studio`](ui-design-styles/dark-studio.md) | 近黑画布，冰白字，一点青 | 创作工具、编辑器、AI 生成器、作品集 |
-| [`violet-immersive`](ui-design-styles/violet-immersive.md) | 深紫宇宙，3D 漂浮，霓虹点缀 | 沉浸叙事、游戏、WebGL 体验、AI 品牌故事 |
-| [`ink-editorial`](ui-design-styles/ink-editorial.md) | 纸白墨黑锈红，全大写，印刷感 | 独立创作者作品集、文化项目、出版社 |
-| [`candy-playground`](ui-design-styles/candy-playground.md) | 电紫荧光绿品红，药丸一切 | 创意机构、活动页、Z 世代品牌 |
-| [`industrial-mono`](ui-design-styles/industrial-mono.md) | 纯黑国际橙，等宽字，零圆角 | 航天、无人机、机器人、B2B 硬件 |
-| [`quiet-luxury`](ui-design-styles/quiet-luxury.md) | 米白炭黑，字小，无圆角 | 建筑、地产、画廊、精品品牌 |
+| Void / Ink（深色画布）| Console / Mono（大写等宽）| Glass（毛玻璃）|
+| Dusk（中灰深底）| Editorial / Literary（大写编辑 / 衬线）| Hard（零圆角）|
+| Mist（中性灰）| Poster（极端字阶）| Pill（超大圆角）|
+| Daylight（亮色画布）| Fluid（流式字号）| Mute / Pop / Soft |
+
+每个原型 = 簇共性结构规格 + 6 套真实调色板（各自来自一个获奖/提名站点）。
+**结构与色彩解耦**：先定结构，再挑一套色。README 有决策树和产品匹配列。
 
 每个风格文件 = 完整 tokens + 组件规格 + 媒体策略 + 动效 + icon 规则。**抄 tokens，不抄形容词。**
 
-用户没说风格 → 按产品品类走决策树，给出推荐 + 一句理由，直接开做（不问"你想要什么风格"）。
-用户说了风格词 → 映射到最近的风格文件，保留用户原话作副标题参考。
+用户没说风格 → 按产品品类走决策树，给出推荐 + 一句理由，直接开做。
+用户说了风格词 → 映射到最近的原型（如"高级黑"→ void-*-mute，"赛博"→ void-*-glass），保留原话作参考。
 
 **PPT 适配**：只借色彩系统 + 字体气质 + 版式密度。动效不适用，改入场层级。
 **App 适配**：借色彩/圆角/字阶/文案语气，触控目标 ≥44px，底部导航优先。
@@ -61,12 +64,9 @@
 
 | 风格 | 不生成就是半成品 |
 |---|---|
-| violet-immersive | hero 3D 场景图 + 3 张章节图，有条件加循环视频 |
-| candy-playground | hero 3D 主视觉 + 3–4 个透明小元素，有条件加弹性视频 |
-| dark-studio | hero 拼贴图 + 3–4 张示例作品（黑底空荡最致命） |
-| quiet-luxury | 1–3 张建筑/空间大图 |
-| ink-editorial | 1–2 张胶片质感氛围图 |
-| industrial-mono | 1 张产品渲染 |
+| 表面 Glass / Pill / Poster | hero 视觉图 + 2–3 张场景图，有条件加循环视频 |
+| 底色 Void / Ink | hero 拼贴图 + 3–4 张示例作品（深底空荡最致命） |
+| 其余原型 | 至少 1–3 张风格匹配图 |
 
 页面里出现空占位框、灰色方块、`<img src="">`——**必须**生成填充，不能交付。
 话术："这个风格靠视觉撑，建议生成一张 hero 背景图和一段 8 秒循环视频，我可以直接出。"——直接建议，不等用户开口。

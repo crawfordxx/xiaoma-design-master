@@ -1,7 +1,7 @@
 ---
 name: xiaoma-gen-ui
 version: 0.2.0
-description: 网站 UI 设计生产线——先按产品匹配设计风格（6 套实测 token 的风格库），再按指定技术栈 oneshot 出高品质前端：shadcn/ui、Lucide、Motion、Tailwind v4；复杂风格自动推图/视频生成，每个功能点必配语义图标，文案禁数据堆砌。当用户说"做个网站""设计落地页""做个网页 UI""写个前端页面"时使用。
+description: 网站 UI 设计生产线——先按产品匹配设计风格（18 个结构原型 × 6 套真实调色板，从 1015 个站点聚类得出），再按指定技术栈 oneshot 出高品质前端：shadcn/ui、Lucide、Motion、Tailwind v4；复杂风格自动推图/视频生成，每个功能点必配语义图标，文案禁数据堆砌。当用户说"做个网站""设计落地页""做个网页 UI""写个前端页面"时使用。
 triggers: [网站设计, 网页设计, 落地页, 前端页面, UI设计, landing page, 网站UI, 做个网页, web design, 官网, 产品页]
 group: ui
 requires: gen
@@ -25,7 +25,7 @@ requires: gen
 
 ## 五条铁律
 
-1. **先匹配风格**——走 [`shared/ui-design-styles/README.md`](../../shared/ui-design-styles/README.md) 决策树锁一个主风格，tokens 从风格文件抄，不凭感觉配色
+1. **先匹配风格**——走 [`shared/ui-design-styles/README.md`](../../shared/ui-design-styles/README.md) 决策树：底色 × 排版 × 表面 → 锁一个结构原型，再从它的 6 套调色板挑一套。tokens 直接抄，不凭感觉配色
 2. **按品类选交互**——走 [`shared/ui-interactions/README.md`](../../shared/ui-interactions/README.md)，Agent 对话 / SaaS 仪表盘 / 创意工具 & 移动端三套模式库，动效不自己发明
 3. **优先复用成熟库**——不重复造轮子，创造力花在设计和体验上
 4. **组件源代码可控**——shadcn/ui 这类"复制进项目"的体系，不用黑盒依赖
@@ -52,8 +52,8 @@ requires: gen
 **Step 1 需求定义**：页面类型 / 目标受众 / 核心转化目标（一个）/ 调性关键词（≤3）。产出一句话 brief。
 
 **Step 2 风格匹配**（不可跳）：
-读 [`shared/ui-design-styles/README.md`](../../shared/ui-design-styles/README.md) 决策树，按产品品类锁定 **1 个主风格**。打开对应风格文件，把它的 tokens 整段抄进 `@theme`。
-用户给了风格词 → 映射到最近风格，原话留作参考。用户没给 → 按品类推荐，一句理由，直接开做，不问。
+读 [`shared/ui-design-styles/README.md`](../../shared/ui-design-styles/README.md) 决策树，三步定位：底色（Void/Ink/Dusk/Mist/Daylight）× 排版（Console/Mono/Editorial/Literary/Poster/Fluid）× 表面（Glass/Hard/Pill/Mute/Pop/Soft）→ 在 `cards/` 里找最接近的结构原型。打开那张卡，把**结构规格**（圆角/字阶/缓动）抄进 `@theme`，再从卡内 6 套调色板按点缀色系挑 **1 套**，整段抄进去。
+用户给了风格词 → 映射到最近的原型，原话留作参考。用户没给 → 按品类推荐，一句理由，直接开做，不问。
 
 **Step 2b 交互模式匹配**（不可跳）：
 读 [`shared/ui-interactions/README.md`](../../shared/ui-interactions/README.md)，按产品品类选模式库：Agent 对话类 → `agent-chat.md`；仪表盘/SaaS → `saas-dashboard.md`；编辑器/画布/App → `creative-mobile.md`。混合产品两个都读。记下要用到的模式（流式输出 / 工具调用折叠 / 任务时间线 / 状态灯 / 部署流水线……），Step 6 照着实现。
@@ -72,15 +72,15 @@ requires: gen
 - **状态动效四种必有**：进行中（spin / ping）/ 成功（iconSuccess 弹一下）/ 失败（shake + 红）/ 等待（静态灰）
 - **流式输出**：逐 token 淡入 + 光标闪烁 + `aria-live="polite"`
 - **工具调用**：默认折叠一行，点击 accordion 展开，状态图标随阶段切换
-- 缓动：风格文件的曲线为准（dark-studio `.34,.69,.1,1`；candy `.13,.93,.13,.93`；industrial `.25,1,.5,1`）
+- 缓动：以原型卡里的 `--ease` 为准（簇内高频曲线），不自己发明
 - 3D：需要时 three.js，与 Motion 分层不混用
 - **纪律**：一屏一个主动画事件，每个动效有目的，60fps 底线，`prefers-reduced-motion` 必处理
 
 **Step 7 媒体资产**（必做，不是可选）：
 按风格文件的"媒体策略"生成，走 [`shared/ui-design.md`](../../shared/ui-design.md) 媒体路由。
-- violet-immersive / candy-playground → **必须** hero 3D 图 + 章节图，有条件加循环视频
-- dark-studio → **必须** hero 拼贴 + 3–4 张示例作品
-- quiet-luxury / ink-editorial / industrial-mono → **必须** 1–3 张风格匹配图
+- 表面含 Glass / Pill / Poster → **必须** hero 视觉图 + 2–3 张场景图，有条件加循环视频
+- 底色 Void / Ink → **必须** hero 拼贴 + 3–4 张示例作品（深底空荡最致命）
+- 其余原型 → **至少** 1–3 张风格匹配图
 - 主动建议："这个风格靠视觉撑，建议生成 hero 图 + 8 秒循环视频，我可以直接出。"
 - 页面里**不允许**空占位框 / 灰色方块 / 空 `src`
 
@@ -123,6 +123,7 @@ auto：brief 确认后全自动到 Step 10 第 2 轮自检，带截图汇报。i
 ## Gotchas
 
 - **跳过风格匹配**：直接凭感觉配色 = 模板脸，回 Step 2
+- **调色板混搭**：从两套调色板各拿 accent = 色彩体系破，只选一套
 - **魔法数瘟疫**：`#3b82f6`、`mt-[17px]` 出现 = tokens 已破，回 Step 3
 - **依赖膨胀**：同类第二库出现即违规
 - **空占位框**：灰色方块 / 空 src = 半成品，回 Step 7
